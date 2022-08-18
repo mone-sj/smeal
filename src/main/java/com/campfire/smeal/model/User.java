@@ -20,11 +20,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50, unique = true) //소셜로그인시, 해당 메일주소를 username으로 하고 추후에 수정할 수 있게 한다.
-    private String username; // 로그인시 필요한 아이디
+    @Column(nullable = false, length = 50, unique = true) //소셜로그인시, 해당 메일주소를 username (수정불가)
+    private String username; // 로그인시 아이디
 
     @Column(nullable = false, length = 100)
-    private String nickname;
+    private String nickname; // oauth client에게서 받는 이름
 
     @Column(nullable = false, length = 100)
     private String password;

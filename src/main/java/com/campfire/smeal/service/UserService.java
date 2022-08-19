@@ -4,6 +4,7 @@ import com.campfire.smeal.model.RoleType;
 import com.campfire.smeal.model.User;
 import com.campfire.smeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,12 +14,14 @@ import javax.transaction.Transactional;
 public class UserService {
     private final UserRepository userRepository;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Transactional
     public void 회원가입(User user) {
         try {
             String rawPassword = user.getPassword();
-            //String encPassword = pwEncoder.encodePWD().encode(rawPassword);
-            String encPassword = rawPassword;
+            String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+            //String encPassword = rawPassword;
             user.setPassword(encPassword);
             user.setRole(RoleType.USER);
             userRepository.save(user);
@@ -37,7 +40,8 @@ public class UserService {
 
         String rawPassword = user.getPassword();
         //String encPassword = pwEncoder.encodePWD().encode(rawPassword);
-        String encPassword = rawPassword;
+        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+        //String encPassword = rawPassword;
         persistance.setPassword(encPassword);
         persistance.setAge(user.getAge());
         persistance.setGender(user.getGender());

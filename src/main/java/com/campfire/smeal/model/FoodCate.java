@@ -16,14 +16,17 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Builder
 //@Entity
-public class FoodCate { // 검색할 음식의 카테고리
+public class FoodCate {
+    // 검색할 음식의 카테고리
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String foodCat;
-    private String naverCatId; //네이버의 category
+
+    //네이버의 category
+    private String naverCatId;
 
 
 }

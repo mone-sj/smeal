@@ -11,7 +11,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 //@Entity
-public class FoodMbti { // MBTI type을 합쳤을때
+public class FoodMbti {
+    // MBTI type을 합쳤을때
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,8 @@ public class FoodMbti { // MBTI type을 합쳤을때
 
     private String FoodMbtiName;
 
-    @Column(columnDefinition = "TEXT") // 설명
+    // MBTI category 설명
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(length = 1000)

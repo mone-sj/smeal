@@ -6,10 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResponseDto<T> {
     int Status;
     T data;
+
+    public ResponseDto(int Status) {
+        this.Status = Status;
+    }
 }

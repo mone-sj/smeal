@@ -13,17 +13,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class UserController {
 
-    @GetMapping("/auth/login") //로그인페이지
+    // 대시보드 페이지
+    @GetMapping("/dashboard")
+    public String dashboard(){
+        return "dashboard";
+    }
+    //로그인페이지
+    @GetMapping("/auth/login")
     public String loginForm() {
         return "user/login";
     }
-
-    @GetMapping("/auth/joinForm") //회원가입 페이지
+    //회원가입 페이지
+    @GetMapping("/auth/joinForm")
     public String joinForm() {
         return "user/register";
     }
 
-    @GetMapping("/user/update") // 회원 수정 페이지
+    // 회원 수정 페이지
+    @GetMapping("/user/update")
     public @ResponseBody String userUpdate(@AuthenticationPrincipal PrincipalDetails principal) {
         return "updateForm";
     }

@@ -17,11 +17,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 로그인시 아이디
     @Column(nullable = false, length = 50, unique = true) //소셜로그인시, 해당 메일주소를 username (수정불가)
-    private String username; // 로그인시 아이디
+    private String username;
 
+    // oauth client에게서 받는 이름
     @Column(nullable = false, length = 100)
-    private String nickname; // oauth client에게서 받는 이름
+    private String nickname;
 
     @Column(nullable = false, length = 100)
     private String password;
@@ -33,8 +35,12 @@ public class User {
     private String gender;
     private String foodMbti;
     private String provider;
-    private String providerId; // oauth2 로그인시 client에서 사용자에게 부여한 id
-    private String userId; // auth2 로그인시 동일회원인지 확인용 (email+provider+providerId)
+
+    // oauth2 로그인시 client에서 사용자에게 부여한 id
+    private String providerId;
+
+    // auth2 로그인시 동일회원인지 확인용 (email+provider+providerId)
+    private String userId;
 
     @Enumerated(EnumType.STRING)
     private RoleType role;

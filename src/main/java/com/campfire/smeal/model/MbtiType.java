@@ -26,6 +26,7 @@ public class MbtiType {
 
     private String TypeName;
 
+    // type 설명
     @Column(columnDefinition = "TEXT")
     private String description;
 

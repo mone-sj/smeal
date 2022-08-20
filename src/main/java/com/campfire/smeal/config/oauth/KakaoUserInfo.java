@@ -3,7 +3,9 @@ package com.campfire.smeal.config.oauth;
 import java.util.Map;
 
 public class KakaoUserInfo implements OAuth2UserInfo {
-    private Map<String, Object> attributes; //getAttributes()
+
+    //getAttributes() 값
+    private Map<String, Object> attributes;
 
     public KakaoUserInfo(Map<String, Object> attributes){
         this.attributes = attributes;

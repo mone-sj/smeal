@@ -4,9 +4,7 @@ import com.campfire.smeal.config.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequiredArgsConstructor
@@ -36,11 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/auth/oauth2Login")
-    public String oauth2(@RequestParam(value = "error", required = false)String error,
-                         @RequestParam(value = "exception", required = false)String exception,
-                         Model model) {
-        model.addAttribute("error", error);
-        model.addAttribute("exception", exception);
+    public String oauth2() {
         return "test/oauth2Login";
     }
 }

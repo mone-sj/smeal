@@ -40,14 +40,4 @@ public class UserController {
         return "updateForm";
     }
 
-    // OAuth2로그인 테스트용, 로그인페이지 완성되면 삭제
-    @GetMapping("/auth/oauth2Login")
-    public String oauth2(
-            @RequestParam(value = "exception", required = false) String exception,
-            Model model
-    ) {
-        model.addAttribute("exception", exception);
-        return "test/oauth2Login";
-    }
-
 }

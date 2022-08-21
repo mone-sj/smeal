@@ -33,18 +33,18 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                        .antMatchers("/","/auth/**", "/js/**","/css/**","/img/**"
+                .antMatchers("/","/auth/**", "/js/**","/css/**","/img/**"
                         ,"/vendor/**","/scss/**", "/favicon.ico", "/dashboard")
-                            .permitAll()
-                        .anyRequest().authenticated()
+                .permitAll()
+                .anyRequest().authenticated()
                 .and()
-                    .formLogin().loginPage("/auth/login")
-                    .loginProcessingUrl("/auth/loginProc")
-                    .defaultSuccessUrl("/dashboard")
-                    .failureUrl("/auth/login")
+                .formLogin().loginPage("/auth/login")
+                .loginProcessingUrl("/auth/loginProc")
+                .defaultSuccessUrl("/dashboard")
+                .failureUrl("/auth/login")
                 .and()
-                    .oauth2Login()
-                .loginPage("/auth/oauth2Login") // 추후에 /auth/login 로 바꾸기
+                .oauth2Login()
+                .loginPage("/auth/login") // 추후에 /auth/login 로 바꾸기
                 .failureHandler(customFailureHandler)
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService)

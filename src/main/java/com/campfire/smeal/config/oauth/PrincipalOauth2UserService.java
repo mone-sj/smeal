@@ -7,6 +7,7 @@ import com.campfire.smeal.model.RoleType;
 import com.campfire.smeal.model.User;
 import com.campfire.smeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -21,6 +22,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     private final BCryptEnc bCryptPasswordEncoder;
     private final UserRepository userRepository;
+
+    private static String pwd;
+
+    @Value("${myinfo.login.password}")
+    public void setPwd(String value) {
+        pwd = value;
+    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -53,7 +61,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String providerId = oAuth2UserInfo.getProviderId();
         String username = oAuth2UserInfo.getEmail();
         String password = bCryptPasswordEncoder.encodePWD()
-                .encode("passwordEncode");
+                .encode(pwd);
         String userId = username + "_" + provider + "_" + providerId;
         String email = oAuth2UserInfo.getEmail();
         RoleType role = RoleType.USER;

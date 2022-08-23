@@ -2,14 +2,28 @@ package com.campfire.smeal.service;
 
 import com.campfire.smeal.dto.api.RecipeRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 @Slf4j
 public class RecipeApiService {
-    String key = "36f8547fc2094ee1983f";
-    String serviceName="COOKRCP01";
+
+    private static String key;
+    private static String serviceName;
+
+    @Value("${myinfo.recipeApiService.key}")
+    public void setKey(String value) {
+        key = value;
+    }
+    @Value("${myinfo.recipeApiService.serviceName}")
+    public void setServiceName(String value) {
+        serviceName = value;
+    }
+
+//    String key = "36f8547fc2094ee1983f";
+//    String serviceName="COOKRCP01";
 
     public String searchRecipe(RecipeRequest recipeRequest) {
         String RCP_PARTS_DTLS = recipeRequest.getRcp_parts_dtls();

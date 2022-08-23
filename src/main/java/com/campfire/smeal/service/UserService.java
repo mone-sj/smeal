@@ -25,11 +25,12 @@ public class UserService {
     @Transactional
     public void 회원가입(User user) {
         try {
-                String rawPassword = user.getPassword();
-                String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
-                user.setPassword(encPassword);
-                user.setRole(RoleType.USER);
-                userRepository.save(user);
+            String rawPassword = user.getPassword();
+            String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
+            user.setPassword(encPassword);
+            user.setUserId(user.getUsername());
+            user.setRole(RoleType.USER);
+            userRepository.save(user);
         } catch (DataIntegrityViolationException ex) {
             throw new GeneralException(DUPLICATED_USER_ID);
         } catch (Exception e) {
@@ -40,8 +41,8 @@ public class UserService {
 
     @Transactional
     public User 회원수정(User user) {
-        //User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
-        User persistence = userRepository.findById(4L).orElseThrow(() -> {
+        User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
+            //User persistence = userRepository.findById(4L).orElseThrow(() -> {
             return new GeneralException(SmErrorCode.NO_USER);
         });
 
@@ -59,13 +60,26 @@ public class UserService {
     }
 
     @Transactional
+    public User 회원찾기(String username){
+
+        User user = userRepository.findByUserId(username).orElseGet(() -> { // 찾아보고 없으면 빈객체를 생성해라
+            return new User();
+        });
+
+        if (user.getUserId() == null) {
+            System.out.println("아이디가 없습니다. 회원가입을 하세요.");
+        }
+
+        return user;
+    }
+
+    @Transactional
     public void 회원삭제(Long id) {
         userRepository.deleteById(id);
     }
 
-
-    public Boolean validateCreateUser(String username) {
-        if (userRepository.findByUsername(username) != null) {
+    public Boolean validateCreateUser(String userId) {
+        if (userRepository.findByUserId(userId) != null) {
             throw new GeneralException(DUPLICATED_USER_ID);
         }
         return true;

@@ -45,6 +45,7 @@ public class SecurityConfig {
                     .oauth2Login()
                 .loginPage("/auth/oauth2Login") // 추후에 /auth/login 로 바꾸기
                 .failureHandler(customFailureHandler)
+                .defaultSuccessUrl("/dashboard") // 삭제하기
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService)
         ;

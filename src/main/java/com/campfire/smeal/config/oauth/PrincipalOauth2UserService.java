@@ -69,8 +69,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 
         // 이미 회원가입이 됐는지 확인
-        User userEntity = userRepository.findByUsername(username);
-
+        User userEntity = userRepository.findByUserId(userId).orElse(null);
 
         if (userEntity == null) {
             System.out.println("로그인이 최초입니다.");
@@ -85,14 +84,14 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .userId(userId)
                     .build();
             userRepository.save(userEntity);
-        } else if(userEntity.getProvider().equals(provider)){
-            System.out.println("이미 회원입니다. 자동 로그인");
         } else {
-            // username은 unique. provider에 따라 같은 메일로 로그인을 하면, unique에서 걸림
-            String msg = userEntity.getProvider() + " 로 같은 이메일로 로그인하셨습니다." +
-                    userEntity.getProvider() + "로 다시 로그인해주세요.";
-            System.out.println(msg);
-            throw new CustomAuthenticationException(msg);
+            System.out.println("이미 회원입니다. 자동 로그인");
+//        } else {
+//            // username은 unique. provider에 따라 같은 메일로 로그인을 하면, unique에서 걸림
+//            String msg = userEntity.getProvider() + " 로 같은 이메일로 로그인하셨습니다." +
+//                    userEntity.getProvider() + "로 다시 로그인해주세요.";
+//            System.out.println(msg);
+//            throw new CustomAuthenticationException(msg);
         }
 
         return new PrincipalDetails(userEntity, oAuth2User.getAttributes());

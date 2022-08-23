@@ -9,6 +9,9 @@ import com.campfire.smeal.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +24,13 @@ import javax.servlet.http.HttpServletRequest;
 public class UserApiController {
     private final UserService userService;
 
+    private final AuthenticationManager authenticationManager;
 
     // 회원가입
     @PostMapping("/auth/joinProc")
     public ResponseDto<Integer> userSave(@RequestBody User user) {
         userService.회원가입(user);
+        log.info("회원가입완료");
         return new ResponseDto<>(HttpStatus.OK.value(), 1);
     }
 
@@ -37,8 +42,12 @@ public class UserApiController {
                         @AuthenticationPrincipal PrincipalDetails principalDetails
     ) {
         User updateUser = userService.회원수정(user);
+
         // 세션 수정
-        principalDetails.setUser(updateUser);
+        Authentication authentication= authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
     }
 
@@ -52,11 +61,10 @@ public class UserApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
     }
 
-    @PostMapping("/auth/checkUsername")
-    public ResponseDto<Integer> checkUsername(@RequestBody String username) {
-        Boolean result = userService.validateCreateUser(username);
+    @PostMapping("/auth/checkUserId")
+    public ResponseDto<Integer> checkUserId(@RequestBody String userId) {
+        Boolean result = userService.validateCreateUser(userId);
         return new ResponseDto<>(HttpStatus.OK.value(), 1);
-
     }
 
 }

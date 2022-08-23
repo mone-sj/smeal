@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import static com.campfire.smeal.handler.exception.SmErrorCode.DUPLICATED_USER_ID;
-import static com.campfire.smeal.handler.exception.SmErrorCode.INVALID_REQUEST;
+import static com.campfire.smeal.handler.exception.SmErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
@@ -41,20 +40,19 @@ public class UserService {
 
     @Transactional
     public User 회원수정(User user) {
-        User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
-            //User persistence = userRepository.findById(4L).orElseThrow(() -> {
+
+        //User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
+            User persistence = userRepository.findByUserId(user.getUserId()).orElseThrow(() -> {
             return new GeneralException(SmErrorCode.NO_USER);
         });
 
-        if (persistence.getProvider() == null || persistence.getProvider().equals("")) {
-            String rawPassword = user.getPassword();
-            String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
-            persistence.setPassword(encPassword);
-            persistence.setAge(user.getAge());
-            persistence.setGender(user.getGender());
-            persistence.setEmail(user.getEmail());
-            persistence.setNickname(user.getNickname());
-        }
+        String rawPassword = user.getPassword();
+        String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
+        persistence.setPassword(encPassword);
+        persistence.setAge(user.getAge());
+        persistence.setGender(user.getGender());
+        persistence.setEmail(user.getEmail());
+        persistence.setNickname(user.getNickname());
 
         return persistence;
     }
@@ -65,11 +63,10 @@ public class UserService {
         User user = userRepository.findByUserId(username).orElseGet(() -> { // 찾아보고 없으면 빈객체를 생성해라
             return new User();
         });
-
         if (user.getUserId() == null) {
-            System.out.println("아이디가 없습니다. 회원가입을 하세요.");
+            System.out.println("ID가 없거나 잘 못 입력하셨습니다.");
+            throw new GeneralException(LOGIN_ERROR);
         }
-
         return user;
     }
 

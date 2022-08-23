@@ -15,13 +15,15 @@ public class PrincipalDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username)
+    public UserDetails loadUserByUsername(String userId)
             throws UsernameNotFoundException {
-        User userEntity = userRepository.findByUsername(username);
+        User userEntity = userRepository.findByUserId(userId).orElse(null);
+
         if (userEntity != null) {
             return new PrincipalDetails(userEntity);
         }
 
         return null;
     }
+
 }

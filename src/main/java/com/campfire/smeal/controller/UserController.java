@@ -57,26 +57,22 @@ public class UserController {
     }
 
 
-    // 로그인 테스트용
-    @GetMapping("/auth/joinTest") //회원가입 화면
+    // 회원가입 테스트용
+    //회원가입 화면
+    @GetMapping("/auth/joinTest")
     public String joinTest() {
         return "test/joinTest";
     }
 
-    @PostMapping("/auth/joinTest")
-    public @ResponseBody ResponseDto<Integer> joinTest(@RequestBody User user) {
-        userService.회원가입(user);
-        return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
-    }
-
-    //로그인화면
-    @GetMapping("auth/loginTest")
+    //로그인 테스트용
+    @GetMapping("/auth/loginTest")
     public String loginPage() {
         return "test/loginTest";
     }
 
-    @PostMapping("/aauth/loginTest")
-    public @ResponseBody ResponseDto<Integer> loginTest(@RequestBody User user) {
+    @PostMapping("/auth/loginTest")
+    public @ResponseBody ResponseDto<Integer> loginTest(
+                    @RequestBody User user) {
         userService.회원찾기(user.getUsername());
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
     }

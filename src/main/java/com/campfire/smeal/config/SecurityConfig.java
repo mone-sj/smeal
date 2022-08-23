@@ -38,14 +38,15 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/auth/login")
+                    .usernameParameter("userId")
                     .loginProcessingUrl("/auth/loginProc")
                     .defaultSuccessUrl("/dashboard")
                     .failureUrl("/auth/login")
                 .and()
                     .oauth2Login()
-                .loginPage("/auth/oauth2Login") // 추후에 /auth/login 로 바꾸기
+        .loginPage("/auth/oauth2Login") // 추후에 /auth/login 로 바꾸기
                 .failureHandler(customFailureHandler)
-                .defaultSuccessUrl("/dashboard") // 삭제하기
+        .defaultSuccessUrl("/dashboard") // 삭제하기
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService)
         ;

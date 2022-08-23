@@ -17,8 +17,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 로그인시 아이디
-    @Column(nullable = false, length = 50, unique = true) //소셜로그인시, 해당 메일주소를 username (수정불가)
+    // 로그인시 아이디, 소셜 로그인시 메일주소를 username
+    @Column(nullable = false, length = 50)
     private String username;
 
     // oauth client에게서 받는 이름
@@ -40,6 +40,7 @@ public class User {
     private String providerId;
 
     // auth2 로그인시 동일회원인지 확인용 (email+provider+providerId)
+    @Column(length = 50, unique = true)
     private String userId;
 
     @Enumerated(EnumType.STRING)

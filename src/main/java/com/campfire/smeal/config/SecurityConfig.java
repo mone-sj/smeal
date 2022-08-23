@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -32,10 +33,10 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                        .antMatchers("/","/auth/**", "/js/**","/css/**","/img/**"
-                        ,"/vendor/**","/scss/**", "/favicon.ico")
-                            .permitAll()
-                        .anyRequest().authenticated()
+                .antMatchers("/","/auth/**", "/js/**","/css/**","/img/**"
+                        ,"/vendor/**","/scss/**", "/favicon.ico", "/dashboard")
+                .permitAll()
+                .anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/auth/login")
                     .usernameParameter("userId")
@@ -44,13 +45,18 @@ public class SecurityConfig {
                     .failureUrl("/auth/login")
                 .and()
                     .oauth2Login()
-        .loginPage("/auth/login")
-                .failureHandler(customFailureHandler)
-                .userInfoEndpoint()
-                .userService(principalOauth2UserService)
+                    .loginPage("/auth/login")
+                    .failureHandler(customFailureHandler)
+                    .userInfoEndpoint()
+                    .userService(principalOauth2UserService)
         ;
 
         return http.build();
+    }
+
+    @Bean
+    protected WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/resources/**");
     }
 
 

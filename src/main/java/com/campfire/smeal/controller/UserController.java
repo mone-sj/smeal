@@ -46,17 +46,7 @@ public class UserController {
         return "updateForm";
     }
 
-    // OAuth2로그인 테스트용, 로그인페이지 완성되면 삭제
-    @GetMapping("/auth/oauth2Login")
-    public String oauth2(
-            @RequestParam(value = "exception", required = false) String exception,
-            Model model
-    ) {
-        model.addAttribute("exception", exception);
-        return "test/oauth2Login";
-    }
-
-
+    //////////////////////// 테스트용_기능완성및매핑이 완료되면 삭제
     // 회원가입 테스트용
     //회원가입 화면
     @GetMapping("/auth/joinTest")
@@ -76,4 +66,5 @@ public class UserController {
         userService.회원찾기(user.getUsername());
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
     }
+
 }

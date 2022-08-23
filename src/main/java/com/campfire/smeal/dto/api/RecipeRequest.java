@@ -1,4 +1,4 @@
-package com.campfire.smeal.dto;
+package com.campfire.smeal.dto.api;
 
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;

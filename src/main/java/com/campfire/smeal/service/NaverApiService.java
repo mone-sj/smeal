@@ -1,7 +1,13 @@
 package com.campfire.smeal.service;
 
-import com.campfire.smeal.dto.NaverSearchTrendShopping;
-import com.campfire.smeal.dto.NaverTotalSearchTrend;
+import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.CateTrendRequest;
+import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.CategoryRequest;
+import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.Keyword;
+import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.KeywordTrendRequest;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -10,262 +16,232 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class NaverApiService {
-/*
-    // application.yml에 작성한 clientId/key 가 null로 받아옴. 추후 확인 필요
-    @Value("${myinfo.naverApi.naverClientId}")
+
     private static String clientId;
+    private static String clientSecret;
+
+    @Value("${myinfo.naverApi.naverClientId}")
+    public void setClientId(String value) {
+        clientId = value;
+    }
 
     @Value("${myinfo.naverApi.naverClientSecret}")
-    private static String clientSecret;
-*/
-    static final String clientId = "ne9fzrjuOdUV2oc8WaFh"; //애플리케이션 클라이언트 아이디값"
-    static final String clientSecret = "RVyvkcBMPS"; //애플리케이션 클라이언트 시크릿값"
+    public void setClientSecret(String value) {
+        clientSecret = value;
+    }
 
 
-    // 블로그 검색 (재료에 따른 레시피 검색)\
+    // 블로그 검색 (재료에 따른 레시피 검색)
     // https://developers.naver.com/docs/serviceapi/search/blog/blog.md#%EB%B8%94%EB%A1%9C%EA%B7%B8
-    @Service
-    public static class NaverSearchBlog {
-        public String searchBlog(String searchWord) {
-//            String clientId = "ne9fzrjuOdUV2oc8WaFh"; //애플리케이션 클라이언트 아이디값"
-//            String clientSecret = "RVyvkcBMPS"; //애플리케이션 클라이언트 시크릿값"
+    public String searchBlog(String searchWord) {
 
-            System.out.println("naver_ClientId:"+clientId);
-            System.out.println("naver_clientkey:"+clientSecret);
-
-            String text = null;
-            try {
-                text = URLEncoder.encode(searchWord, "UTF-8");
-                System.out.println("검색어: "+text);
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException("검색어 인코딩 실패",e);
-            }
-
-            String searchBlog_apiURL =
-                    "https://openapi.naver.com/v1/search/blog?query=" + text;    // json 결과
-
-            Map<String, String> requestHeaders = new HashMap<>();
-            requestHeaders.put("X-Naver-Client-Id", clientId);
-            requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-            String responseBody = get(searchBlog_apiURL,requestHeaders);
-
-            System.out.println(responseBody);
-
-            return responseBody;
-
+        String text = null;
+        try {
+            text = URLEncoder.encode(searchWord, "UTF-8");
+            System.out.println("검색어: " + text);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("검색어 인코딩 실패", e);
         }
 
-        private static String get(
-                String searchBlog_apiURL,
-                Map<String, String> requestHeaders
-        ){
-            HttpURLConnection search_con = search_connect(searchBlog_apiURL);
-            try {
-                search_con.setRequestMethod("GET");
-                for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
-                    search_con.setRequestProperty(header.getKey(), header.getValue());
-                }
+        String searchBlog_apiURL =
+                "https://openapi.naver.com/v1/search/blog?query=" + text;    // json 결과
 
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("X-Naver-Client-Id", clientId);
+        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
 
-                int responseCode = search_con.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
-                    return search_readBody(search_con.getInputStream());
-                } else { // 에러 발생
-                    return search_readBody(search_con.getErrorStream());
-                }
-            } catch (IOException e) {
-                throw new RuntimeException("API 요청과 응답 실패", e);
-            } finally {
-                search_con.disconnect();
-            }
-        }
+        String responseBody = get(searchBlog_apiURL, requestHeaders);
 
+        System.out.println(responseBody);
 
-        private static HttpURLConnection search_connect(
-                String searchBlog_apiURL
-        ){
-            try {
-                URL url = new URL(searchBlog_apiURL);
-                return (HttpURLConnection)url.openConnection();
-            } catch (MalformedURLException e) {
-                throw new RuntimeException("API URL이 잘못되었습니다. : " + searchBlog_apiURL, e);
-            } catch (IOException e) {
-                throw new RuntimeException("연결이 실패했습니다. : " + searchBlog_apiURL, e);
-            }
-        }
-
-
-        private static String search_readBody(InputStream body){
-            InputStreamReader streamReader = new InputStreamReader(body);
-
-            try (BufferedReader lineReader = new BufferedReader(streamReader)) {
-                StringBuilder responseBody = new StringBuilder();
-
-                String line;
-                while ((line = lineReader.readLine()) != null) {
-                    responseBody.append(line);
-                }
-
-                return responseBody.toString();
-            } catch (IOException e) {
-                throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
-            }
-        }
+        return responseBody;
 
     }
+
 
     // 네이버 통합 검색어 트렌드 API
     // https://developers.naver.com/docs/serviceapi/datalab/search/search.md#%ED%86%B5%ED%95%A9-%EA%B2%80%EC%83%89%EC%96%B4-%ED%8A%B8%EB%A0%8C%EB%93%9C
-    @Service
-    public static class naverDatalabTotalSearchTrend {
-        public String DatalabSearchTrend(NaverTotalSearchTrend searchTrendRequest) {
-            String apiUrl = "https://openapi.naver.com/v1/datalab/search";
-
-            Map<String, String> requestHeaders = new HashMap<>();
-            requestHeaders.put("X-Naver-Client-Id", clientId);
-            requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-            requestHeaders.put("Content-Type", "application/json");
-
-            String requestBody = searchTrendRequest.toString();
-            System.out.println("requestBody_String: "+requestBody);
-
-//            String requestBody = "{\"startDate\":\"2017-01-01\"," +
-//                    "\"endDate\":\"2017-04-30\"," +
-//                    "\"timeUnit\":\"month\"," +
-//                    "\"keywordGroups\":[{\"groupName\":\"한글\"," + "\"keywords\":[\"한글\",\"korean\"]}," +
-//                    "{\"groupName\":\"영어\"," + "\"keywords\":[\"영어\",\"english\"]}]," +
-//                    "\"device\":\"pc\"," +
-//                    "\"ages\":[\"1\",\"2\"]," +
-//                    "\"gender\":\"f\"}";
-
-            String responseBody = post(apiUrl, requestHeaders, requestBody);
-            System.out.println(responseBody);
-            return responseBody;
-        }
-
-        private static String post(String apiUrl, Map<String, String> requestHeaders, String requestBody) {
-            HttpURLConnection con = connect(apiUrl);
-
-            try {
-                con.setRequestMethod("POST");
-                for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
-                    con.setRequestProperty(header.getKey(), header.getValue());
-                }
-
-                con.setDoOutput(true);
-                try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
-                    wr.write(requestBody.getBytes());
-                    wr.flush();
-                }
-
-                int responseCode = con.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 응답
-                    return readBody(con.getInputStream());
-                } else {  // 에러 응답
-                    return readBody(con.getErrorStream());
-                }
-            } catch (IOException e) {
-                throw new RuntimeException("API 요청과 응답 실패", e);
-            } finally {
-                con.disconnect(); // Connection을 재활용할 필요가 없는 프로세스일 경우
-            }
-        }
-
-        private static HttpURLConnection connect(String apiUrl) {
-            try {
-                URL url = new URL(apiUrl);
-                return (HttpURLConnection) url.openConnection();
-            } catch (MalformedURLException e) {
-                throw new RuntimeException("API URL이 잘못되었습니다. : " + apiUrl, e);
-            } catch (IOException e) {
-                throw new RuntimeException("연결이 실패했습니다. : " + apiUrl, e);
-            }
-        }
-
-        private static String readBody(InputStream body) {
-            InputStreamReader streamReader = new InputStreamReader(body, StandardCharsets.UTF_8);
-
-            try (BufferedReader lineReader = new BufferedReader(streamReader)) {
-                StringBuilder responseBody = new StringBuilder();
-
-                String line;
-                while ((line = lineReader.readLine()) != null) {
-                    responseBody.append(line);
-                }
-
-                return responseBody.toString();
-            } catch (IOException e) {
-                throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
-            }
-        }
-
-    }
-
-    // 네이버 쇼핑인사이트
-    public String ApiDatalabTrendShopping(NaverSearchTrendShopping searchTrend) {
-//        String clientId = "E7lq99dH_AYcqeMhX2YC"; // 애플리케이션 클라이언트 아이디
-//        String clientSecret = "KsYRJgA0w_"; // 애플리케이션 클라이언트 시크릿
-
-        String dataLabApiUrl = "https://openapi.naver.com/v1/datalab/shopping/categories";
+    public String datalabSearchTrend(String searchTrendRequest) {
+        String apiUrl = "https://openapi.naver.com/v1/datalab/search";
 
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         requestHeaders.put("Content-Type", "application/json");
 
-        String requestBody = String.valueOf(searchTrend);
-
-        //String requestBody=searchTrend;
-
-//        String requestBody = "{\"startDate\":\"2017-08-01\"," +
-//                "\"endDate\":\"2017-09-30\"," +
-//                "\"timeUnit\":\"month\"," +
-//                "\"category\":[{\"name\":\"패션의류\",\"param\":[\"50000000\"]}," +
-//                "{\"name\":\"화장품/미용\",\"param\":[\"50000002\"]}]," +
-//                "\"device\":\"pc\"," +
-//                "\"ages\":[\"20\",\"30\"]," +
-//                "\"gender\":\"f\"}";
-
-        String responseBody = dataLab_post(dataLabApiUrl, requestHeaders, requestBody);
+        String responseBody = post(apiUrl, requestHeaders, searchTrendRequest);
         System.out.println(responseBody);
         return responseBody;
-
     }
 
-    private static String dataLab_post(String dataLabApiUrl, Map<String, String> requestHeaders, String requestBody) {
-        HttpURLConnection dataLab_con = dataLab_connect(dataLabApiUrl);
+    // 네이버 쇼핑인사이트 - 분야별 트렌드 조회
+    public String cateTrendShopping(String searchTrendShopping,
+                                    CateTrendRequest cateTrendRequest
+    ) throws ParseException {
 
+        // 초기화
+        // 카테고리 리스트 : paramList
+        // url 리스트: urlList
+        // target 리스트(기기,성,연령별) : resultList
+        List<String> cateList = new ArrayList<>();
+        List<String> urlList = Arrays.asList(
+                "https://openapi.naver.com/v1/datalab/shopping/category/device", // 기기별
+                "https://openapi.naver.com/v1/datalab/shopping/category/gender", // 성별
+                "https://openapi.naver.com/v1/datalab/shopping/category/age"); // 연령별
+        List<String> resultList = Arrays.asList("device","gender","age");
+
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("X-Naver-Client-Id", clientId);
+        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+        requestHeaders.put("Content-Type", "application/json");
+
+        // 기기별,성별,연령별 결과
+        Map<String, Object> target = new HashMap<>();
+        // 클릭량추이, 기기별, 성별, 연령별 결과 (반환값)
+        Map<String, Object> targetResult = new HashMap<>();
+
+        String dataLabTrendShopping_cate = "https://openapi.naver.com/v1/datalab/shopping/categories";
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObj = (JSONObject) jsonParser.parse(searchTrendShopping);
+
+
+        // 쇼핑 분야별트랜드 결과(클릭량 추이)
+        String responseBodyTotal = post(dataLabTrendShopping_cate, requestHeaders, searchTrendShopping);
+
+        // 검색 카테고리 리스트
+        List<CategoryRequest> categoryList = cateTrendRequest.getCategory();
+        categoryList.stream().forEach(cate -> {
+            cateList.add(cate.getParam().get(0));
+        });
+
+        // 기기별, 연령별, 성별 결과값 받아오기
+        for (String cate : cateList) {
+            for (int i = 0; i < urlList.size(); i++) {
+                jsonObj.replace("category", cate);
+                String responseBody=post(urlList.get(0), requestHeaders, jsonObj.toString());
+                target.put(resultList.get(i), responseBody);
+            }
+            targetResult.put(cate, target);
+        }
+        targetResult.put("clickTrend", responseBodyTotal);
+
+        return targetResult.toString();
+    }
+
+    public String keywordTrendShopping(String request,
+                                       KeywordTrendRequest keywordTrendRequest
+    ) throws ParseException {
+
+        // 초기화
+        // 키워드 리스트 : keywordList
+        // url 리스트: urlList
+        // target 리스트: resultList
+        List<String> keywordList = new ArrayList<>();
+        List<String> urlList = Arrays.asList(
+                "https://openapi.naver.com/v1/datalab/shopping/category/keyword/device", // 기기별
+                "https://openapi.naver.com/v1/datalab/shopping/category/keyword/gender", // 성별
+                "https://openapi.naver.com/v1/datalab/shopping/category/keyword/age"); // 연령별
+        List<String> resultList = Arrays.asList("device","gender","age");
+
+        // 기기별,성별,연령별 결과
+        Map<String, Object> target = new HashMap<>();
+        // 클릭량추이, 기기별, 성별, 연령별 결과 (반환값)
+        Map<String, Object> targetResult = new HashMap<>();
+
+        String dataLabTrendShopping_keyword = "https://openapi.naver.com/v1/datalab/shopping/category/keywords";
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObj = (JSONObject) jsonParser.parse(request);
+
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("X-Naver-Client-Id", clientId);
+        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+        requestHeaders.put("Content-Type", "application/json");
+
+        // 쇼핑 분야별트랜드 결과(클릭량 추이)
+        String responseBodyTotal = post(dataLabTrendShopping_keyword, requestHeaders, request);
+
+        // 검색 키워드 리스트
+        List<Keyword> getKeywordList = keywordTrendRequest.getKeyword();
+        getKeywordList.stream().forEach(keyword -> {
+            keywordList.add(keyword.getParam().get(0));
+        });
+
+        // 기기별, 연령별, 성별 결과값 받아오기
+        for (String keyword : keywordList) {
+            jsonObj.replace("keyword", keyword);
+            for (int i = 0; i < urlList.size(); i++) {
+                String responseBody=post(urlList.get(0), requestHeaders, jsonObj.toString());
+                target.put(resultList.get(i), responseBody);
+            }
+            targetResult.put(keyword, target);
+        }
+        targetResult.put("clickTrend", responseBodyTotal);
+
+        return targetResult.toString();
+    }
+
+
+    private static String get(
+            String apiURL,
+            Map<String, String> requestHeaders
+    ) {
+        HttpURLConnection con = connect(apiURL);
         try {
-            dataLab_con.setRequestMethod("POST");
-            for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
-                dataLab_con.setRequestProperty(header.getKey(), header.getValue());
+            con.setRequestMethod("GET");
+            for (Map.Entry<String, String> header : requestHeaders.entrySet()) {
+                con.setRequestProperty(header.getKey(), header.getValue());
             }
 
-            dataLab_con.setDoOutput(true);
-            try (DataOutputStream wr = new DataOutputStream(dataLab_con.getOutputStream())) {
-                wr.write(requestBody.getBytes());
-                wr.flush();
-            }
-
-            int responseCode = dataLab_con.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 응답
-                return dataLab_readBody(dataLab_con.getInputStream());
-            } else {  // 에러 응답
-                return dataLab_readBody(dataLab_con.getErrorStream());
+            int responseCode = con.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
+                return readBody(con.getInputStream());
+            } else { // 에러 발생
+                return readBody(con.getErrorStream());
             }
         } catch (IOException e) {
             throw new RuntimeException("API 요청과 응답 실패", e);
         } finally {
-            dataLab_con.disconnect(); // Connection을 재활용할 필요가 없는 프로세스일 경우
+            con.disconnect();
         }
     }
 
-    private static HttpURLConnection dataLab_connect(String apiUrl) {
+    private static String post (String ApiUrl,
+                                Map < String, String > requestHeaders,
+                                String requestBody){
+        HttpURLConnection connect = connect(ApiUrl);
+
+        try {
+            connect.setRequestMethod("POST");
+            for (Map.Entry<String, String> header : requestHeaders.entrySet()) {
+                connect.setRequestProperty(header.getKey(), header.getValue());
+            }
+
+            connect.setDoOutput(true);
+            try (DataOutputStream wr = new DataOutputStream(connect.getOutputStream())) {
+                wr.write(requestBody.getBytes());
+                wr.flush();
+            }
+
+            int responseCode = connect.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 응답
+                return readBody(connect.getInputStream());
+            } else {  // 에러 응답
+                return readBody(connect.getErrorStream());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("API 요청과 응답 실패", e);
+        } finally {
+            connect.disconnect(); // Connection을 재활용할 필요가 없는 프로세스일 경우
+        }
+    }
+
+    private static HttpURLConnection connect (String apiUrl){
         try {
             URL url = new URL(apiUrl);
             return (HttpURLConnection) url.openConnection();
@@ -276,7 +252,7 @@ public class NaverApiService {
         }
     }
 
-    private static String dataLab_readBody(InputStream body) {
+    private static String readBody (InputStream body){
         InputStreamReader streamReader = new InputStreamReader(body, StandardCharsets.UTF_8);
 
         try (BufferedReader lineReader = new BufferedReader(streamReader)) {
@@ -292,4 +268,6 @@ public class NaverApiService {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
         }
     }
+
 }
+

@@ -1,6 +1,6 @@
 package com.campfire.smeal.service;
 
-import com.campfire.smeal.dto.RecipeRequest;
+import com.campfire.smeal.dto.api.RecipeRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

@@ -2,11 +2,11 @@ package com.campfire.smeal.config.oauth;
 
 import com.campfire.smeal.config.BCryptEnc;
 import com.campfire.smeal.config.auth.PrincipalDetails;
-import com.campfire.smeal.handler.exception.CustomAuthenticationException;
 import com.campfire.smeal.model.RoleType;
 import com.campfire.smeal.model.User;
 import com.campfire.smeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -21,6 +21,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     private final BCryptEnc bCryptPasswordEncoder;
     private final UserRepository userRepository;
+
+    private static String pwd;
+
+    @Value("${myinfo.login.password}")
+    public void setPwd(String value) {
+        pwd = value;
+    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -53,7 +60,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String providerId = oAuth2UserInfo.getProviderId();
         String username = oAuth2UserInfo.getEmail();
         String password = bCryptPasswordEncoder.encodePWD()
-                .encode("passwordEncode");
+                .encode(pwd);
         String userId = username + "_" + provider + "_" + providerId;
         String email = oAuth2UserInfo.getEmail();
         RoleType role = RoleType.USER;
@@ -61,8 +68,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 
         // 이미 회원가입이 됐는지 확인
-        User userEntity = userRepository.findByUsername(username);
-
+        User userEntity = userRepository.findByUserId(userId).orElse(null);
 
         if (userEntity == null) {
             System.out.println("로그인이 최초입니다.");
@@ -77,14 +83,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .userId(userId)
                     .build();
             userRepository.save(userEntity);
-        } else if(userEntity.getProvider().equals(provider)){
-            System.out.println("이미 회원입니다. 자동 로그인");
         } else {
-            // username은 unique. provider에 따라 같은 메일로 로그인을 하면, unique에서 걸림
-            String msg = userEntity.getProvider() + " 로 같은 이메일로 로그인하셨습니다." +
-                    userEntity.getProvider() + "로 다시 로그인해주세요.";
-            System.out.println(msg);
-            throw new CustomAuthenticationException(msg);
+            System.out.println("이미 회원입니다. 자동 로그인");
+
         }
 
         return new PrincipalDetails(userEntity, oAuth2User.getAttributes());

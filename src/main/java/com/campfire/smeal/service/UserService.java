@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import static com.campfire.smeal.handler.exception.SmErrorCode.DUPLICATED_USER_ID;
-import static com.campfire.smeal.handler.exception.SmErrorCode.INVALID_REQUEST;
+import static com.campfire.smeal.handler.exception.SmErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
@@ -25,11 +24,12 @@ public class UserService {
     @Transactional
     public void 회원가입(User user) {
         try {
-                String rawPassword = user.getPassword();
-                String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
-                user.setPassword(encPassword);
-                user.setRole(RoleType.USER);
-                userRepository.save(user);
+            String rawPassword = user.getPassword();
+            String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
+            user.setPassword(encPassword);
+            user.setUserId(user.getUsername());
+            user.setRole(RoleType.USER);
+            userRepository.save(user);
         } catch (DataIntegrityViolationException ex) {
             throw new GeneralException(DUPLICATED_USER_ID);
         } catch (Exception e) {
@@ -40,22 +40,34 @@ public class UserService {
 
     @Transactional
     public User 회원수정(User user) {
+
         //User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
-        User persistence = userRepository.findById(4L).orElseThrow(() -> {
+            User persistence = userRepository.findByUserId(user.getUserId()).orElseThrow(() -> {
             return new GeneralException(SmErrorCode.NO_USER);
         });
 
-        if (persistence.getProvider() == null || persistence.getProvider().equals("")) {
-            String rawPassword = user.getPassword();
-            String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
-            persistence.setPassword(encPassword);
-            persistence.setAge(user.getAge());
-            persistence.setGender(user.getGender());
-            persistence.setEmail(user.getEmail());
-            persistence.setNickname(user.getNickname());
-        }
+        String rawPassword = user.getPassword();
+        String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
+        persistence.setPassword(encPassword);
+        persistence.setAge(user.getAge());
+        persistence.setGender(user.getGender());
+        persistence.setEmail(user.getEmail());
+        persistence.setNickname(user.getNickname());
 
         return persistence;
+    }
+
+    @Transactional
+    public User 회원찾기(String username){
+
+        User user = userRepository.findByUserId(username).orElseGet(() -> { // 찾아보고 없으면 빈객체를 생성해라
+            return new User();
+        });
+        if (user.getUserId() == null) {
+            System.out.println("ID가 없거나 잘 못 입력하셨습니다.");
+            throw new GeneralException(LOGIN_ERROR);
+        }
+        return user;
     }
 
     @Transactional
@@ -63,9 +75,8 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-
-    public Boolean validateCreateUser(String username) {
-        if (userRepository.findByUsername(username) != null) {
+    public Boolean validateCreateUser(String userId) {
+        if (userRepository.findByUserId(userId) != null) {
             throw new GeneralException(DUPLICATED_USER_ID);
         }
         return true;

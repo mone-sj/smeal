@@ -38,16 +38,17 @@ public class SecurityConfig {
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/auth/login")
-                .loginProcessingUrl("/auth/loginProc")
-                .defaultSuccessUrl("/dashboard")
-                .failureUrl("/auth/login")
+                    .formLogin().loginPage("/auth/login")
+                    .usernameParameter("userId")
+                    .loginProcessingUrl("/auth/loginProc")
+                    .defaultSuccessUrl("/dashboard")
+                    .failureUrl("/auth/login")
                 .and()
-                .oauth2Login()
-                .loginPage("/auth/login") // 추후에 /auth/login 로 바꾸기
-                .failureHandler(customFailureHandler)
-                .userInfoEndpoint()
-                .userService(principalOauth2UserService)
+                    .oauth2Login()
+                    .loginPage("/auth/login")
+                    .failureHandler(customFailureHandler)
+                    .userInfoEndpoint()
+                    .userService(principalOauth2UserService)
         ;
 
         return http.build();

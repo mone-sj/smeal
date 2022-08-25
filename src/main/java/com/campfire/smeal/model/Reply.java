@@ -22,11 +22,11 @@ public class Reply {
     @Column(nullable = false, length = 200)
     private String content;
 
-    @ManyToOne //여러개의 답변은(many) 하나의 게시글(board_id)에 쓸수 있음, 무한 참조가 될 수 있음
+    @ManyToOne
     @JoinColumn(name="boardId")
     private Board board;
 
-    @ManyToOne //여러 개의 답변(many) 은 하나의 유저가 쓸수 있다
+    @ManyToOne
     @JoinColumn(name="userId")
     private User user;
 

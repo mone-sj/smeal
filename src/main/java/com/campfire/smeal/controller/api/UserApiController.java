@@ -28,8 +28,20 @@ public class UserApiController {
 
     // 회원가입
     @PostMapping("/auth/joinProc")
-    public ResponseDto<Integer> userSave(@RequestBody User user) {
-        userService.회원가입(user);
+    public ResponseDto<Integer> userSave(
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String password,
+            @RequestParam(required = false) String passwordRepeat,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String nickname
+    ) {
+        User user=User.builder()
+                .username(username)
+                .password(password)
+                .email(email)
+                .nickname(nickname)
+                .build();
+        userService.회원가입(user, passwordRepeat);
         log.info("회원가입완료");
         return new ResponseDto<>(HttpStatus.OK.value(), 1);
     }
@@ -39,9 +51,10 @@ public class UserApiController {
     @PutMapping("/auth/updateProc")
     public ResponseDto<Integer> update(
                         @RequestBody User user,
+                        @RequestParam(required = true) String passwordRepeat,
                         @AuthenticationPrincipal PrincipalDetails principalDetails
     ) {
-        User updateUser = userService.회원수정(user);
+        User updateUser = userService.회원수정(user,passwordRepeat);
 
         // 세션 수정
         Authentication authentication= authenticationManager.authenticate(
@@ -54,8 +67,8 @@ public class UserApiController {
     // 회원 삭제
     // 추후 수정 user/delete/{id}
     @DeleteMapping("/auth/delete/{id}")
-    public ResponseDto<Integer> userDelete(@PathVariable Long id) {
-        userService.회원삭제(id);
+    public ResponseDto<Integer> userDelete(@PathVariable int id) {
+        userService.회원삭제(Long.valueOf(id));
         // 세션 삭제
         SecurityContextHolder.clearContext();
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);

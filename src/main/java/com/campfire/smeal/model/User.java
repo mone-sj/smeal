@@ -36,6 +36,8 @@ public class User {
     private String foodMbti;
     private String provider;
 
+    private String passwordRepeat;
+
     // oauth2 로그인시 client에서 사용자에게 부여한 id
     private String providerId;
 

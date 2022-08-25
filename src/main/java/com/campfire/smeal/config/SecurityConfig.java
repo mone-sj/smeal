@@ -39,17 +39,22 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/auth/login")
-                    .usernameParameter("userId")
                     .loginProcessingUrl("/auth/loginProc")
                     .defaultSuccessUrl("/dashboard")
                     .failureUrl("/auth/login")
                 .and()
                     .oauth2Login()
                     .loginPage("/auth/login")
+                    .defaultSuccessUrl("/dashboard")
                     .failureHandler(customFailureHandler)
                     .userInfoEndpoint()
                     .userService(principalOauth2UserService)
+
         ;
+
+        http.logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/");
 
         return http.build();
     }

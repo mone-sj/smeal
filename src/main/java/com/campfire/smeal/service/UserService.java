@@ -22,13 +22,16 @@ public class UserService {
     private final BCryptEnc bCryptEnc;
 
     @Transactional
-    public void 회원가입(User user) {
+    public void 회원가입(User user, String passwordRepeat) {
         try {
+            if (!passwordRepeat.equals(user.getPassword())) {
+                throw new GeneralException(INCONSISTENCY_PASSWORD);
+            }
             String rawPassword = user.getPassword();
             String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
             user.setPassword(encPassword);
             user.setUserId(user.getUsername());
-            user.setRole(RoleType.USER);
+            user.setRole(RoleType.ROLE_USER);
             userRepository.save(user);
         } catch (DataIntegrityViolationException ex) {
             throw new GeneralException(DUPLICATED_USER_ID);
@@ -39,10 +42,13 @@ public class UserService {
     }
 
     @Transactional
-    public User 회원수정(User user) {
+    public User 회원수정(User user, String passwordRepeat) {
+        if (!user.getPassword().equals(passwordRepeat)) {
+            throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
+        }
 
-        //User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
-            User persistence = userRepository.findByUserId(user.getUserId()).orElseThrow(() -> {
+        User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
+            //User persistence = userRepository.findByUserId(user.getUserId()).orElseThrow(() -> {
             return new GeneralException(SmErrorCode.NO_USER);
         });
 

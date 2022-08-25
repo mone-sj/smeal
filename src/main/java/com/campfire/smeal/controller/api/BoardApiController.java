@@ -23,7 +23,6 @@ public class BoardApiController {
                                      PrincipalDetails principal
     ) {
         boardService.글쓰기(board, principal.getUser());
-        //boardService.글쓰기_테스트(board);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 

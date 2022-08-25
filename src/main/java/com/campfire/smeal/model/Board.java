@@ -11,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Data
@@ -28,8 +29,6 @@ public class Board {
     private String title;
 
     private String content;
-
-    private int count; //조회수
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="userId")
@@ -49,5 +48,20 @@ public class Board {
 
     @LastModifiedDate
     private Timestamp updateDate;
+
+    public String getCreateDate() {
+        SimpleDateFormat dateFormat =
+                new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String createDateFormat = dateFormat.format(createDate);
+
+        return createDateFormat;
+    }
+
+    public String getUpdateDate() {
+        SimpleDateFormat dateFormat =
+                new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String updateDateFormat = dateFormat.format(updateDate);
+        return updateDateFormat;
+    }
 }
 

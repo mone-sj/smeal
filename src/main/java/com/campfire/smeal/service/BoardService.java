@@ -12,6 +12,7 @@ import com.campfire.smeal.repository.ReplyRepository;
 import com.campfire.smeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,9 +35,14 @@ public class BoardService {
 
 
     @Transactional(readOnly = true)
-    public Page<Board> 글목록(Pageable pageable) {
+    public Page<Board> 글목록(Pageable pageable, String searchText) {
+        //Page<Board> boards = boardRepository.findAll(PageRequest.of(0,20)); // page는 0부터 시작임
+        // 전체 데이터 건수 확인 getTotalElemets(), 전체 페이지수: getTotalPages(), 페이지 정보: getPageable()
+        //Page<Board> boards = boardRepository.findAll(pageable);
+        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(
+                searchText, searchText, pageable);
 
-        return boardRepository.findAll(pageable);
+        return boards;
     }
 
     @Transactional(readOnly = true)
@@ -59,27 +65,19 @@ public class BoardService {
         return map;
     }
 
-
-
     @Transactional
-    public Board 상세보기(Long id) {
-        Board post = boardRepository.findById(id).orElseThrow(() ->
+    public Board 상세보기(int id) {
+        Board post = boardRepository.findById(Long.valueOf(id)).orElseThrow(() ->
                 new GeneralException(NO_BOARD)
         );
-        post.setCount(post.getCount() + 1);
+        post.setViews(post.getViews() + 1);
         return post;
     }
 
     @Transactional
     public void 글쓰기(Board board, User user) {
-        board.setCount(0);
-        //board.setUser(user);
-        boardRepository.save(board);
-    }
-
-    @Transactional
-    public void 글쓰기_테스트(Board board) {
-        board.setCount(0);
+        board.setViews(0);
+        board.setUser(user);
         boardRepository.save(board);
     }
 
@@ -96,7 +94,6 @@ public class BoardService {
     @Transactional
     public void 글삭제하기(Long id) {
         boardRepository.deleteById(id);
-
     }
 
     @Transactional

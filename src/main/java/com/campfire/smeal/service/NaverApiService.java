@@ -4,6 +4,7 @@ import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.CateTrendRequest;
 import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.CategoryRequest;
 import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.Keyword;
 import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.KeywordTrendRequest;
+import net.minidev.json.JSONUtil;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -34,6 +35,13 @@ public class NaverApiService {
         clientSecret = value;
     }
 
+    private static Map<String, String> requestHeaders() {
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("X-Naver-Client-Id", clientId);
+        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+        requestHeaders.put("Content-Type", "application/json");
+        return requestHeaders;
+    }
 
     // 블로그 검색 (재료에 따른 레시피 검색)
     // https://developers.naver.com/docs/serviceapi/search/blog/blog.md#%EB%B8%94%EB%A1%9C%EA%B7%B8
@@ -50,11 +58,8 @@ public class NaverApiService {
         String searchBlog_apiURL =
                 "https://openapi.naver.com/v1/search/blog?query=" + text;    // json 결과
 
-        Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientId);
-        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
 
-        String responseBody = get(searchBlog_apiURL, requestHeaders);
+        String responseBody = get(searchBlog_apiURL, requestHeaders());
 
         System.out.println(responseBody);
 
@@ -68,12 +73,7 @@ public class NaverApiService {
     public String datalabSearchTrend(String searchTrendRequest) {
         String apiUrl = "https://openapi.naver.com/v1/datalab/search";
 
-        Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientId);
-        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-        requestHeaders.put("Content-Type", "application/json");
-
-        String responseBody = post(apiUrl, requestHeaders, searchTrendRequest);
+        String responseBody = post(apiUrl, requestHeaders(), searchTrendRequest);
         System.out.println(responseBody);
         return responseBody;
     }
@@ -94,11 +94,6 @@ public class NaverApiService {
                 "https://openapi.naver.com/v1/datalab/shopping/category/age"); // 연령별
         List<String> resultList = Arrays.asList("device","gender","age");
 
-        Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientId);
-        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-        requestHeaders.put("Content-Type", "application/json");
-
         // 기기별,성별,연령별 결과
         Map<String, Object> target = new HashMap<>();
         // 클릭량추이, 기기별, 성별, 연령별 결과 (반환값)
@@ -111,7 +106,8 @@ public class NaverApiService {
 
 
         // 쇼핑 분야별트랜드 결과(클릭량 추이)
-        String responseBodyTotal = post(dataLabTrendShopping_cate, requestHeaders, searchTrendShopping);
+        String responseBodyTotal = post(dataLabTrendShopping_cate,
+                requestHeaders(), searchTrendShopping);
 
         // 검색 카테고리 리스트
         List<CategoryRequest> categoryList = cateTrendRequest.getCategory();
@@ -123,7 +119,8 @@ public class NaverApiService {
         for (String cate : cateList) {
             for (int i = 0; i < urlList.size(); i++) {
                 jsonObj.replace("category", cate);
-                String responseBody=post(urlList.get(0), requestHeaders, jsonObj.toString());
+                String responseBody=post(urlList.get(0), requestHeaders(),
+                                        jsonObj.toString());
                 target.put(resultList.get(i), responseBody);
             }
             targetResult.put(cate, target);
@@ -158,13 +155,9 @@ public class NaverApiService {
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObj = (JSONObject) jsonParser.parse(request);
 
-        Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientId);
-        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-        requestHeaders.put("Content-Type", "application/json");
-
         // 쇼핑 분야별트랜드 결과(클릭량 추이)
-        String responseBodyTotal = post(dataLabTrendShopping_keyword, requestHeaders, request);
+        String responseBodyTotal = post(dataLabTrendShopping_keyword,
+                                        requestHeaders(), request);
 
         // 검색 키워드 리스트
         List<Keyword> getKeywordList = keywordTrendRequest.getKeyword();
@@ -176,7 +169,8 @@ public class NaverApiService {
         for (String keyword : keywordList) {
             jsonObj.replace("keyword", keyword);
             for (int i = 0; i < urlList.size(); i++) {
-                String responseBody=post(urlList.get(0), requestHeaders, jsonObj.toString());
+                String responseBody=post(urlList.get(0), requestHeaders(),
+                        jsonObj.toString());
                 target.put(resultList.get(i), responseBody);
             }
             targetResult.put(keyword, target);

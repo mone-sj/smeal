@@ -63,7 +63,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                 .encode(pwd);
         String userId = username + "_" + provider + "_" + providerId;
         String email = oAuth2UserInfo.getEmail();
-        RoleType role = RoleType.USER;
+        RoleType role = RoleType.ROLE_USER;
         String nickname=oAuth2UserInfo.getName();
 
 

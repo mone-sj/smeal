@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>게시판보기</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <h2>게시판</h2>
+  <div>총 건수 : <span th:text="${board.totalElements}"></span></div>
+  <div>
+    <a href="/">홈으로</a>
+  </div>
+  <ul class="navbar-nav">
+    <li class="nav-item" sec:authorize ="isAuthenticated()">
+      <button type="button" class="btn btn-primary" onclick="location.href='/auth/board/create'">글쓰기</button>
+    </li>
+  </ul>
+  <form class="form-inline d-flex justify-content-end" method="get" th:action="@{/auth/board}"> <!--폼테그는 알아서 파라미터가 전달해줌-->
+    <label for="searchText" class="mr-sm-2"></label>
+    <input type="text" class="form-control mb-2 mr-sm-2" placeholder="검색어를 입력하세요" id="searchText" name="searchText" th:value="${param.searchText}">
+    <button type="submit" class="btn btn-light mb-2">검색</button>
+  </form>
+
+<!--  <div>-->
+<!--    <b>user정보</b>-->
+<!--    <div th:text="@{board.getUser()}"></div>-->
+<!--    <div th:text="@{board.getUser().getNickname()}"></div>-->
+<!--    <b>보드 정보</b>-->
+<!--    <div th:value="@{board}"></div>-->
+<!--  </div>-->
+
+  <table class="table">
+
+    <thead>
+    <tr>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>조회수</th>
+      <th>날짜</th>
+    </tr>
+    </thead>
+    <tbody th:each="board:${board.content}"> <!--페이징처리하면 board.content로 해야 화면에 잘 나옴-->
+    <tr>
+      <td><a th:href="@{/auth/board/{id}(id=${board.id})}" th:text="${board.title}"></a></td>
+      <td th:text="${board.user.nickname}">작성자</td>
+      <td th:text="${board.views}">조회수</td>
+      <td th:text="${board.createDate}">날짜</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <ul class="pagination justify-content-center">
+    <li th:class="${board.first} ? 'page-item disabled'"><a class="page-link" th:href="@{/auth/board(page=${board.number-1})}">Previous</a></li>
+    <li th:class="${page==nowPage} ? 'page-item disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+      <a class="page-link" th:if="${page!=nowPage}" th:href="@{/auth/board(page=${i-1}, searchText=${param.searchText})}" th:text="${i}"></a>
+    </li>
+    <li th:class="${board.last} ? 'page-item disabled'"><a class="page-link" th:href="@{/auth/board(page=${board.number+1})}">Next</a></li>
+  </ul>
+
+
+
+  <!--<ul class="pagination justify-content-center">
+    <li class="page-item" th:classappend="${1 == board.pageable.pageNumber+1} ? 'disabled'">
+      <a class="page-link" th:href="@{/auth/board(page=${board.pageable.pageNumber-1},searchText=${param.searchText})}">Previous</a>
+    </li>
+    <li class="page-item" th:classappend="${i == board.pageable.pageNumber+1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+      <a class="page-link" href="#" th:href="@{/auth/board(page=${i-1}, searchText=${param.searchText})}" th:text="${i}">1</a>
+      </li>
+    <li class="page-item">
+      <a class="page-link" th:href="@{/auth/board(page=${board.pageable.pageNumber+1},searchText=${param.searchText})}" th:classappend="${board.totalPages == board.pageable.pageNumber+1} ? 'disabled'">Next</a>
+    </li>
+  </ul>-->
+
+
+<!--    <th:block th:each="page: ${#numbers.sequence(startPage, endPage)}">-->
+<!--      <a th:if="${page!=nowPage}" th:href="@{/auth/board/list(page=${page-1})}" th:text="${page}"></a>-->
+<!--      <strong th:if="${page==nowPage}" th:text="${page}" style="color:red"></strong>-->
+<!--    </th:block>-->
+
+
+
+
+</div>
+
+</div>
+</body>
+</html>

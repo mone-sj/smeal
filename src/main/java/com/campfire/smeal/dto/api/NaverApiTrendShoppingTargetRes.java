@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-// API를 통해서 단순히 데이터 받아오는 값 - 기기별/성별/연령별 일때의 결과값
+// API를 통해서 데이터 받아오는 값 - 기기별/성별/연령별 일때의 결과값
 public class NaverApiTrendShoppingTargetRes {
 
     @Data
@@ -53,6 +53,17 @@ public class NaverApiTrendShoppingTargetRes {
         private String period;
         private String ratio;
         private String group;
+    }
+
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class NaverTargetTrend {
+        private String target;
+        private String category;
+        private ApiCateTrendTargetResDto cateTargetTrend;
     }
 
     public static ApiCateTrendTargetResDto toNaverApiCateTrendTargetResDto(

@@ -65,6 +65,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String email = oAuth2UserInfo.getEmail();
         RoleType role = RoleType.ROLE_USER;
         String nickname=oAuth2UserInfo.getName();
+        String age = oAuth2UserInfo.getAge();
+        String gender = oAuth2UserInfo.getGender();
 
 
         // 이미 회원가입이 됐는지 확인
@@ -81,6 +83,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .provider(provider)
                     .providerId(providerId)
                     .userId(userId)
+                    .age(age)
+                    .gender(gender)
                     .build();
             userRepository.save(userEntity);
         } else {

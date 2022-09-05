@@ -14,7 +14,9 @@ public enum SmErrorCode {
 
     LOGIN_ERROR("ID가 없거나 잘 못 입력하셨습니다."),
 
-    NO_BOARD("존재하지 않는 게시판입니다.")
+    NO_BOARD("존재하지 않는 게시판입니다."),
+
+    NO_INPUT_VALUE("값을 입력하지 않았습니다.")
 
     ;
 

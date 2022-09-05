@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.io.IOException;
 import java.util.List;
 
-// API를 통해서 단순히 데이터 받아오는 값 - 클릭량 트렌드 결과
+// API를 통해서 데이터 받아오는 값 - 클릭량 트렌드 결과
 public class NaverApiTrendShoppingRes {
 
     @Data
@@ -45,6 +45,23 @@ public class NaverApiTrendShoppingRes {
 
     }
 
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class CateTrendRes {
+        private String title;
+        private ApiCateTrendResDto cateTrendResDto;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Allresponse{
+        private CateTrendRes cateTrendRes;
+        private List<NaverApiTrendShoppingTargetRes.NaverTargetTrend> targetTrend;
+    }
 
     public static ApiCateTrendResDto toNaverApiCateTrendResDto(String response)
             throws JsonProcessingException {

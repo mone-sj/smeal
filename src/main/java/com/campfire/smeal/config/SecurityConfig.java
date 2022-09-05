@@ -3,6 +3,7 @@ package com.campfire.smeal.config;
 import com.campfire.smeal.config.oauth.PrincipalOauth2UserService;
 import com.campfire.smeal.handler.CustomAuthFailureHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
 
 @RequiredArgsConstructor
 @Configuration
@@ -32,9 +39,11 @@ public class SecurityConfig {
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .authorizeRequests()
                 .antMatchers("/","/auth/**", "/js/**","/css/**","/img/**"
-                        ,"/vendor/**","/scss/**", "/favicon.ico", "/dashboard")
+                        ,"/vendor/**","/scss/**", "/favicon.ico", "/dashboard", "/mbti/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -58,6 +67,39 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    // You can configure allowed Origin, Method, Header and Credential
+    // and how long, as a duration, the response from a pre-flight request can be eached by clients
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowCredentials(true);
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("GET");
+        configuration.addAllowedMethod("POST");
+        // you can configure many allowed CORS headers
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    /*@Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("*");
+        config.setAllowCredentials(true);
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(0);
+        return new CorsFilter(source);
+    }*/
+
+
 
     @Bean
     protected WebSecurityCustomizer webSecurityCustomizer() {

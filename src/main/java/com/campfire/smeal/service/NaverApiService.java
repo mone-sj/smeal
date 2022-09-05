@@ -1,10 +1,16 @@
 package com.campfire.smeal.service;
 
+import com.campfire.smeal.dto.api.NaverApiTrendShoppingRes;
+import com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes;
+import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq;
 import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.CateTrendRequest;
 import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.CategoryRequest;
 import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.Keyword;
 import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.KeywordTrendRequest;
-import net.minidev.json.JSONUtil;
+import com.campfire.smeal.dto.api.NaverSearchRes;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -20,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
+@Slf4j
 public class NaverApiService {
 
     private static String clientId;
@@ -45,9 +52,9 @@ public class NaverApiService {
 
     // 블로그 검색 (재료에 따른 레시피 검색)
     // https://developers.naver.com/docs/serviceapi/search/blog/blog.md#%EB%B8%94%EB%A1%9C%EA%B7%B8
-    public String searchBlog(String searchWord) {
-
+        public NaverSearchRes.Root searchBlog(String searchWord) throws JsonProcessingException {
         String text = null;
+
         try {
             text = URLEncoder.encode(searchWord, "UTF-8");
             System.out.println("검색어: " + text);
@@ -58,15 +65,58 @@ public class NaverApiService {
         String searchBlog_apiURL =
                 "https://openapi.naver.com/v1/search/blog?query=" + text;    // json 결과
 
-
         String responseBody = get(searchBlog_apiURL, requestHeaders());
 
-        System.out.println(responseBody);
+        ObjectMapper mapper = new ObjectMapper();
+        NaverSearchRes.Root res = mapper.readValue(responseBody, NaverSearchRes.Root.class);
 
-        return responseBody;
+        log.info("res");
+        System.out.println(res);
+
+        return res;
 
     }
 
+    /*네이버 검색-이미지*/
+    public NaverSearchRes.img.Root searchImage(String searchWord) throws JsonProcessingException {
+
+        String text = null;
+        try {
+            text = URLEncoder.encode(searchWord, "UTF-8");
+            System.out.println("검색어: " + text);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("검색어 인코딩 실패", e);
+        }
+
+        String searchImage_apiURL =
+                "https://openapi.naver.com/v1/search/image?query=" + text;    // json 결과
+
+        String responseBody = get(searchImage_apiURL, requestHeaders());
+        System.out.println(responseBody);
+
+        ObjectMapper mapper = new ObjectMapper();
+        NaverSearchRes.img.Root res = mapper.readValue(responseBody, NaverSearchRes.img.Root.class);
+        return res;
+
+    }
+
+    public String searchImageOrigin(String searchWord) {
+
+        String text = null;
+        try {
+            text = URLEncoder.encode(searchWord, "UTF-8");
+            System.out.println("검색어: " + text);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("검색어 인코딩 실패", e);
+        }
+
+        String searchImage_apiURL =
+                "https://openapi.naver.com/v1/search/image?query=" + text;    // json 결과
+
+        String responseBody = get(searchImage_apiURL, requestHeaders());
+        System.out.println(responseBody);
+        return responseBody;
+    }
 
     // 네이버 통합 검색어 트렌드 API
     // https://developers.naver.com/docs/serviceapi/datalab/search/search.md#%ED%86%B5%ED%95%A9-%EA%B2%80%EC%83%89%EC%96%B4-%ED%8A%B8%EB%A0%8C%EB%93%9C
@@ -81,7 +131,8 @@ public class NaverApiService {
     // 네이버 쇼핑인사이트 - 분야별 트렌드 조회
     public String cateTrendShopping(String searchTrendShopping,
                                     CateTrendRequest cateTrendRequest
-    ) throws ParseException {
+    ) throws ParseException, JsonProcessingException {
+        // searchTrendShopping, cateTrendRequest 같은 값. 자료형만 다름
 
         // 초기화
         // 카테고리 리스트 : paramList
@@ -103,11 +154,23 @@ public class NaverApiService {
 
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObj = (JSONObject) jsonParser.parse(searchTrendShopping);
+        ObjectMapper mapper = new ObjectMapper();
 
 
         // 쇼핑 분야별트랜드 결과(클릭량 추이)
         String responseBodyTotal = post(dataLabTrendShopping_cate,
                 requestHeaders(), searchTrendShopping);
+
+        NaverApiTrendShoppingRes.ApiCateTrendResDto cateTrendResDto =
+                mapper.readValue(
+                        responseBodyTotal,
+                        NaverApiTrendShoppingRes.ApiCateTrendResDto.class);
+
+        NaverApiTrendShoppingRes.CateTrendRes cateTrendRes =
+                NaverApiTrendShoppingRes.CateTrendRes.builder()
+                        .title("cateClickTrend")
+                        .cateTrendResDto(cateTrendResDto)
+                        .build();
 
         // 검색 카테고리 리스트
         List<CategoryRequest> categoryList = cateTrendRequest.getCategory();
@@ -115,24 +178,48 @@ public class NaverApiService {
             cateList.add(cate.getParam().get(0));
         });
 
+        List cateTargetResultList = new ArrayList();
+
         // 기기별, 연령별, 성별 결과값 받아오기
         for (String cate : cateList) {
             for (int i = 0; i < urlList.size(); i++) {
                 jsonObj.replace("category", cate);
-                String responseBody=post(urlList.get(0), requestHeaders(),
+                String responseBody=post(urlList.get(i), requestHeaders(),
                                         jsonObj.toString());
-                target.put(resultList.get(i), responseBody);
-            }
-            targetResult.put(cate, target);
-        }
-        targetResult.put("clickTrend", responseBodyTotal);
 
-        return targetResult.toString();
+                target.put(resultList.get(i), responseBody);
+
+                NaverApiTrendShoppingTargetRes.ApiCateTrendTargetResDto targetTrend =
+                        mapper.readValue(responseBody, NaverApiTrendShoppingTargetRes.ApiCateTrendTargetResDto.class);
+
+                NaverApiTrendShoppingTargetRes.NaverTargetTrend targetRes=
+                        NaverApiTrendShoppingTargetRes.NaverTargetTrend.builder()
+                                .target(resultList.get(i))
+                                .category(cate)
+                                .cateTargetTrend(targetTrend)
+                                .build();
+
+                cateTargetResultList.add(targetRes);
+            }
+        }
+
+
+        NaverApiTrendShoppingRes.Allresponse allresponse =
+                NaverApiTrendShoppingRes.Allresponse.builder()
+                        .cateTrendRes(cateTrendRes)
+                        .targetTrend(cateTargetResultList)
+                        .build();
+
+        String json = mapper.writeValueAsString(allresponse);
+        log.info("json");
+        System.out.println(json);
+
+        return json;
     }
 
     public String keywordTrendShopping(String request,
                                        KeywordTrendRequest keywordTrendRequest
-    ) throws ParseException {
+    ) throws ParseException, JsonProcessingException {
 
         // 초기화
         // 키워드 리스트 : keywordList
@@ -171,6 +258,7 @@ public class NaverApiService {
             for (int i = 0; i < urlList.size(); i++) {
                 String responseBody=post(urlList.get(0), requestHeaders(),
                         jsonObj.toString());
+
                 target.put(resultList.get(i), responseBody);
             }
             targetResult.put(keyword, target);

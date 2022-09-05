@@ -42,7 +42,7 @@ public class User {
     private String providerId;
 
     // auth2 로그인시 동일회원인지 확인용 (email+provider+providerId)
-    @Column(length = 50, unique = true)
+    @Column(length = 100, unique = true)
     private String userId;
 
     @Enumerated(EnumType.STRING)

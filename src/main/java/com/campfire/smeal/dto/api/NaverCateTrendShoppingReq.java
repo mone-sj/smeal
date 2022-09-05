@@ -37,6 +37,57 @@ public class NaverCateTrendShoppingReq {
         private String device;
         private String gender;
         private List<String> ages;
+
+//        @Override
+//        public String toString() {
+//            return "{ '"startDate'"+":"+" + startDate + '\'' +
+//                    ", endDate='" + endDate + '\'' +
+//                    ", timeUnit='" + timeUnit + '\'' +
+//                    ", category=" + category +
+//                    ", device='" + device + '\'' +
+//                    ", gender='" + gender + '\'' +
+//                    ", ages=" + ages +
+//                    '}';
+//        }
+    }
+
+
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class CateTargetTrendRequest {
+        private String startDate;
+        private String endDate;
+        private String timeUnit;
+
+        private String category;
+        private String device;
+        private String gender;
+        private List<String> ages;
+
+
+//        "{ " +
+//                "\"name\":\"John\"," +
+//                "\"age\":31," +
+//                "\"city\":\"New York\"" +
+//                "}"
+
+
+        @Override
+        public String toString() {
+            return "CateTargetTrendRequest{" +
+                    "startDate='" + startDate + '\'' +
+                    ", endDate='" + endDate + '\'' +
+                    ", timeUnit='" + timeUnit + '\'' +
+                    ", category='" + category + '\'' +
+                    ", device='" + device + '\'' +
+                    ", gender='" + gender + '\'' +
+                    ", ages=" + ages +
+                    '}';
+        }
+
     }
 
     public static CateTrendRequest toCateTrendRequestDto(String searchTrendShopping) throws JsonProcessingException {

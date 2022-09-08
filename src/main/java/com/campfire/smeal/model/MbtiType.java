@@ -5,16 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//@Entity
+@Entity
 public class MbtiType {
 
     @Id
@@ -24,7 +21,8 @@ public class MbtiType {
 //    @Enumerated(EnumType.STRING)
 //    private MbtiTypeArr TypeName;
 
-    private String TypeName;
+    private String typeCode;
+    private String typeName;
 
     // type 설명
     @Column(columnDefinition = "TEXT")

@@ -15,4 +15,6 @@ public class MbtiApiController {
         System.out.println("왔음");
     }
 
+
+
 }

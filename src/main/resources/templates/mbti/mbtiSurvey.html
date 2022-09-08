@@ -31,15 +31,6 @@
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
-
-                        <div>
-                            <div>
-                                <h1 th:text="${questions.size()}">test</h1>
-                                <h1 th:text="${questions.get(0)}">test</h1>
-                                <h1 th:text="${questionNum.size()}">test</h1>
-                                <h1 th:text="${questionNum.get(0)}">test</h1>
-                            </div>
-                        </div>
                         <!-- Page Heading -->
                         <div class="card shadow mb-12">
                             <div class="card-header py-3">
@@ -55,15 +46,15 @@
                         <!-- Survey Start -->
                         <form action="/mbti/result" method="post">
 
-                            <div th:each="num : ${#numbers.sequence(0,questions.size()-1)}" class="container">
+                            <div th:each="num : ${#numbers.sequence(0, #lists.size(questions)-1)}" class="container">
                                 <div class="col-xl-12 col-md-12 mb-12 row justify-content-center">
                                     <div class="col-8">
                                         <div class="card border-left-primary shadow h-100 py-2">
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col mr-2">
-                                                        <h4 th:text="${questionNum.get(num)}"></h4>
-                                                        <div th:text="${questions.get(num)}" class="h4 font-weight-bold text-primary text-uppercase mb-4">
+                                                        <h4 th:text="${questions.get(num).qNo}"></h4>
+                                                        <div th:text="${questions.get(num).question}" class="h4 font-weight-bold text-primary text-uppercase mb-4">
                                                             Q1. 고기를 먹을 때 고기만 먹는 것보다 채소와 곁들여 먹는 것을 선호한다.
                                                         </div>
                                                     </div>
@@ -84,37 +75,37 @@
                                                                 <h5>낮음</h5>
                                                             </div>
                                                             <div class="col-1 mr-2">
-                                                                <input class="form-check-input btn-circle btn-sm" value=1 type="radio" th:name="${questionNum.get(num)}">
+                                                                <input class="form-check-input btn-circle btn-sm" value=1 type="radio" th:name="${questions.get(num).qNo}">
                                                                 <i class="fas"></i>
                                                                 </input>
                                                             </div>
                                                             <div class="col-1 mr-2">
-                                                                <input class="form-check-input btn-circle btn-sm" value=2 type="radio" th:name="${questionNum.get(num)}">
+                                                                <input class="form-check-input btn-circle btn-sm" value=2 type="radio" th:name="${questions.get(num).qNo}">
                                                                 <i class="fas"></i>
                                                                 </input>
                                                             </div>
                                                             <div class="col-1 mr-2">
-                                                                <input class="form-check-input btn-circle btn-sm" value=3 type="radio" th:name="${questionNum.get(num)}">
+                                                                <input class="form-check-input btn-circle btn-sm" value=3 type="radio" th:name="${questions.get(num).qNo}" checked>
                                                                 <i class="fas"></i>
                                                                 </input>
                                                             </div>
                                                             <div class="col-1 mr-2">
-                                                                <input class="form-check-input btn-circle btn-sm" value=4 type="radio" th:name="${questionNum.get(num)}">
+                                                                <input class="form-check-input btn-circle btn-sm" value=4 type="radio" th:name="${questions.get(num).qNo}">
                                                                 <i class="fas"></i>
                                                                 </input>
                                                             </div>
                                                             <div class="col-1 mr-2">
-                                                                <input class="form-check-input btn-circle btn-sm" value=5 type="radio" th:name="${questionNum.get(num)}">
+                                                                <input class="form-check-input btn-circle btn-sm" value=5 type="radio" th:name="${questions.get(num).qNo}">
                                                                 <i class="fas"></i>
                                                                 </input>
                                                             </div>
                                                             <div class="col-1 mr-2">
-                                                                <input class="form-check-input btn-circle btn-sm" value=6 type="radio" th:name="${questionNum.get(num)}">
+                                                                <input class="form-check-input btn-circle btn-sm" value=6 type="radio" th:name="${questions.get(num).qNo}">
                                                                 <i class="fas"></i>
                                                                 </input>
                                                             </div>
                                                             <div class="col-1">
-                                                                <input class="form-check-input btn-circle btn-sm" value=7 type="radio" th:name="${questionNum.get(num)}">
+                                                                <input class="form-check-input btn-circle btn-sm" value=7 type="radio" th:name="${questions.get(num).qNo}">
                                                                 <i class="fas"></i>
                                                                 </input>
                                                             </div>

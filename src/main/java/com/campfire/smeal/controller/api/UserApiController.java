@@ -27,42 +27,42 @@ public class UserApiController {
     private final AuthenticationManager authenticationManager;
 
     // 회원가입
-    @PostMapping("/auth/joinProc")
-    public ResponseDto<Integer> userSave(
-            @RequestParam(required = false) String username,
-            @RequestParam(required = false) String password,
-            @RequestParam(required = false) String passwordRepeat,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String nickname
-    ) {
-        User user=User.builder()
-                .username(username)
-                .password(password)
-                .email(email)
-                .nickname(nickname)
-                .build();
-        userService.회원가입(user, passwordRepeat);
-        log.info("회원가입완료");
-        return new ResponseDto<>(HttpStatus.OK.value(), 1);
-    }
+//    @PostMapping("/auth/joinProc")
+//    public ResponseDto<Integer> userSave(
+//            @RequestParam(required = false) String username,
+//            @RequestParam(required = false) String password,
+//            @RequestParam(required = false) String passwordRepeat,
+//            @RequestParam(required = false) String email,
+//            @RequestParam(required = false) String nickname
+//    ) {
+//        User user=User.builder()
+//                .username(username)
+//                .password(password)
+//                .email(email)
+//                .nickname(nickname)
+//                .build();
+//        userService.회원가입(user, passwordRepeat);
+//        log.info("회원가입완료");
+//        return new ResponseDto<>(HttpStatus.OK.value(), 1);
+//    }
 
     // 회원수정
     // uri 추후 수정 user/updateProc
-    @PutMapping("/auth/updateProc")
-    public ResponseDto<Integer> update(
-                        @RequestBody User user,
-                        @RequestParam(required = true) String passwordRepeat,
-                        @AuthenticationPrincipal PrincipalDetails principalDetails
-    ) {
-        User updateUser = userService.회원수정(user,passwordRepeat);
-
-        // 세션 수정
-        Authentication authentication= authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
-    }
+//    @PutMapping("/auth/updateProc")
+//    public ResponseDto<Integer> update(
+//                        @RequestBody User user,
+//                        @RequestParam(required = true) String passwordRepeat,
+//                        @AuthenticationPrincipal PrincipalDetails principalDetails
+//    ) {
+//        User updateUser = userService.회원수정(user,passwordRepeat);
+//
+//        // 세션 수정
+//        Authentication authentication= authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword()));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+//    }
 
     // 회원 삭제
     // 추후 수정 user/delete/{id}

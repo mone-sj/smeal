@@ -62,7 +62,7 @@ public class UserController {
 
     //////////////////////// 테스트용_기능완성및매핑이 완료되면 삭제
     // 회원가입 테스트용
-   /* @PostMapping("/auth/joinProc")
+    @PostMapping("/auth/joinProc")
     public String userSave(
             @RequestParam(required = false) String username,
             @RequestParam(required = true) String password,
@@ -109,7 +109,6 @@ public class UserController {
                 .setAuthentication(authentication);
         return "redirect:/dashboard";
     }
-*/
 
 
 

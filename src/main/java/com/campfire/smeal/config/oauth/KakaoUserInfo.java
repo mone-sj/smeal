@@ -42,13 +42,37 @@ public class KakaoUserInfo implements OAuth2UserInfo {
     @Override
     public String getAge() {
         Map kakao_account= (Map) attributes.get("kakao_account");
-        return (String) kakao_account.get("age_range");
+        String age_range = (String) kakao_account.get("age_range");
+        String age = null;
+        if (age_range.indexOf("9")<=2) {
+            age = "0";
+        } else if (age_range.contains("19")) {
+            age = "10";
+        } else if (age_range.contains("29")) {
+            age = "20";
+        } else if (age_range.contains("39")) {
+            age = "30";
+        } else if (age_range.contains("49")) {
+            age = "40";
+        } else if (age_range.contains("59")) {
+            age = "50";
+        } else {
+            age = "60";
+        }
+        return age;
     }
 
     @Override
     public String getGender() {
         Map kakao_account= (Map) attributes.get("kakao_account");
-        return (String) kakao_account.get("gender");
+        String gender=(String) kakao_account.get("gender");
+        String final_gender = null;
+        if (gender.contains("f") || gender.contains("F")) {
+            final_gender = "f";
+        } else {
+            final_gender = "m";
+        }
+        return final_gender;
     }
 
 

@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-// 네이버 분야별 트렌드값 요청 DTO - 사용중
+// 네이버 분야별 트렌드값 요청
 
 @Slf4j
 @Getter
@@ -37,6 +37,43 @@ public class NaverCateTrendShoppingReq {
         private String device;
         private String gender;
         private List<String> ages;
+
+    }
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class CateTargetTrendRequest {
+        private String startDate;
+        private String endDate;
+        private String timeUnit;
+
+        private String category;
+        private String device;
+        private String gender;
+        private List<String> ages;
+
+
+//        "{ " +
+//                "\"name\":\"John\"," +
+//                "\"age\":31," +
+//                "\"city\":\"New York\"" +
+//                "}"
+
+
+        @Override
+        public String toString() {
+            return "CateTargetTrendRequest{" +
+                    "startDate='" + startDate + '\'' +
+                    ", endDate='" + endDate + '\'' +
+                    ", timeUnit='" + timeUnit + '\'' +
+                    ", category='" + category + '\'' +
+                    ", device='" + device + '\'' +
+                    ", gender='" + gender + '\'' +
+                    ", ages=" + ages +
+                    '}';
+        }
+
     }
 
     public static CateTrendRequest toCateTrendRequestDto(String searchTrendShopping) throws JsonProcessingException {

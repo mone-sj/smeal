@@ -1,8 +1,8 @@
 package com.campfire.smeal.service;
 
 import com.campfire.smeal.dto.ReplySaveRequestDto;
-import com.campfire.smeal.dto.utils.Criteria;
-import com.campfire.smeal.dto.utils.Paging;
+//import com.campfire.smeal.dto.utils.Criteria;
+//import com.campfire.smeal.dto.utils.Paging;
 import com.campfire.smeal.handler.exception.GeneralException;
 import com.campfire.smeal.model.Board;
 import com.campfire.smeal.model.Reply;
@@ -45,25 +45,25 @@ public class BoardService {
         return boards;
     }
 
-    @Transactional(readOnly = true)
-    public Map<String, Object> 글목록_테스트(Pageable pageable,
-                                       int cntPerPage
-
-    ) {
-        Map<String, Object> map = new HashMap<>();
-
-        Page<Board> page = boardRepository.findAll(pageable);
-        map.put("boardPage", page);
-
-        //Criteria cri = new Criteria();
-        int size = (int) boardRepository.count();
-        Paging paging = new Paging(page.getPageable().getPageNumber(),
-                cntPerPage,
-                size
-        );
-        map.put("pagingInfo", paging);
-        return map;
-    }
+//    @Transactional(readOnly = true)
+//    public Map<String, Object> 글목록_테스트(Pageable pageable,
+//                                       int cntPerPage
+//
+//    ) {
+//        Map<String, Object> map = new HashMap<>();
+//
+//        Page<Board> page = boardRepository.findAll(pageable);
+//        map.put("boardPage", page);
+//
+//        //Criteria cri = new Criteria();
+//        int size = (int) boardRepository.count();
+//        Paging paging = new Paging(page.getPageable().getPageNumber(),
+//                cntPerPage,
+//                size
+//        );
+//        map.put("pagingInfo", paging);
+//        return map;
+//    }
 
     @Transactional
     public Board 상세보기(int id) {

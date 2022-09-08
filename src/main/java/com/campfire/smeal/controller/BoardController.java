@@ -1,6 +1,6 @@
 package com.campfire.smeal.controller;
 
-import com.campfire.smeal.dto.utils.Paging;
+//import com.campfire.smeal.dto.utils.Paging;
 import com.campfire.smeal.model.Board;
 import com.campfire.smeal.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -74,27 +74,27 @@ public class BoardController {
 
 
     // 글목록 테스트, 추후 삭제예정
-    @GetMapping("/auth/boardList")
-    public String boardListPageTest(Model model,
-                                    @PageableDefault(sort = "id",
-                                            direction = Sort.Direction.DESC)
-                                    Pageable pageable,
-                                    @RequestParam(value = "page", required = false) int nowPage,
-                                    @RequestParam(value = "size", required = false) Integer cntPerPage
-    ) {
-
-        if (cntPerPage == null) {
-            cntPerPage = 10;
-        }
-
-        Map<String, Object> result = boardService.글목록_테스트(pageable, cntPerPage);
-        Page<Board> board = (Page<Board>) result.get("boardPage");
-        Paging paging = (Paging) result.get("paging");
-        model.addAttribute("board", board);
-        model.addAttribute("pageInfo", paging);
-        System.out.println(paging);
-
-        return "test/board";
-    }
+//    @GetMapping("/auth/boardList")
+//    public String boardListPageTest(Model model,
+//                                    @PageableDefault(sort = "id",
+//                                            direction = Sort.Direction.DESC)
+//                                    Pageable pageable,
+//                                    @RequestParam(value = "page", required = false) int nowPage,
+//                                    @RequestParam(value = "size", required = false) Integer cntPerPage
+//    ) {
+//
+//        if (cntPerPage == null) {
+//            cntPerPage = 10;
+//        }
+//
+//        Map<String, Object> result = boardService.글목록_테스트(pageable, cntPerPage);
+//        Page<Board> board = (Page<Board>) result.get("boardPage");
+//        Paging paging = (Paging) result.get("paging");
+//        model.addAttribute("board", board);
+//        model.addAttribute("pageInfo", paging);
+//        System.out.println(paging);
+//
+//        return "test/board";
+//    }
 
 }

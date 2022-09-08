@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -204,5 +205,25 @@ public class Recipe {
         private String att_file_no_main;
         private List<res_item> res_items;
     }
+
+    @Data
+    @Builder
+    public static class RespFood {
+        private String rcp_nm;
+        private String rcp_way2;
+        private String att_file_no_main;
+    }
+
+    public static Comparator<Recipe.RespFood> foodNameComparator=
+            new Comparator<RespFood>() {
+                @Override
+                public int compare(RespFood o1, RespFood o2) {
+                    String foodName1 = o1.getRcp_nm().toUpperCase();
+                    String foodName2 = o2.getRcp_nm().toUpperCase();
+
+                    //return 0;
+                    return foodName1.compareTo(foodName2);
+                }
+            };
 
 }

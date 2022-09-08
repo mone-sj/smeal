@@ -4,6 +4,8 @@ import lombok.*;
 
 import java.util.ArrayList;
 
+// 네이버 blog, img 검색 response
+
 @Getter
 @Setter
 @Builder

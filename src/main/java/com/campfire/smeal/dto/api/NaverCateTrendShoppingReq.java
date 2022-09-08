@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-// 네이버 분야별 트렌드값 요청 DTO - 사용중
+// 네이버 분야별 트렌드값 요청
 
 @Slf4j
 @Getter
@@ -38,21 +38,7 @@ public class NaverCateTrendShoppingReq {
         private String gender;
         private List<String> ages;
 
-//        @Override
-//        public String toString() {
-//            return "{ '"startDate'"+":"+" + startDate + '\'' +
-//                    ", endDate='" + endDate + '\'' +
-//                    ", timeUnit='" + timeUnit + '\'' +
-//                    ", category=" + category +
-//                    ", device='" + device + '\'' +
-//                    ", gender='" + gender + '\'' +
-//                    ", ages=" + ages +
-//                    '}';
-//        }
     }
-
-
-
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

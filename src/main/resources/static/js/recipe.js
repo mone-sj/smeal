@@ -20,7 +20,9 @@ let index = {
       opt.text = "중분류";
       opt.innerHTML = "중분류";
       target.appendChild(opt);
+
     } else {
+
       $.ajax({
         type: "GET",
         url: "/auth/mainGroup/" + groupId,

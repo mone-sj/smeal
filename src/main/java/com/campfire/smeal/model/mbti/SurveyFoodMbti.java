@@ -1,4 +1,4 @@
-package com.campfire.smeal.model;
+package com.campfire.smeal.model.mbti;
 
 
 import lombok.AllArgsConstructor;

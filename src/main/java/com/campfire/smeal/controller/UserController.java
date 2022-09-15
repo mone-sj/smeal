@@ -30,8 +30,8 @@ public class UserController {
     // 대시보드 페이지
     @GetMapping("/dashboard")
     public String dashboard() {
-        return "dashboard";
-//        return "test/dashboard";
+//        return "dashboard";
+        return "test/dashboard";
     }
 
     //로그인페이지
@@ -41,23 +41,23 @@ public class UserController {
             Model model
     ) {
         model.addAttribute("exception", exception);
-        return "user/login";
-//        return "test/login";
+//        return "user/login";
+        return "test/login";
     }
 
     //회원가입 페이지
     @GetMapping("/auth/joinForm")
     public String joinForm() {
-        return "user/register";
-//        return "test/register";
+//        return "user/register";
+        return "test/register";
     }
 
     // 회원 수정 페이지
     @GetMapping("/user/update")
     public String userUpdate(
             @AuthenticationPrincipal PrincipalDetails principal) {
-        return "updateForm";
-//        return "test/userUpdate";
+//        return "updateForm";
+        return "test/userUpdate";
     }
 
     //////////////////////// 테스트용_기능완성및매핑이 완료되면 삭제

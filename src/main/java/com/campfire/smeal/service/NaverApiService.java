@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
 
 import static com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.keywordTrendRequestDefaultDto;
 
-@Service
 @Slf4j
+@Service
 public class NaverApiService {
 
     private static String clientId;
@@ -111,7 +111,8 @@ public class NaverApiService {
     }
 
     // 네이버 쇼핑인사이트 키워드별 트렌드 조회
-    public String keywordTrendShopping(String req
+//    public String keywordTrendShopping(String req
+    public AllKeywordResponse keywordTrendShopping(String req
     ) throws ParseException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
 
@@ -260,7 +261,8 @@ public class NaverApiService {
         log.info("responseJson");
         System.out.println(responseJson);
 
-        return responseJson;
+        //return responseJson;
+        return allKeywordResponse;
     }
 
 

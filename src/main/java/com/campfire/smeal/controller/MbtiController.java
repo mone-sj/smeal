@@ -1,7 +1,7 @@
 package com.campfire.smeal.controller;
 
 import com.campfire.smeal.dto.mbti.MbtiResponseDto;
-import com.campfire.smeal.model.SurveyFoodMbti;
+import com.campfire.smeal.model.mbti.SurveyFoodMbti;
 import com.campfire.smeal.service.MbtiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <!--xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
+
+  <head>
+    <div th:replace="/layout/header :: fragment-header"></div>
+  </head>
+
+  <!--<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal" var="principal"/>
+</sec:authorize>-->
+
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <div th:replace="/layout/sidebar.html :: fragment-sidebar"></div>
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+          <!-- Topbar -->
+          <div th:replace="/layout/topbar.html :: fragment-topbar"></div>
+          <!-- End of Topbar -->
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            <!-- Page Heading -->
+<!--            <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>-->
+
+            <form class="ingredient" name="ingredientName" action="/auth/foodRecipeList" method="post" enctype="applicaion/json">
+              <div class="card row mb-4 py-3 border-left-primary col-4 align-items-center justify-content-center">
+                <div class="row justify-container-center mt-2">
+                  <select class="form-select form-select-lg" aria-label="Main Group" id="main-group" name="main-group"> <!--onchange="mainGroupSelect(this)">-->
+                    <option value="default">대분류</option>
+                    <th:block th:each="main : ${mainGroupList}">
+                      <option th:value="${main.mainId}" th:text="${main.foodName}">One</option>
+                    </th:block>
+                  </select>
+
+                    <select class="form-select ml-4" aria-label="Sub Group" id="sub-group" name="sub-group">
+                        <option value="default">중분류</option>
+                    </select>
+
+                </div>
+              </div>
+
+            </form>
+            <button class="btn btn-primary btn-user btn-block" id="btn-search">검색</button>
+          </div>
+          <!-- /.container-fluid -->
+
+          <!--search result-->
+            <div class="card shadow mb-4 ml-2 mt-3" id="resultDiv">
+              <th:block th:if="${searchList}!=null">
+                <h1 class="h3 mb-4 text-gray-800 ml-2 mt-3">검색결과</h1>
+              <th:block th:each="result:${searchList}">
+                <p th:if="${result.value.get(0).rcp_nm}=='검색결과 없음'">검색 결과가 없습니다.</p>
+                <th:block th:unless="${result.value.get(0).rcp_nm}=='검색결과 없음'">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary" th:text="${result.key}">ㄱ</h6>
+                </div>
+                <div class="card-body" th:each="num:${#numbers.sequence(0,#lists.size(result.value)-1)}">
+                  <a href="#" class="" th:text="${result.value.get(num).rcp_nm}"></a>
+                  <p th:text="${result.value.get(num).rcp_way2}"></p>
+                  <img th:src="${result.value.get(num).att_file_no_main}" width="200" height="200"/>
+                </div>
+                </th:block>
+                </th:block>
+              </th:block>
+            </div>
+          <!--End of search result-->
+
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="/layout/footer.html :: fragment-footer"></footer>
+        <!-- End of Footer -->
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <script th:src="@{/js/recipe.js}"></script>
+  </body>
+</html>

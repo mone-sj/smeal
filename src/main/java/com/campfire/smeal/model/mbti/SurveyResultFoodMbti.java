@@ -1,9 +1,8 @@
-package com.campfire.smeal.model;
+package com.campfire.smeal.model.mbti;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter

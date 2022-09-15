@@ -1,7 +1,7 @@
 INSERT INTO USER (username, password, email, nickname, userId, role, createDate)
 VALUES("test1", "1234", "test1@naver.com", "test1","test1", "ROLE_USER", now());
 
-update user set role="ROLE_ADMIN" where username="admin";
+UPDATE USER SET ROLE="ROLE_ADMIN" WHERE username="admin";
 
 INSERT INTO SURVEYFOODMBTI (qNo, question)
 VALUES
@@ -64,3 +64,18 @@ VALUES
 ("M", "슈가홀릭"),
 ("N", "인어맨"),
 ("O", "효율효율 열매");
+
+INSERT INTO MAINGROUPINFO (foodName, naverCatCode)
+VALUES
+("축산물", "50000145"),
+("수산물", "50000159");
+
+INSERT INTO SUBGROUPINFO (foodName, naverCatCode, mainId)
+VALUES
+("돼지고기", "50001170","1"),
+("쇠고기", "50001171","1"),
+("닭고기", "50001172","1"),
+("양고기", "50000280","1"),
+("생선", "50001175","2"),
+("건어물", "50001051","2"),
+("해산물", "50001049","2");

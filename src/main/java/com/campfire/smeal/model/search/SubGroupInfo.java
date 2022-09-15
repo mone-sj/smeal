@@ -1,5 +1,4 @@
-package com.campfire.smeal.model;
-
+package com.campfire.smeal.model.search;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,18 +11,19 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//@Entity
-public class FoodCate {
-    // 검색할 음식의 카테고리
+@Entity
+public class SubGroupInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int subId;
 
-    private String foodGroup;
-
-    @OneToOne
-    @JoinColumn(name="foodName")
     private String foodName;
 
+    //네이버의 category
+    private String naverCatCode;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="mainId")
+    private MainGroupInfo mainGroupInfo;
 }

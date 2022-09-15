@@ -15,8 +15,8 @@ import java.util.*;
 @ExtendWith(MockitoExtension.class)
 class NaverApiServiceTest {
 
-    @InjectMocks
-    private NaverApiService naverApiService;
+//    @InjectMocks
+//    private NaverApiService naverApiService;
 
 
     @Test

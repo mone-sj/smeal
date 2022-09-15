@@ -1,4 +1,4 @@
-package com.campfire.smeal.model;
+package com.campfire.smeal.model.search;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,21 +15,16 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Builder
 @Entity
-public class CodeInfo {
-    // 중분류-소분류의 전체 리스트
+public class MainGroupInfo {
+    // 중분류(MainGroup) 정보
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    // 중분류-소분류
-    private String group;
+    private int mainId;
 
     private String foodName;
 
     //네이버의 category
-    private String naverCatId;
+    private String naverCatCode;
 
-    // 검색률
-    private Long searchCount;
 }

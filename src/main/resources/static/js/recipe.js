@@ -14,26 +14,32 @@ let index = {
     let target = document.getElementById("sub-group");
     target.options.length = 0;
 
-    $.ajax({
-      type: "GET",
-      url: "/auth/mainGroup/" + groupId,
-      dataType: "json",
-    })
-      .done(function (resp) {
-        let result = resp.data;
-        for (key in result) {
-          let opt = document.createElement("option");
-          opt.value = result[key].foodName;
-          opt.innerHTML = result[key].foodName;
-          target.appendChild(opt);
-        }
-        //                alert("글쓰기가 완료되었습니다.");
-        //                         location.href = "/auth/recipeSearchView";
+    if (groupId == "default") {
+      let opt = document.createElement("option");
+      opt.value = "default";
+      opt.text = "중분류";
+      opt.innerHTML = "중분류";
+      target.appendChild(opt);
+    } else {
+      $.ajax({
+        type: "GET",
+        url: "/auth/mainGroup/" + groupId,
+        dataType: "json",
       })
-      .fail(function (error) {
-        // 응답 실패하면 수행
-        alert(JSON.stringify(error));
-      });
+        .done(function (resp) {
+          let result = resp.data;
+          for (key in result) {
+            let opt = document.createElement("option");
+            opt.value = result[key].foodName;
+            opt.innerHTML = result[key].foodName;
+            target.appendChild(opt);
+          }
+        })
+        .fail(function (error) {
+          // 응답 실패하면 수행
+          alert(JSON.stringify(error));
+        });
+    }
   },
   searchFood: function () {
     let data = {
@@ -47,11 +53,9 @@ let index = {
       url: "/auth/foodRecipeList",
       data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
-      //dataType: "json",
     })
       .done(function (fragment) {
         $("#resultDiv").replaceWith(fragment);
-        //console.log(resp.data);
       })
       .fail(function (error) {
         alert(JSON.stringify(error));

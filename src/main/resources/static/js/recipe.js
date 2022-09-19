@@ -73,11 +73,13 @@ let index = {
     console.log("searchFood: " + searchFood);
 
     $.ajax({
-      type: "POST",
-      url: "/auth/nBlogRecipePost",
+      type: "GET",
+      //type: "POST",
+      //url: "/auth/nBlogRecipePost",
+      url: "/auth/nBlogRecipe/"+searchFood,
       //data: JSON.stringify(data),
-      data: searchFood,
-      contentType: "application/text; charset=utf-8",
+      //data: searchFood,
+      //contentType: "application/text; charset=utf-8",
       dataType: "json",
     })
       .done(function (resp) {

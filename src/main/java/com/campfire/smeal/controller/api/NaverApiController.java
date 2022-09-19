@@ -1,12 +1,10 @@
 package com.campfire.smeal.controller.api;
 
 import com.campfire.smeal.dto.ResponseDto;
-import com.campfire.smeal.dto.api.NaverApiTrendShoppingRes;
+import com.campfire.smeal.dto.api.*;
+import com.campfire.smeal.dto.api.NaverApiTrendShoppingRes.NaverKeywordTrendShoppingRes.AllKeywordResponse;
 import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.CateTrendRequest;
-import com.campfire.smeal.dto.api.NaverSearchRes;
 import com.campfire.smeal.dto.api.NaverSearchRes.Item;
-import com.campfire.smeal.dto.api.NaverApiTrendShoppingRes.NaverKeywordTrendShoppingRes.*;
-import com.campfire.smeal.dto.api.Recipe;
 import com.campfire.smeal.model.search.SubGroupInfo;
 import com.campfire.smeal.service.NaverApiService;
 import com.campfire.smeal.service.RecipeApiService;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import static com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.toCateTrendRequestDto;
@@ -43,11 +40,12 @@ public class NaverApiController {
     ) throws ParseException, JsonProcessingException {
 
 //        String result = naverApiService.keywordTrendShopping(request);
-       AllKeywordResponse result= naverApiService.keywordTrendShopping(request);
+        AllKeywordResponse result= naverApiService.keywordTrendShopping(request);
+
         return new ResponseDto<AllKeywordResponse>(HttpStatus.OK.value(),result);
     }
 
-    // 네이버 키워드별 트렌드 조회-DB에서 조회했을때
+    // 네이버 키워드별 트렌드 조회-DB에서 조회하여 트렌드 출력
     @PostMapping("/auth/nShoppingKeywordTrendStatistics")
     public String naverShoppingKeywordTrend()
             throws ParseException, JsonProcessingException {
@@ -61,11 +59,15 @@ public class NaverApiController {
 
     // 재료 검색을 위한 소분류(SubGroupList) 리스트 조회
     @GetMapping("/auth/mainGroup/{groupId}")
-    public ResponseDto<List<SubGroupInfo>> subGroupList(@PathVariable String groupId) {
-        List<SubGroupInfo> result = recipeSearchService.subGroupInfoList(Integer.parseInt(groupId));
-        return new ResponseDto<List<SubGroupInfo>>(HttpStatus.OK.value(), result);
+    public ResponseDto<List<SubGroupInfo>> subGroupList(
+            @PathVariable String groupId) {
+        List<SubGroupInfo> result =
+                recipeSearchService.subGroupInfoList(Integer.parseInt(groupId));
+        return new ResponseDto<List<SubGroupInfo>>
+                (HttpStatus.OK.value(), result);
     }
 /*
+    //RecipeSearchController에서 작성하였으므로 삭제해도 됨
     // 재료 검색에 따른 식품의약품안전처 음식명 리스트
     @PostMapping("/auth/foodRecipeList")
     public ResponseDto<LinkedHashMap<String, List<Recipe.RespFood>>> foodRecipeList(
@@ -89,6 +91,19 @@ public class NaverApiController {
     public ResponseDto<ArrayList<Item>> nBlogRecipe(
             @PathVariable String foodName
     ) throws JsonProcessingException {
+        System.out.println("요청값 foodName:"+foodName);
+        NaverSearchRes.Root searchBlogResult =
+                naverApiService.searchBlog(foodName);
+
+        return new ResponseDto<ArrayList<Item>>(
+                HttpStatus.OK.value(), searchBlogResult.getItems());
+    }
+
+    @PostMapping("/auth/nBlogRecipePost")
+    public ResponseDto<ArrayList<Item>> nBlogRecipePost(
+            @RequestParam String foodName
+    ) throws JsonProcessingException {
+        System.out.println("요청값 foodName:"+foodName);
         NaverSearchRes.Root searchBlogResult =
                 naverApiService.searchBlog(foodName);
 

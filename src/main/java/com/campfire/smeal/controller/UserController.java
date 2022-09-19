@@ -41,15 +41,15 @@ public class UserController {
             Model model
     ) {
         model.addAttribute("exception", exception);
-//        return "user/login";
-        return "test/login";
+        return "user/login";
+//        return "test/login";
     }
 
     //회원가입 페이지
     @GetMapping("/auth/joinForm")
     public String joinForm() {
-//        return "user/register";
-        return "test/register";
+        return "user/register";
+//        return "test/register";
     }
 
     // 회원 수정 페이지
@@ -60,8 +60,7 @@ public class UserController {
         return "test/userUpdate";
     }
 
-    //////////////////////// 테스트용_기능완성및매핑이 완료되면 삭제
-    // 회원가입 테스트용
+    // ajax 사용하지 않았을때
     @PostMapping("/auth/joinProc")
     public String userSave(
             @RequestParam(required = false) String username,
@@ -81,34 +80,36 @@ public class UserController {
         return "index";
     }
 
-    // 회원수정 테스트
-    @PutMapping("/auth/updateProc")
-    public String update(
-            @RequestParam(required = true) Long id,
-            @RequestParam(required = true) String username,
-            @RequestParam(required = true) String password,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String nickname,
-            @RequestParam(required = true) String passwordRepeat,
-            @AuthenticationPrincipal PrincipalDetails principalDetails
-    ) {
-
-        User userDto=User.builder()
-                .id(id)
-                .username(username)
-                .password(password)
-                .email(email)
-                .nickname(nickname)
-                .build();
-        User updateUser = userService.회원수정(userDto, passwordRepeat);
-
-        // 세션 수정
-        Authentication authentication= authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
-        SecurityContextHolder.getContext()
-                .setAuthentication(authentication);
-        return "redirect:/dashboard";
-    }
+    //////////////////////// 테스트용_기능완성및매핑이 완료되면 삭제
+//
+//    // 회원수정 테스트
+//    @PutMapping("/auth/updateProc")
+//    public String update(
+//            @RequestParam(required = true) Long id,
+//            @RequestParam(required = true) String username,
+//            @RequestParam(required = true) String password,
+//            @RequestParam(required = false) String email,
+//            @RequestParam(required = false) String nickname,
+//            @RequestParam(required = true) String passwordRepeat,
+//            @AuthenticationPrincipal PrincipalDetails principalDetails
+//    ) {
+//
+//        User userDto=User.builder()
+//                .id(id)
+//                .username(username)
+//                .password(password)
+//                .email(email)
+//                .nickname(nickname)
+//                .build();
+//        User updateUser = userService.회원수정(userDto, passwordRepeat);
+//
+//        // 세션 수정
+//        Authentication authentication= authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
+//        SecurityContextHolder.getContext()
+//                .setAuthentication(authentication);
+//        return "redirect:/dashboard";
+//    }
 
 
 

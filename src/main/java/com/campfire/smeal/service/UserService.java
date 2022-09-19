@@ -7,6 +7,7 @@ import com.campfire.smeal.model.RoleType;
 import com.campfire.smeal.model.User;
 import com.campfire.smeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import javax.transaction.Transactional;
 import static com.campfire.smeal.handler.exception.SmErrorCode.*;
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -27,15 +29,20 @@ public class UserService {
             if (!passwordRepeat.equals(user.getPassword())) {
                 throw new GeneralException(INCONSISTENCY_PASSWORD);
             }
+            log.info("1");
             String rawPassword = user.getPassword();
             String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
             user.setPassword(encPassword);
             user.setUserId(user.getUsername());
             user.setRole(RoleType.ROLE_USER);
             userRepository.save(user);
-        } catch (DataIntegrityViolationException ex) {
+            log.info("2");
+        } /*catch (DataIntegrityViolationException ex) {
+            log.info("3");
             throw new GeneralException(DUPLICATED_USER_ID);
-        } catch (Exception e) {
+        }*/
+        catch (Exception e) {
+            log.info("3");
             e.printStackTrace();
             throw new GeneralException(INVALID_REQUEST);
         }

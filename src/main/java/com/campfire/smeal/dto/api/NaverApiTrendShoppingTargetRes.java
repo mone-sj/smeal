@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // api 응답값 - 쇼핑인사이트 분야별/키워드별 기기별/성별/연령별(target) 응답
 public class NaverApiTrendShoppingTargetRes {
@@ -28,7 +30,7 @@ public class NaverApiTrendShoppingTargetRes {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class Results {
+    public static class TargetResults {
         private String title;
         private List<String> category;
         private List<ResultData> data;
@@ -42,7 +44,7 @@ public class NaverApiTrendShoppingTargetRes {
         private String startDate;
         private String endDate;
         private String timeUnit;
-        private List<Results> results;
+        private List<TargetResults> results;
     }
 
     @Data
@@ -133,7 +135,7 @@ public class NaverApiTrendShoppingTargetRes {
         @NoArgsConstructor
         @AllArgsConstructor
         @Builder
-        public static class AgeRes{
+        public static class TargetRes{
             public String keyword;
             public ArrayList<KeywordTargetRearrRes> results;
         }
@@ -142,11 +144,10 @@ public class NaverApiTrendShoppingTargetRes {
         @NoArgsConstructor
         @AllArgsConstructor
         @Builder
-        public static class GenderRes{
-            public String keyword;
-            public ArrayList<KeywordTargetRearrRes> results;
+        public static class TargetValueResponse{
+            public List<String> keyword;
+            public Map<String, List<String>> results;
         }
-
 
 
     }

@@ -5,6 +5,9 @@ let index = {
       this.mainChange();
     });
     $("#btn-search").on("click", () => {
+      this.searchIngredient();
+    });
+    $("#btn-searchFood").on("click", () => {
       this.searchFood();
     });
   },
@@ -20,9 +23,7 @@ let index = {
       opt.text = "중분류";
       opt.innerHTML = "중분류";
       target.appendChild(opt);
-
     } else {
-
       $.ajax({
         type: "GET",
         url: "/auth/mainGroup/" + groupId,
@@ -38,12 +39,11 @@ let index = {
           }
         })
         .fail(function (error) {
-          // 응답 실패하면 수행
           alert(JSON.stringify(error));
         });
     }
   },
-  searchFood: function () {
+  searchIngredient: function () {
     let data = {
       rcp_parts_dtls: $("#sub-group").val(),
     };
@@ -58,6 +58,30 @@ let index = {
     })
       .done(function (fragment) {
         $("#resultDiv").replaceWith(fragment);
+      })
+      .fail(function (error) {
+        alert(JSON.stringify(error));
+      });
+  },
+  searchFood: function () {
+    //var searchFood = document.getElementById("foodName").value;
+    let searchFood = $("#foodName").val();
+    // let data = {
+    //   rcp_parts_dtls: $("#sub-group").val(),
+    // };
+    // searchName = $("#sub-group").val();
+    console.log("searchFood: " + searchFood);
+
+    $.ajax({
+      type: "POST",
+      url: "/auth/nBlogRecipePost",
+      //data: JSON.stringify(data),
+      data: searchFood,
+      contentType: "application/text; charset=utf-8",
+      dataType: "json",
+    })
+      .done(function (resp) {
+        console.log(resp);
       })
       .fail(function (error) {
         alert(JSON.stringify(error));

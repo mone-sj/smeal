@@ -7,31 +7,6 @@ $(document).ready(function () {
   initFunction();
 });
 
-// function number_format(number, decimals, dec_point, thousands_sep) {
-//   // *     example: number_format(1234.56, 2, ',', ' ');
-//   // *     return: '1 234,56'
-//   number = (number + "").replace(",", "").replace(" ", "");
-//   var n = !isFinite(+number) ? 0 : +number,
-//     prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-//     sep = typeof thousands_sep === "undefined" ? "," : thousands_sep,
-//     dec = typeof dec_point === "undefined" ? "." : dec_point,
-//     s = "",
-//     toFixedFix = function (n, prec) {
-//       var k = Math.pow(10, prec);
-//       return "" + Math.round(n * k) / k;
-//     };
-//   // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-//   s = (prec ? toFixedFix(n, prec) : "" + Math.round(n)).split(".");
-//   if (s[0].length > 3) {
-//     s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-//   }
-//   if ((s[1] || "").length < prec) {
-//     s[1] = s[1] || "";
-//     s[1] += new Array(prec - s[1].length + 1).join("0");
-//   }
-//   return s.join(dec);
-// }
-
 function initFunction() {
   let data = {
     keyword: [{ param: "김치찌개" }, { param: "된장찌개" }],
@@ -45,47 +20,19 @@ function initFunction() {
     dataType: "json",
   })
     .done(function (resp) {
-      let totalClickKeywordList = [];
-      let totalClickKeywordResultList = [];
-      let totalClickResult = resp.data.totalClick;
-      for (key in totalClickResult) {
-        var result = totalClickResult[key];
-        console.log(result);
-        totalClickKeywordList.push(result.keyword);
-        totalClickKeywordResultList.push(result.ratio);
-      }
-      console.log("totalClickKeywordList");
-      console.log(totalClickKeywordList);
-      console.log("totalClickKeywordResultList");
-      console.log(totalClickKeywordResultList);
+      console.log("totalClickResult");
+      console.log(resp.data.totalClick);
+      //let totalClickResult = resp.data.totalClick;
+      //let totalClickKeywordList2 = totalClickResult["keywordList"];
+      let totalClickKeywordList = resp.data.totalClick["keywordList"];
+      let totalClickKeywordResultList = resp.data.totalClick["ratioList"];
 
-      let ageResult = resp.data.ages;
-      //let agesResult = ageResult.results;
-      console.log("agesResult");
-      console.log(ageResult);
-      let agesKeywordList = [];
-      let agesKeywordResultList = [];
-      for (key in ageResult) {
-        var result = ageResult[key]; // keyword, results
-        for (resultKey in result) {
-          agesKeywordList.push(resultKey);
-          agesKeywordResultList.push(result[resultKey]);
-        }
-      }
-      console.log("agesKeywordList");
-      console.log(agesKeywordList);
-      console.log("agesKeywordResultList");
-      console.log(agesKeywordResultList);
-
-      let gendersResult = resp.data.genders;
-      console.log("gendersResult");
-      console.log(gendersResult);
-
+      // 클릭 추이 그래프
       let totalBarData = {
-        label: totalClickKeywordList,
+        labels: totalClickKeywordList,
         datasets: [
           {
-            label: "Revenue",
+            label: "클릭 추이량",
             backgroundColor: "#4e73df",
             hoverBackgroundColor: "#2e59d9",
             borderColor: "#4e73df",
@@ -119,7 +66,6 @@ function initFunction() {
                 ticks: {
                   maxTicksLimit: 3,
                 },
-                // maxBarThickness: 12,
               },
             ],
             yAxes: [
@@ -159,112 +105,86 @@ function initFunction() {
         },
       });
 
-      // Bar Chart Example
-      // var ctx = document.getElementById("totalChart");
-      // var agesBarChart = new Chart(ctx, {
-      //   type: "bar",
-      //   data: {
-      //     labels: ["January", "February", "March", "April", "May", "June"],
-      //     datasets: [
-      //       {
-      //         label: "Revenue",
-      //         backgroundColor: "#4e73df",
-      //         hoverBackgroundColor: "#2e59d9",
-      //         borderColor: "#4e73df",
-      //         data: [4215, 5312, 6251, 7841, 9821, 14984],
-      //       },
-      //     ],
-      //   },
-      //   options: {
-      //     maintainAspectRatio: false,
-      //     layout: {
-      //       padding: {
-      //         left: 10,
-      //         right: 25,
-      //         top: 25,
-      //         bottom: 0,
-      //       },
-      //     },
-      //     scales: {
-      //       xAxes: [
-      //         {
-      //           time: {
-      //             unit: "month",
-      //           },
-      //           gridLines: {
-      //             display: false,
-      //             drawBorder: false,
-      //           },
-      //           ticks: {
-      //             maxTicksLimit: 6,
-      //           },
-      //           maxBarThickness: 25,
-      //         },
-      //       ],
-      //       yAxes: [
-      //         {
-      //           ticks: {
-      //             min: 0,
-      //             max: 15000,
-      //             maxTicksLimit: 5,
-      //             padding: 10,
-      //             // Include a dollar sign in the ticks
-      //             callback: function (value, index, values) {
-      //               return "$" + number_format(value);
-      //             },
-      //           },
-      //           gridLines: {
-      //             color: "rgb(234, 236, 244)",
-      //             zeroLineColor: "rgb(234, 236, 244)",
-      //             drawBorder: false,
-      //             borderDash: [2],
-      //             zeroLineBorderDash: [2],
-      //           },
-      //         },
-      //       ],
-      //     },
-      //     legend: {
-      //       display: false,
-      //     },
-      //     tooltips: {
-      //       titleMarginBottom: 10,
-      //       titleFontColor: "#6e707e",
-      //       titleFontSize: 14,
-      //       backgroundColor: "rgb(255,255,255)",
-      //       bodyFontColor: "#858796",
-      //       borderColor: "#dddfeb",
-      //       borderWidth: 1,
-      //       xPadding: 15,
-      //       yPadding: 15,
-      //       displayColors: false,
-      //       caretPadding: 10,
-      //       callbacks: {
-      //         label: function (tooltipItem, chart) {
-      //           var datasetLabel =
-      //             chart.datasets[tooltipItem.datasetIndex].label || "";
-      //           return datasetLabel + ": $" + number_format(tooltipItem.yLabel);
-      //         },
-      //       },
-      //     },
-      //   },
-      // });
+      //연령별 추이 시작
+      console.log("agesResult");
+      console.log(resp.data.ages);
 
-      // Bar Chart Example
+      let agesKeywordList = resp.data.ages["keyword"];
+      let agesKeywordResultList = resp.data.ages["results"];
+
+      console.log("agesKeywordList");
+      console.log(agesKeywordList);
+      console.log("agesKeywordResultList");
+      console.log(agesKeywordResultList);
+
+      for (agesKey in agesKeywordResultList) {
+        window["ageData" + agesKey] = agesKeywordResultList[agesKey];
+      }
+
+      let age10 = {
+        label: "10대",
+        data: ageData10,
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        borderColor: "#4e73df",
+        borderWidth: 1,
+      };
+
+      let age20 = {
+        label: "20대",
+        data: ageData20,
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        borderColor: "#4e73df",
+        borderWidth: 1,
+      };
+
+      let age30 = {
+        label: "30대",
+        data: ageData30,
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        borderColor: "#4e73df",
+        borderWidth: 1,
+      };
+
+      let age40 = {
+        label: "40대",
+        data: ageData40,
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        borderColor: "#4e73df",
+        borderWidth: 1,
+      };
+
+      let age50 = {
+        label: "50대",
+        data: ageData50,
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        borderColor: "#4e73df",
+        borderWidth: 1,
+      };
+
+      let age60 = {
+        label: "60대",
+        data: ageData60,
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        borderColor: "#4e73df",
+        borderWidth: 1,
+      };
+
+      let agesBarData = {
+        labels: agesKeywordList,
+        datasets: [age10, age20, age30, age40, age50, age60],
+      };
+
+      // 연령별 그래프
       var ctx = document.getElementById("agesChart");
       var agesBarChart = new Chart(ctx, {
         type: "bar",
-        data: {
-          labels: ["January", "February", "March", "April", "May", "June"],
-          datasets: [
-            {
-              label: "Revenue",
-              backgroundColor: "#4e73df",
-              hoverBackgroundColor: "#2e59d9",
-              borderColor: "#4e73df",
-              data: [4215, 5312, 6251, 7841, 9821, 14984],
-            },
-          ],
-        },
+        data: agesBarData,
         options: {
           maintainAspectRatio: false,
           layout: {
@@ -278,6 +198,7 @@ function initFunction() {
           scales: {
             xAxes: [
               {
+                stacked: true,
                 time: {
                   unit: "month",
                 },
@@ -288,20 +209,16 @@ function initFunction() {
                 ticks: {
                   maxTicksLimit: 6,
                 },
-                //maxBarThickness: 25,
               },
             ],
             yAxes: [
               {
+                stacked: true,
                 ticks: {
                   min: 0,
-                  max: 15000,
+                  max: 100,
                   maxTicksLimit: 5,
                   padding: 10,
-                  // Include a dollar sign in the ticks
-                  // callback: function (value, index, values) {
-                  //   return "$" + number_format(value);
-                  // },
                 },
                 gridLines: {
                   color: "rgb(234, 236, 244)",
@@ -328,33 +245,56 @@ function initFunction() {
             yPadding: 15,
             displayColors: false,
             caretPadding: 10,
-            // callbacks: {
-            //   label: function (tooltipItem, chart) {
-            //     var datasetLabel =
-            //       chart.datasets[tooltipItem.datasetIndex].label || "";
-            //     return datasetLabel + ": $" + number_format(tooltipItem.yLabel);
-            //   },
-            // },
           },
         },
       });
+      // 연령별 추이 - 끝
 
-      // Bar Chart Example
+      // 성별 추이 그래프
+      console.log("gendersResult");
+      console.log(resp.data.genders);
+
+      let gendersKeywordList = resp.data.genders["keyword"];
+      let gendersKeywordResultList = resp.data.genders["results"];
+
+      console.log("gendersKeywordList");
+      console.log(gendersKeywordList);
+      console.log("gendersKeywordResultList");
+      console.log(gendersKeywordResultList);
+
+      for (gendersKey in gendersKeywordResultList) {
+        window["gendersKey" + gendersKey] =
+          gendersKeywordResultList[gendersKey];
+      }
+
+      let female = {
+        label: "여성",
+        data: gendersKeyf,
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        borderColor: "#4e73df",
+        borderWidth: 1,
+      };
+
+      let male = {
+        label: "남성",
+        data: gendersKeym,
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        borderColor: "#4e73df",
+        borderWidth: 1,
+      };
+
+      let gendersBarData = {
+        labels: gendersKeywordList,
+        datasets: [male, female],
+      };
+
+      // 연령별 그래프
       var ctx = document.getElementById("gendersChart");
       var gendersBarChart = new Chart(ctx, {
         type: "bar",
-        data: {
-          labels: ["January", "February", "March", "April", "May", "June"],
-          datasets: [
-            {
-              label: "Revenue",
-              backgroundColor: "#4e73df",
-              hoverBackgroundColor: "#2e59d9",
-              borderColor: "#4e73df",
-              data: [4215, 5312, 6251, 7841, 9821, 14984],
-            },
-          ],
-        },
+        data: gendersBarData,
         options: {
           maintainAspectRatio: false,
           layout: {
@@ -368,6 +308,7 @@ function initFunction() {
           scales: {
             xAxes: [
               {
+                stacked: true,
                 time: {
                   unit: "month",
                 },
@@ -378,20 +319,16 @@ function initFunction() {
                 ticks: {
                   maxTicksLimit: 6,
                 },
-                //maxBarThickness: 25,
               },
             ],
             yAxes: [
               {
+                stacked: true,
                 ticks: {
                   min: 0,
-                  max: 15000,
+                  max: 100,
                   maxTicksLimit: 5,
                   padding: 10,
-                  // Include a dollar sign in the ticks
-                  // callback: function (value, index, values) {
-                  //   return "$" + number_format(value);
-                  // },
                 },
                 gridLines: {
                   color: "rgb(234, 236, 244)",
@@ -418,13 +355,6 @@ function initFunction() {
             yPadding: 15,
             displayColors: false,
             caretPadding: 10,
-            // callbacks: {
-            //   label: function (tooltipItem, chart) {
-            //     var datasetLabel =
-            //       chart.datasets[tooltipItem.datasetIndex].label || "";
-            //     return datasetLabel + ": $" + number_format(tooltipItem.yLabel);
-            //   },
-            // },
           },
         },
       });

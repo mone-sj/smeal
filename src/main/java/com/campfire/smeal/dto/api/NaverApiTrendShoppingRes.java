@@ -1,18 +1,17 @@
 package com.campfire.smeal.dto.api;
 
 import com.campfire.smeal.dto.api.NaverApiTrendShoppingRes.NaverClickTrendShoppingRes.ApiTrendResDto;
-import com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.AgeRes;
-import com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.GenderRes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.openid.connect.sdk.claims.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes;
+import static com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes.NaverTargetTrend;
 
 // api 응답값 - 쇼핑인사이트 분야별/키워드별 클릭량 트렌드 결과
 public class NaverApiTrendShoppingRes {
@@ -66,7 +65,7 @@ public class NaverApiTrendShoppingRes {
     @Builder
     public static class AllResponse {
         private trendRes trendRes;
-        private List<NaverApiTrendShoppingTargetRes.NaverTargetTrend> targetTrend;
+        private List<NaverTargetTrend> targetTrend;
     }
 
     public static ApiTrendResDto toNaverApiTrendResDto(
@@ -84,7 +83,7 @@ public class NaverApiTrendShoppingRes {
                 .build();
 
         return naverResponseToBuild;
-        }
+    }
 
 
     // 키워드별 트렌드 응답
@@ -124,19 +123,22 @@ public class NaverApiTrendShoppingRes {
         @AllArgsConstructor
         @Builder
         public static class TotalClick {
-            private String keyword;
-            private String ratio;
+            private List<String> keywordList;
+            private List<String> ratioList;
         }
+
 
         @Data
         @NoArgsConstructor
         @AllArgsConstructor
         @Builder
         public static class AllKeywordResponse{
-            public List<TotalClick> totalClick;
-            public List<AgeRes> ages;
-            public List<GenderRes> genders;
+            public TotalClick totalClick;
+            public KeywordTargetTrendShoppingRes.TargetValueResponse ages;
+            public KeywordTargetTrendShoppingRes.TargetValueResponse genders;
         }
+
+
 
         public static ApiTrendResDto toNaverApiTargetTrendResDto(
                 String response)

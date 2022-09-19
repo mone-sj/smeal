@@ -47,4 +47,10 @@ public class RecipeSearchController {
         return "recipe/searchIngredients :: #resultDiv";
     }
 
+    // 음식으로 검색하기
+    @GetMapping("/auth/recipeSearchFood")
+    public String searchFood() {
+        return "recipe/searchFood";
+    }
+
 }

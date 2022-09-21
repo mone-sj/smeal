@@ -10,30 +10,106 @@
     <sec:authentication property="principal" var="principal"/>
 </sec:authorize>-->
 
-<body id="page-top">
+<body id="page-top" class="bg-gradient-primary">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        <div th:replace="/layout/sidebar.html :: fragment-sidebar"></div>
-        <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
             <div id="content">
-
                 <!-- Topbar -->
-                <div th:replace="/layout/topbar.html :: fragment-topbar"></div>
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-3 static-top shadow">
+
+                    <div class="d-none d-sm-inline-block">
+                        <a th:href="@{#}">
+                            <img th:src="@{/img/logo.png}" width="150">
+                        </a>
+                    </div>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <a th:href="@{/auth/login}" class="btn btn-primary btn-icon-split">
+                            <span class="text">LOGIN</span>
+                        </a>
+
+                    </ul>
+                </nav>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+                    <div class="row justify-content-center">
+
+                        <div class="col-xl-12 col-lg-12 col-md-12">
+
+                            <div class="card o-hidden border-0 shadow-lg my-1">
+                                <div class="card-body p-0">
+
+                                    <!-- mbti -->
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-12">
+                                            <div class="p-5">
+                                                <div class="text-center">
+                                                    <h1 class="h2 text-gray-900 mb-4">MBTI</h1>
+                                                </div>
+
+                                                <div class="bg-gray-600">
+                                                    <h1>hihi</h1>
+                                                </div>
+                                                <hr>
+                                                <div class="bg-gray-600">
+                                                    <h1>hihi</h1>
+                                                </div>
+
+                                                <div class="row justify-content-center">
+                                                    <div class="col-lg-2 col-xl-2">
+                                                        <div class="text-center h4 btn-block bg-gradient-primary">
+                                                            <a class="small text-gray-100" th:href="@{/mbti}">바로가기</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- recipe -->
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-12">
+                                            <div class="p-5">
+                                                <div class="text-center">
+                                                    <h1 class="h2 text-gray-900 mb-4">RECIPE</h1>
+                                                </div>
+
+                                                <div class="bg-gray-600">
+                                                    <h1>hihi</h1>
+                                                </div>
+                                                <hr>
+                                                <div class="bg-gray-600">
+                                                    <h1>hihi</h1>
+                                                </div>
+
+                                                <div class="row justify-content-center">
+                                                    <div class="col-lg-2 col-xl-2">
+                                                        <div class="text-center h4 btn-block bg-gradient-primary">
+                                                            <a class="small text-gray-100" th:href="@{/auth/recipeSearchFood}">바로가기</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
                 <!-- /.container-fluid -->

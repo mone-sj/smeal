@@ -32,14 +32,23 @@
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
                         <!-- Page Heading -->
-                        <div class="card shadow mb-12">
+                        <div class="card shadow mb-12 col-6 ml-auto mr-auto text-center">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">설명문이 들어가는 곳</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">안내 사항</h6>
                             </div>
                             <div class="card-body">
-                                The styling for this basic card example is created by using default Bootstrap
-                                utility classes. By using utility classes, the style of the card component can be
-                                easily modified with no need for any custom CSS!
+                                <p>
+                                    총 검사 시간은 12분 내외입니다.
+                                </p>
+                                <p>
+                                    혹 질문이 마음에 들지 않아도 정직하게 답변하십시오.
+                                </p>
+                                <p>
+                                    가능하면 답변 시 ‘중립’을 선택하지 마십시오.
+                                </p>
+                                <p>
+                                    너무 진지하게 결과를 받아들이지 마십시오.
+                                </p>
                             </div>
                         </div>
 
@@ -85,12 +94,12 @@
                                                                 </input>
                                                             </div>
                                                             <div class="col-1 mr-2">
-                                                                <input class="form-check-input btn-circle btn-sm" value=3 type="radio" th:name="${questions.get(num).qNo}" checked>
+                                                                <input class="form-check-input btn-circle btn-sm" value=3 type="radio" th:name="${questions.get(num).qNo}">
                                                                 <i class="fas"></i>
                                                                 </input>
                                                             </div>
                                                             <div class="col-1 mr-2">
-                                                                <input class="form-check-input btn-circle btn-sm" value=4 type="radio" th:name="${questions.get(num).qNo}">
+                                                                <input class="form-check-input btn-circle btn-sm" value=4 type="radio" th:name="${questions.get(num).qNo}" checked>
                                                                 <i class="fas"></i>
                                                                 </input>
                                                             </div>

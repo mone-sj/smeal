@@ -1,6 +1,9 @@
 package com.campfire.smeal.service;
 
 import com.campfire.smeal.dto.mbti.MbtiResponseDto;
+import com.campfire.smeal.handler.exception.GeneralException;
+import com.campfire.smeal.handler.exception.SmErrorCode;
+import com.campfire.smeal.model.mbti.MbtiType;
 import com.campfire.smeal.model.mbti.SurveyFoodMbti;
 import com.campfire.smeal.repository.MbtiTypeRepository;
 import com.campfire.smeal.repository.SurveyRepository;
@@ -33,6 +36,12 @@ public class MbtiService {
                     mbtiResponseDtos.get(i).getResultTypeCode());
         }
 
+    }
+
+    @Transactional
+    public MbtiType findMbtiType(String type) {
+        return mbtiTypeRepository.findByTypeCode(type)
+                .orElseThrow();
     }
 
 }

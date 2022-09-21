@@ -47,23 +47,23 @@ VALUES
 ("Q40", "몸에 필요한 영양소 하루 권장량을 지키려고 노력한다.");
 
 
-INSERT INTO MBTITYPE (typeCode, typeName)
+INSERT INTO MBTITYPE (typeCode, typeName, pictureUrl)
 VALUES
-("A", "대식가"),
-("B", "소식좌"),
-("C", "애주가"),
-("D", "개척자"),
-("E", "분석가"),
-("F", "포토그래퍼"),
-("G", "원칙주의자"),
-("H", "푸드슈타인"),
-("I", "위일리언"),
-("J", "자만추"),
-("K", "푸드 장인"),
-("L", "강철 통규씨"),
-("M", "슈가홀릭"),
-("N", "인어맨"),
-("O", "효율효율 열매");
+("A", "대식가", "https://cdn.pixabay.com/photo/2021/08/28/14/31/gluttony-6581108_960_720.jpg"),
+("B", "소식좌", "https://cdn.pixabay.com/photo/2017/05/01/00/58/food-2274428_960_720.png"),
+("C", "애주가", "https://cdn.pixabay.com/photo/2015/10/30/12/18/drunk-1013965_960_720.jpg"),
+("D", "개척자", "https://cdn.pixabay.com/photo/2019/10/20/10/41/columbus-4563218_960_720.png"),
+("E", "분석가", "https://cdn.pixabay.com/photo/2018/04/19/20/44/systems-icons-3334262_960_720.jpg"),
+("F", "포토그래퍼", "https://cdn.pixabay.com/photo/2016/04/01/08/34/camera-1298800_960_720.png"),
+("G", "원칙주의자", "https://cdn.pixabay.com/photo/2013/07/13/09/59/justice-156442_960_720.png"),
+("H", "푸드슈타인", "https://cdn.pixabay.com/photo/2014/04/03/10/08/chemist-309922_960_720.png"),
+("I", "위일리언", "https://cdn.pixabay.com/photo/2012/04/18/12/39/aliens-36912_960_720.png"),
+("J", "자만추", "https://cdn.pixabay.com/photo/2021/06/10/15/06/people-6326288_960_720.png"),
+("K", "푸드 장인", "https://cdn.pixabay.com/photo/2012/04/01/18/01/blacksmith-23791_960_720.png"),
+("L", "강철 통규씨", "https://cdn.pixabay.com/photo/2012/04/18/14/45/king-37240_960_720.png"),
+("M", "슈가홀릭", "https://cdn.pixabay.com/photo/2021/04/06/12/58/women-6156311_960_720.png"),
+("N", "인어맨", "https://cdn.pixabay.com/photo/2021/01/29/08/10/monster-5960104_960_720.jpg"),
+("O", "효율효율 열매", "https://cdn.pixabay.com/photo/2018/05/14/12/41/time-3399858_960_720.png");
 
 INSERT INTO MAINGROUPINFO (foodName, naverCatCode)
 VALUES

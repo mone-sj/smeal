@@ -1,6 +1,7 @@
 package com.campfire.smeal.controller;
 
 import com.campfire.smeal.dto.mbti.MbtiResponseDto;
+import com.campfire.smeal.model.mbti.MbtiType;
 import com.campfire.smeal.model.mbti.SurveyFoodMbti;
 import com.campfire.smeal.service.MbtiService;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +61,10 @@ public class MbtiController {
     public String mbtiResultView(@RequestParam String type,
                                  Model model) {
         System.out.println(type);
-        model.addAttribute("type", type);
+        MbtiType mbtiContent = mbtiService.findMbtiType(type);
+        model.addAttribute("mbti", mbtiContent);
         return "mbti/mbtiResult";
     }
+
+
 }

@@ -35,6 +35,17 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
 
+                    <h2>MBTI 결과</h2>
+
+                    <b>mbti 전체 내용</b>
+                    <div th:text="${mbti}"></div>
+                    <b>mbti code:</b>
+                    <div th:text="${mbti.typeCode}"></div>
+                    <b>mbti typeName: </b>
+                    <div th:text="${mbti.typeName}"></div>
+                    <b>mbti image: </b>
+                    <img th:src="@{/img/mbtiTypeImg/{id}.png(id=${mbti.id})}" width="400" height="400"/>
+
                 </div>
                 <!-- /.container-fluid -->
 

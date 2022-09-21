@@ -23,6 +23,7 @@ public class MbtiType {
 
     private String typeCode;
     private String typeName;
+    private String pictureUrl;
 
     // type 설명
     @Column(columnDefinition = "TEXT")

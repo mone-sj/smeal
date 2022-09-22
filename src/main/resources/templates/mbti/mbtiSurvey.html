@@ -55,7 +55,143 @@
                         <!-- Survey Start -->
                         <form action="/mbti/result" method="post">
 
+                            <div class="container">
+                                <!--gender-->
+                                <div class="col-xl-12 col-md-12 mb-12 row justify-content-center">
+                                    <div class="col-8">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <h4>Q0.</h4>
+                                                        <div class="h4 font-weight-bold text-primary text-uppercase mb-4">
+                                                            당신의 성별은?
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="row justify-container-center mt-4"> <!--form-check-->
+                                                            <div class="col-1 mr-auto">
+                                                                <h5>남성</h5>
+                                                            </div>
+                                                            <div class="col-1 mr-auto">
+                                                                <input class="form-check-input btn-circle btn-sm" value="m" type="radio" name="gender">
+                                                                <i class="fas"></i>
+                                                                </input>
+                                                            </div>
+                                                            <div class="col-1 mr-auto">
+                                                                <h5>여성</h5>
+                                                            </div>
+                                                            <div class="col-1 mr-auto">
+                                                                <input class="form-check-input btn-circle btn-sm" value="f" type="radio" name="gender">
+                                                                <i class="fas"></i>
+                                                                </input>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <br>
+
+                                <!--gender-->
+                                <div class="col-xl-12 col-md-12 mb-12 row justify-content-center">
+                                    <div class="col-8">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <h4>Q0.</h4>
+                                                        <div class="h4 font-weight-bold text-primary text-uppercase mb-4">
+                                                            당신의 연령대는?
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="row justify-container-center mt-4"> <!--form-check-->
+                                                            <div class="col-1 mr-auto">
+                                                                <h5>10대</h5>
+                                                            </div>
+                                                            <div class="col-1 mr-auto ml-2">
+                                                                <input class="form-check-input btn-circle btn-sm" value="10" type="radio" name="age">
+                                                                <i class="fas"></i>
+                                                                </input>
+                                                            </div>
+                                                            <div class="col-1 mr-auto ">
+                                                                <h5>20대</h5>
+                                                            </div>
+                                                            <div class="col-1 mr-auto ml-2">
+                                                                <input class="form-check-input btn-circle btn-sm" value="20" type="radio" name="age">
+                                                                <i class="fas"></i>
+                                                                </input>
+                                                            </div>
+
+                                                            <div class="col-1 mr-auto">
+                                                                <h5>30대</h5>
+                                                            </div>
+                                                            <div class="col-1 mr-auto ml-2">
+                                                                <input class="form-check-input btn-circle btn-sm" value="30" type="radio" name="age">
+                                                                <i class="fas"></i>
+                                                                </input>
+                                                            </div>
+
+                                                            <div class="col-1 mr-auto">
+                                                                <h5>40대</h5>
+                                                            </div>
+                                                            <div class="col-1 mr-auto ml-2">
+                                                                <input class="form-check-input btn-circle btn-sm" value="40" type="radio" name="age">
+                                                                <i class="fas"></i>
+                                                                </input>
+                                                            </div>
+
+                                                            <div class="col-1 mr-auto">
+                                                                <h5>50대 이상</h5>
+                                                            </div>
+                                                            <div class="col-1 mr-auto ml-2">
+                                                                <input class="form-check-input btn-circle btn-sm" value="50" type="radio" name="age">
+                                                                <i class="fas"></i>
+                                                                </input>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <br>
+
+                            </div>
                             <div th:each="num : ${#numbers.sequence(0, #lists.size(questions)-1)}" class="container">
+
                                 <div class="col-xl-12 col-md-12 mb-12 row justify-content-center">
                                     <div class="col-8">
                                         <div class="card border-left-primary shadow h-100 py-2">

@@ -50,7 +50,11 @@ public class MbtiController {
         ArrayList<MbtiResponseDto> mbtiResponseDtos = new ArrayList<MbtiResponseDto>();
 
         String resultTypeCode = resultArray[resultArray.length-3];
+
         int arrayLength = resultArray.length;
+
+        System.out.println("principalDetails");
+        System.out.println(principalDetails);
 
         if (principalDetails != null) {
             Long id = principalDetails.getUser().getId();
@@ -78,36 +82,6 @@ public class MbtiController {
         MbtiType mbtiContent = mbtiService.findMbtiType(type);
         model.addAttribute("mbti", mbtiContent);
         return "mbti/mbtiResult";
-    }
-
-    @GetMapping("/mbti/result/test/{request}")
-    public String mbtiResultTest(RedirectAttributes redirectAttributes,
-                                 @PathVariable String request,
-                                 @AuthenticationPrincipal PrincipalDetails principalDetails){
-        System.out.println("===============여기 왔음==============");
-        System.out.println(request);
-        String[] resultArray = request.split(",");
-        ArrayList<MbtiResponseDto> mbtiResponseDtos = new ArrayList<MbtiResponseDto>();
-
-        String resultTypeCode = resultArray[resultArray.length-3];
-        int arrayLength = resultArray.length;
-
-        if (principalDetails != null) {
-            Long id = principalDetails.getUser().getId();
-            String age = resultArray[resultArray.length - 1];
-            String gender = resultArray[resultArray.length - 2];
-            userService.회원정보추가(id, gender, age, resultTypeCode);
-            arrayLength = resultArray.length - 2;
-        }
-
-        for (int i = 1; i < arrayLength; i++) {
-            String qNo = "Q" + i;
-            mbtiResponseDtos.add(new MbtiResponseDto(qNo, resultArray[i - 1], resultTypeCode));
-        }
-
-        mbtiService.surveyResultSave(mbtiResponseDtos);
-        redirectAttributes.addAttribute("type", resultTypeCode);
-        return "redirect:/mbti/result";
     }
 
     // 원본

@@ -61,10 +61,10 @@ public class MbtiController {
             String age = resultArray[resultArray.length - 1];
             String gender = resultArray[resultArray.length - 2];
             userService.회원정보추가(id, gender, age, resultTypeCode);
-            arrayLength = resultArray.length - 2;
         }
 
-        for (int i = 1; i < arrayLength; i++) {
+        for (int i = 1; i < arrayLength-2; i++) {
+
             String qNo = "Q" + i;
             mbtiResponseDtos.add(new MbtiResponseDto(qNo, resultArray[i - 1], resultTypeCode));
         }

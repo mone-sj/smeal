@@ -26,4 +26,8 @@ public class SurveyResultFoodMbti {
     @JoinColumn(referencedColumnName="typeCode")
     private MbtiType mbtiResult;
 
+    private String age;
+    private String gender;
+
+
 }

@@ -94,4 +94,17 @@ public class UserService {
         }
         return true;
     }
+
+    @Transactional
+    public void 회원정보추가(Long id, String gender, String age, String resultTypeCode) {
+        User persistence = userRepository.findById(id).orElseThrow(() ->{
+            return new GeneralException(SmErrorCode.NO_USER);
+        });
+
+        persistence.setGender(gender);
+        persistence.setAge(age);
+        persistence.setFoodMbti(resultTypeCode);
+
+    }
+
 }

@@ -4,6 +4,9 @@ let index = {
     $("#btn-regist").on("click", () => {
       this.save();
     });
+    $("#btn-google").on("click", () => {
+          this.joinGoogle();
+    });
   },
 
   save: function () {
@@ -38,6 +41,11 @@ let index = {
         alert(JSON.stringify(error));
       });
   },
+
+  joinGoogle: function(){
+      console.log("이게 됨?");
+
+  }
 };
 
 index.init();

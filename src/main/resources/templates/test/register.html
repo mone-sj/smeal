@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -62,6 +63,11 @@
                                             id="passwordRepeat" placeholder="Repeat Password">
                                     </div>
                                 </div>
+                                <th:block th:if="${nonMemberInfo!=null}">
+                                  <input type="hidden" id="age" name="age" th:value="${nonMemberInfo.age}">
+                                  <input type="hidden" id="gender" name="gender" th:value="${nonMemberInfo.gender}">
+                                  <input type="hidden" id="mbtiType" name="mbtiType" th:value="${nonMemberInfo.mbtiType}">
+                                </th:block>
 <!--                                <a href="login.html" class="btn btn-primary btn-user btn-block">-->
 <!--                                    Register Account-->
 <!--                                </a>-->
@@ -71,12 +77,30 @@
 
 <!--                                <button id="btn-save" class="btn btn-primary">Register Account</button>-->
                                 <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Register with Google
+                              <th:block th:if="${nonMemberInfo==null}">
+                                <a href="/oauth2/authorization/google" class="btn btn-google btn-user btn-block">
+                                  <i class="fab fa-google fa-fw"></i> Register with Google
                                 </a>
-                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+                                <a href="/oauth2/authorization/naver" class="btn btn-naver btn-user btn-block">
+                                  <img class="fab fa-fw" src="/img/naver.png"/> Register with Naver
                                 </a>
+                                <a href="/oauth2/authorization/kakao" class="btn btn-kakao btn-user btn-block">
+                                  <img class="fab fa-fw" src="/img/kakao.png"/> Register with Kakao
+                                </a>
+                              </th:block>
+                              <th:block th:if="${nonMemberInfo!=null}">
+                                <a href="#" class="btn btn-google btn-user btn-block" id="btn-google">
+                                  <i class="fab fa-google fa-fw"></i> Register with Google
+                                </a>
+
+                              </th:block>
+
+<!--                                <a href="index.html" class="btn btn-google btn-user btn-block">-->
+<!--                                    <i class="fab fa-google fa-fw"></i> Register with Google-->
+<!--                                </a>-->
+<!--                                <a href="index.html" class="btn btn-facebook btn-user btn-block">-->
+<!--                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook-->
+<!--                                </a>-->
                             </form>
                             <hr>
                             <div class="text-center">
@@ -102,8 +126,8 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
-<!--    <script type="application/json" src="./testJs/user.js"></script>-->
-<!--    <script src="/testJs/user.js"></script>-->
+    <script src="/testJs/oauthLogin.js"></script>
+
 
 </body>
 

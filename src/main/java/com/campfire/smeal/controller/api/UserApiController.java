@@ -75,21 +75,20 @@ public class UserApiController {
         log.info("user");
         System.out.println(user);
 
-        if (user.getPassword() != null && !user.getPassword().equals(user.getPasswordRepeat())) {
-            throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
-//            if (!user.getPassword().equals(user.getPasswordRepeat())) {
-//                throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
-//            }
-        }
+//        if (user.getPassword() != null && !user.getPassword().equals(user.getPasswordRepeat())) {
+//            throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
+////            if (!user.getPassword().equals(user.getPasswordRepeat())) {
+////                throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
+////            }
+//        }
 
         User updateUser = userService.회원수정(user);
 
-        System.out.println("여기까지 됨");
         // 세션 수정
-        Authentication authentication= authenticationManager.authenticate(
-                //new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword()));
-                new UsernamePasswordAuthenticationToken(updateUser.getUsername(), updateUser.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        principalDetails.setUser(updateUser);
+//        Authentication authentication= authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword()));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
     }

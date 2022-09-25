@@ -4,7 +4,9 @@ import com.campfire.smeal.config.auth.PrincipalDetails;
 import com.campfire.smeal.dto.mbti.NonMemberInfoDto;
 import com.campfire.smeal.handler.exception.GeneralException;
 import com.campfire.smeal.handler.exception.SmErrorCode;
+import com.campfire.smeal.model.Board;
 import com.campfire.smeal.model.User;
+import com.campfire.smeal.service.BoardService;
 import com.campfire.smeal.service.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Slf4j
 @Controller
@@ -28,6 +32,7 @@ public class UserController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
+    private final BoardService boardService;
 
     // 대시보드 페이지
     @GetMapping("/dashboard")
@@ -67,8 +72,6 @@ public class UserController {
 //        return "user/register";
 //    }
 
-
-
     // 회원 수정 페이지
     @GetMapping("/user/update")
     public String userUpdate(
@@ -106,38 +109,17 @@ public class UserController {
         return "redirect:/";
     }
 
-    //////////////////////// 테스트용_기능완성및매핑이 완료되면 삭제
-//
-//    // 회원수정 테스트
-//    @PutMapping("/auth/updateProc")
-//    public String update(
-//            @RequestParam(required = true) Long id,
-//            @RequestParam(required = true) String username,
-//            @RequestParam(required = true) String password,
-//            @RequestParam(required = false) String email,
-//            @RequestParam(required = false) String nickname,
-//            @RequestParam(required = true) String passwordRepeat,
-//            @AuthenticationPrincipal PrincipalDetails principalDetails
-//    ) {
-//
-//        User userDto=User.builder()
-//                .id(id)
-//                .username(username)
-//                .password(password)
-//                .email(email)
-//                .nickname(nickname)
-//                .build();
-//        User updateUser = userService.회원수정(userDto, passwordRepeat);
-//
-//        // 세션 수정
-//        Authentication authentication= authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
-//        SecurityContextHolder.getContext()
-//                .setAuthentication(authentication);
-//        return "redirect:/dashboard";
-//    }
-
-
-
+    // 마이페이지(나의 게시글 보기)
+    @GetMapping("/user/myPage")
+    public String myPage(
+            @AuthenticationPrincipal PrincipalDetails principal,
+            Model model
+    ) {
+        // 게시글보기
+        System.out.println("회원No. : "+principal.getUser().getId());
+        //List<Board> boardList=
+                boardService.myBoard(Long.valueOf(principal.getUser().getId()));
+        return "user/myPage";
+    }
 
 }

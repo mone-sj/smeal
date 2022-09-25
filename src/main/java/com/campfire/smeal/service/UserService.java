@@ -75,12 +75,6 @@ public class UserService {
             return new GeneralException(SmErrorCode.NO_USER);
         });
 
-//        if (user.getProvider() == null) {
-//            if (!user.getPassword().equals(user.getPasswordRepeat())) {
-//                throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
-//            }
-//        }
-        System.out.println(persistence.getPassword());
         log.info("user");
         System.out.println(user);
         log.info("persistence");
@@ -90,22 +84,12 @@ public class UserService {
         persistence.setGender(user.getGender());
         persistence.setEmail(user.getEmail());
         persistence.setNickname(user.getNickname());
-//        String rawPassword = user.getPassword();
-//        String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
-//        persistence.setPassword(encPassword);
-        System.out.println("1");
-//
-        if (persistence.getProvider() == null) {
-            String rawPassword = user.getPassword();
-            String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
-            persistence.setPassword(encPassword);
-            System.out.println("2");
-        } else {
+
+//        if (persistence.getProvider() == null) {
 //            String rawPassword = user.getPassword();
 //            String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
 //            persistence.setPassword(encPassword);
-            System.out.println(persistence.getPassword());
-        }
+//        }
         return persistence;
     }
 

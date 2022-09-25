@@ -37,7 +37,7 @@ let index = {
             /*location.href = "/mbti/result"*/
 
             location.href = `/mbti/result/${result_mbti}`;
-        }).fail(function(error){1
+        }).fail(function(error){
             alert(JSON.stringify(error));
         });
 

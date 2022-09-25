@@ -40,7 +40,7 @@ public class BoardController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("board", board);
 
-        return "test/board";
+        return "board/board";
     }
 
     @GetMapping("/auth/board/{boardId}")
@@ -50,14 +50,14 @@ public class BoardController {
         Board post = boardService.상세보기(boardId);
         model.addAttribute("board",
                 boardService.상세보기(boardId));
-        return "test/boardDetail";
+        return "board/boardDetail";
     }
 
     /*게시판 작성 양식페이지로 이동
     매핑 주소 바꾸기. 회원만 작성가능.*/
     @GetMapping("/auth/board/create")
     public String boardCreate() {
-        return "test/boardSaveForm";
+        return "board/boardSaveForm";
     }
 
     /* 게시판 수정 페이지 이동
@@ -68,7 +68,7 @@ public class BoardController {
     ) {
         model.addAttribute("board",
                 boardService.상세보기(id));
-        return "test/boardUpdateForm";
+        return "board/boardUpdateForm";
     }
 
 

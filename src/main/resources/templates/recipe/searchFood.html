@@ -36,41 +36,29 @@
               <div class="input-group">
                 <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                        aria-label="Search" aria-describedby="basic-addon2" id="foodName" name="foodName">
-<!--                <div class="input-group-append">-->
-<!--                  <button class="btn btn-primary" type="button">-->
-<!--                    <i class="fas fa-search fa-sm"></i>-->
-<!--                  </button>-->
-<!--                </div>-->
               </div>
             </form>
-<!--            <div class="input-group-append">-->
               <button class="btn btn-primary" type="submit" id="btn-searchFood">
                 <i class="fas fa-search fa-sm"></i>
               </button>
-<!--            </div>-->
-<!--            <button class="btn btn-primary btn-user btn-block" id="btn-search">검색</button>-->
           </div>
           <!-- /.container-fluid -->
 
           <!--search result-->
-<!--            <div class="card shadow mb-4 ml-2 mt-3" id="resultDiv">-->
-<!--              <th:block th:if="${searchList}!=null">-->
-<!--                <h1 class="h3 mb-4 text-gray-800 ml-2 mt-3">검색결과</h1>-->
-<!--              <th:block th:each="result:${searchList}">-->
-<!--                <p th:if="${result.value.get(0).rcp_nm}=='검색결과 없음'">검색 결과가 없습니다.</p>-->
-<!--                <th:block th:unless="${result.value.get(0).rcp_nm}=='검색결과 없음'">-->
-<!--                <div class="card-header py-3">-->
-<!--                  <h6 class="m-0 font-weight-bold text-primary" th:text="${result.key}">ㄱ</h6>-->
-<!--                </div>-->
-<!--                <div class="card-body" th:each="num:${#numbers.sequence(0,#lists.size(result.value)-1)}">-->
-<!--                  <a href="#" class="" th:text="${result.value.get(num).rcp_nm}"></a>-->
-<!--                  <p th:text="${result.value.get(num).rcp_way2}"></p>-->
-<!--                  <img th:src="${result.value.get(num).att_file_no_main}" width="200" height="200"/>-->
-<!--                </div>-->
-<!--                </th:block>-->
-<!--                </th:block>-->
-<!--              </th:block>-->
-<!--            </div>-->
+            <div class="card shadow mb-4 ml-2 mt-3" id="resultDiv">
+              <th:block th:if="${resultList}!=null">
+                <h1 class="h3 mb-4 text-gray-800 ml-2 mt-3">검색결과</h1>
+                <th:block th:each="result:${resultList}">
+                  <div class="card-body" th:each="num:${#numbers.sequence(0,#lists.size(result.getItems)-1)}">
+                      번호: <b th:text="${num+1}"></b> <br/>
+                      포스트 제목: <a th:href="${result.getItems.get(num).link}" class="" th:utext="${result.getItems.get(num).title}"></a> <br/>
+                      설명: <p th:utext="${result.getItems.get(num).description}"></p>
+                      블로거: <a th:href="${result.getItems.get(num).bloggerlink}" class="" th:text="${result.getItems.get(num).bloggername}"></a> <br/>
+                      작성일: <p th:text="${result.getItems.get(num).postdate}"></p>
+                  </div>
+                </th:block>
+              </th:block>
+            </div>
           <!--End of search result-->
 
 

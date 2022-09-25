@@ -1,15 +1,20 @@
 package com.campfire.smeal.controller;
 
+import com.campfire.smeal.dto.ResponseDto;
+import com.campfire.smeal.dto.api.NaverSearchRes;
 import com.campfire.smeal.dto.api.Recipe;
+import com.campfire.smeal.service.NaverApiService;
 import com.campfire.smeal.service.RecipeApiService;
 import com.campfire.smeal.service.RecipeSearchService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -18,6 +23,7 @@ public class RecipeSearchController {
 
     private final RecipeSearchService recipeSearchService;
     private final RecipeApiService recipeApiService;
+    private final NaverApiService naverApiService;
 
     // 재료를 검색하여 음식 리스트 출력하기 위한 페이지
     @GetMapping("/auth/recipeSearchView")
@@ -51,6 +57,26 @@ public class RecipeSearchController {
     @GetMapping("/auth/recipeSearchFood")
     public String searchFood() {
         return "recipe/searchFood";
+    }
+
+    // 음식명으로 블로그 검색 결과
+    @GetMapping("/auth/nBlogRecipe/{searchFood}")
+    public String nBlogRecipe(
+            @PathVariable String searchFood,
+            Model model
+    ) throws JsonProcessingException {
+        System.out.println("요청값 foodName:"+searchFood);
+        NaverSearchRes.Root searchBlogResult =
+                naverApiService.searchBlog(searchFood);
+        System.out.println("searchBlogResult.getItems()");
+        System.out.println(searchBlogResult.getItems());
+        System.out.println("searchBlogResult.getDisplay(): " + searchBlogResult.getDisplay());
+        System.out.println("searchBlogResult.getTotal(): " + searchBlogResult.getTotal());
+
+
+        model.addAttribute("resultList",
+                searchBlogResult);
+        return "recipe/searchFood :: #resultDiv";
     }
 
 }

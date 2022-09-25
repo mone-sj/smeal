@@ -57,7 +57,7 @@ public class NaverApiController {
         return null;
     }
 
-    // 재료 검색을 위한 소분류(SubGroupList) 리스트 조회
+    // 재료 검색을 위한 소분류(SubGroupList) 리스트 조회 (완)
     @GetMapping("/auth/mainGroup/{groupId}")
     public ResponseDto<List<SubGroupInfo>> subGroupList(
             @PathVariable String groupId) {
@@ -66,38 +66,20 @@ public class NaverApiController {
         return new ResponseDto<List<SubGroupInfo>>
                 (HttpStatus.OK.value(), result);
     }
-/*
-    //RecipeSearchController에서 작성하였으므로 삭제해도 됨
-    // 재료 검색에 따른 식품의약품안전처 음식명 리스트
-    @PostMapping("/auth/foodRecipeList")
-    public ResponseDto<LinkedHashMap<String, List<Recipe.RespFood>>> foodRecipeList(
-            @RequestBody(required = false) Recipe.Request request){
-//        if (request == null) {
-//            // DB 조회
-//        }
-        System.out.println("request");
-        System.out.println(request);
-        Recipe.Request req =
-                new Recipe.Request(request.getRcp_parts_dtls());
-
-        return new ResponseDto<LinkedHashMap<String, List<Recipe.RespFood>>>(
-                HttpStatus.OK.value(), recipeApiService.searchFoodList(req)
-        );
-    }*/
 
     /*음식명을 네이버 블로그 검색 하여 결과 리턴 ->
     RestController가 아닌 controller로 modelAttribute로 보내야할 듯*/
-    @GetMapping("/auth/nBlogRecipe/{foodName}")
-    public ResponseDto<ArrayList<Item>> nBlogRecipe(
-            @PathVariable String foodName
-    ) throws JsonProcessingException {
-        System.out.println("요청값 foodName:"+foodName);
-        NaverSearchRes.Root searchBlogResult =
-                naverApiService.searchBlog(foodName);
-
-        return new ResponseDto<ArrayList<Item>>(
-                HttpStatus.OK.value(), searchBlogResult.getItems());
-    }
+//    @GetMapping("/auth/nBlogRecipe/{searchFood}")
+//    public ResponseDto<ArrayList<Item>> nBlogRecipe(
+//            @PathVariable String searchFood
+//    ) throws JsonProcessingException {
+//        System.out.println("요청값 foodName:"+searchFood);
+//        NaverSearchRes.Root searchBlogResult =
+//                naverApiService.searchBlog(searchFood);
+//
+//        return new ResponseDto<ArrayList<Item>>(
+//                HttpStatus.OK.value(), searchBlogResult.getItems());
+//    }
 
     @PostMapping("/auth/nBlogRecipePost")
     public ResponseDto<ArrayList<Item>> nBlogRecipePost(

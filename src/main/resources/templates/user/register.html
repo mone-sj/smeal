@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -58,20 +58,26 @@
                                          placeholder="nickname">
                                 </div>
                               </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="email" name="email"
-                                        placeholder="Email Address">
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user" name="password"
-                                            id="password" placeholder="Password">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user" name="passwordRepeat"
-                                            id="passwordRepeat" placeholder="Repeat Password">
-                                    </div>
-                                </div>
+                              <div class="form-group">
+                                  <input type="email" class="form-control form-control-user" id="email" name="email"
+                                      placeholder="Email Address">
+                              </div>
+                              <div class="form-group row">
+                                  <div class="col-sm-6 mb-3 mb-sm-0">
+                                      <input type="password" class="form-control form-control-user" name="password"
+                                          id="password" placeholder="Password">
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <input type="password" class="form-control form-control-user" name="passwordRepeat"
+                                          id="passwordRepeat" placeholder="Repeat Password">
+                                  </div>
+                              </div>
+                              <th:block th:if="${nonMemberInfo!=null}">
+                                <input type="hidden" id="age" name="age" th:value="${nonMemberInfo.age}">
+                                <input type="hidden" id="gender" name="gender" th:value="${nonMemberInfo.gender}">
+                                <input type="hidden" id="mbtiType" name="mbtiType" th:value="${nonMemberInfo.mbtiType}">
+                              </th:block>
+
 <!--                                <a href="login.html" class="btn btn-primary btn-user btn-block">-->
 <!--                                    Register Account-->
 <!--                                </a>-->

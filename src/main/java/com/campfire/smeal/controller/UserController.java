@@ -1,10 +1,12 @@
 package com.campfire.smeal.controller;
 
 import com.campfire.smeal.config.auth.PrincipalDetails;
+import com.campfire.smeal.dto.mbti.NonMemberInfoDto;
 import com.campfire.smeal.handler.exception.GeneralException;
 import com.campfire.smeal.handler.exception.SmErrorCode;
 import com.campfire.smeal.model.User;
 import com.campfire.smeal.service.UserService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,15 +44,30 @@ public class UserController {
     ) {
         model.addAttribute("exception", exception);
         return "user/login";
-//        return "test/login";
     }
 
     //회원가입 페이지
     @GetMapping("/auth/joinForm")
     public String joinForm() {
         return "user/register";
-//        return "test/register";
     }
+
+    // mbti검사 후 회원가입 시 - 삭제예정
+//    @PostMapping("/auth/joinMem")
+//    public String joinNonMember(
+//            @RequestParam(required = false) String age,
+//            @RequestParam(required = false) String gender,
+//            @RequestParam(required = false) String mbtiType,
+//            Model model
+//    ) {
+//        NonMemberInfoDto nonMemberInfoDto = new NonMemberInfoDto(age, gender, mbtiType);
+//        System.out.println("nonMemberInfoDto");
+//        System.out.println(nonMemberInfoDto);
+//        model.addAttribute("nonMemberInfo", nonMemberInfoDto);
+//        return "user/register";
+//    }
+
+
 
     // 회원 수정 페이지
     @GetMapping("/user/update")
@@ -63,21 +80,31 @@ public class UserController {
     // ajax 사용하지 않았을때
     @PostMapping("/auth/joinProc")
     public String userSave(
-            @RequestParam(required = false) String username,
-            @RequestParam(required = true) String password,
-            @RequestParam(required = true) String passwordRepeat,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String nickname
+            @RequestParam(required = true) @NonNull String username,
+            @RequestParam(required = true) @NonNull String password,
+            @RequestParam(required = true) @NonNull String passwordRepeat,
+            @RequestParam(required = true) @NonNull String email,
+            @RequestParam(required = true) @NonNull String nickname,
+            @RequestParam(required = false) String age,
+            @RequestParam(required = false) String gender,
+            @RequestParam(required = false) String mbtiType
     ){
+        System.out.println("age: " + age);
+        System.out.println("gender: " + gender);
+        System.out.println("mbtiType: " + mbtiType);
+
         User user=User.builder()
                 .username(username)
                 .password(password)
                 .email(email)
                 .nickname(nickname)
+                .age(age)
+                .gender(gender)
+                .foodMbti(mbtiType)
                 .build();
         userService.회원가입(user, passwordRepeat);
         log.info("회원가입완료");
-        return "index";
+        return "redirect:/";
     }
 
     //////////////////////// 테스트용_기능완성및매핑이 완료되면 삭제

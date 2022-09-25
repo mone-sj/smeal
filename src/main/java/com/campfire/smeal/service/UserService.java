@@ -29,20 +29,17 @@ public class UserService {
             if (!passwordRepeat.equals(user.getPassword())) {
                 throw new GeneralException(INCONSISTENCY_PASSWORD);
             }
-            log.info("1");
             String rawPassword = user.getPassword();
             String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
             user.setPassword(encPassword);
             user.setUserId(user.getUsername());
             user.setRole(RoleType.ROLE_USER);
             userRepository.save(user);
-            log.info("2");
         } /*catch (DataIntegrityViolationException ex) {
             log.info("3");
             throw new GeneralException(DUPLICATED_USER_ID);
         }*/
         catch (Exception e) {
-            log.info("3");
             e.printStackTrace();
             throw new GeneralException(INVALID_REQUEST);
         }

@@ -46,6 +46,31 @@
                     <b>mbti image: </b>
                     <img th:src="@{/img/mbtiTypeImg/{id}.png(id=${mbti.id})}" width="400" height="400"/>
 
+                    <br/><br/><br/><br/>
+                    <b>비회원 정보: </b>
+                    <div th:text="${nonMember}"></div>
+
+<!--                    <form action="/auth/joinMem" method="post" enctype="application/json">-->
+<!--                        <input type="hidden" id="age" name="age" th:value="${nonMember.age}">-->
+<!--                        <input type="hidden" id="gender" name="gender" th:value="${nonMember.gender}">-->
+<!--                        <input type="hidden" id="mbtiType" name="mbtiType" th:value="${nonMember.mbtiType}">-->
+<!--                        <button class="btn btn-primary btn-icon-split" id="btn-view">-->
+<!--                            <span class="icon text-white-50">-->
+<!--                                <i class="fas fa-arrow-right"></i>-->
+<!--                            </span>-->
+<!--                            <span class="text">자세히 보기</span>-->
+<!--                        </button>-->
+<!--                    </form>-->
+
+
+
+<!--                    <a href="#" class="btn btn-primary btn-icon-split">-->
+<!--                        <span class="icon text-white-50">-->
+<!--                            <i class="fas fa-arrow-right"></i>-->
+<!--                        </span>-->
+<!--                        <span class="text">자세히 보기</span>-->
+<!--                    </a>-->
+
                 </div>
                 <!-- /.container-fluid -->
 

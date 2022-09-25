@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
@@ -44,7 +45,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/","/auth/**", "/js/**","/css/**","/img/**"
+                .antMatchers("/","/auth/**", "/js/**","/css/**","/img/**", "/testJs/**"
                         ,"/vendor/**","/scss/**", "/favicon.ico", "/dashboard", "/mbti/**")
                 .permitAll()
                 .anyRequest().authenticated()
@@ -107,7 +108,5 @@ public class SecurityConfig {
     protected WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/resources/**");
     }
-
-
 
 }

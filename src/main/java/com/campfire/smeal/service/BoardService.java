@@ -17,10 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.campfire.smeal.handler.exception.SmErrorCode.INVALID_REQUEST;
 import static com.campfire.smeal.handler.exception.SmErrorCode.NO_BOARD;
@@ -124,6 +121,13 @@ public class BoardService {
     @Transactional
     public Long TotalCount() {
         return boardRepository.count();
+    }
+
+    @Transactional
+    public void myBoard(Long id) {
+        System.out.println("myBoard의 id: "+id);
+        Collection<Board> boards = boardRepository.findByUserId(id);
+        boards.forEach(board-> System.out.println(boards));
     }
 
 

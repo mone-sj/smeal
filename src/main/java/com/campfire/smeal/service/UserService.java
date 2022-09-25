@@ -45,25 +45,67 @@ public class UserService {
         }
     }
 
+//    @Transactional
+//    public User 회원수정(User user, String passwordRepeat) {
+//        if (!user.getPassword().equals(passwordRepeat)) {
+//            throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
+//        }
+//
+//        User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
+//            //User persistence = userRepository.findByUserId(user.getUserId()).orElseThrow(() -> {
+//            return new GeneralException(SmErrorCode.NO_USER);
+//        });
+//
+//        String rawPassword = user.getPassword();
+//        String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
+//        persistence.setPassword(encPassword);
+//        persistence.setAge(user.getAge());
+//        persistence.setGender(user.getGender());
+//        persistence.setEmail(user.getEmail());
+//        persistence.setNickname(user.getNickname());
+//
+//        return persistence;
+//    }
+
     @Transactional
-    public User 회원수정(User user, String passwordRepeat) {
-        if (!user.getPassword().equals(passwordRepeat)) {
-            throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
-        }
+    public User 회원수정(User user) {
 
         User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
             //User persistence = userRepository.findByUserId(user.getUserId()).orElseThrow(() -> {
             return new GeneralException(SmErrorCode.NO_USER);
         });
 
-        String rawPassword = user.getPassword();
-        String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
-        persistence.setPassword(encPassword);
+//        if (user.getProvider() == null) {
+//            if (!user.getPassword().equals(user.getPasswordRepeat())) {
+//                throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
+//            }
+//        }
+        System.out.println(persistence.getPassword());
+        log.info("user");
+        System.out.println(user);
+        log.info("persistence");
+        System.out.println(persistence);
+
         persistence.setAge(user.getAge());
         persistence.setGender(user.getGender());
         persistence.setEmail(user.getEmail());
         persistence.setNickname(user.getNickname());
-
+//        String rawPassword = user.getPassword();
+//        String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
+//        persistence.setPassword(encPassword);
+        System.out.println("1");
+//
+        if (persistence.getProvider() == null) {
+            String rawPassword = user.getPassword();
+            String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
+            persistence.setPassword(encPassword);
+            System.out.println("2");
+        } else {
+//            String rawPassword = user.getPassword();
+//            String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
+//            persistence.setPassword(encPassword);
+            System.out.println(persistence.getPassword());
+        }
         return persistence;
     }
 

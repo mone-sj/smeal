@@ -4,6 +4,7 @@ import com.campfire.smeal.config.auth.PrincipalDetails;
 import com.campfire.smeal.dto.ErrorResponseDto;
 import com.campfire.smeal.dto.ResponseDto;
 import com.campfire.smeal.handler.exception.GeneralException;
+import com.campfire.smeal.handler.exception.SmErrorCode;
 import com.campfire.smeal.model.User;
 import com.campfire.smeal.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -49,17 +50,45 @@ public class UserApiController {
 
 //     회원수정
 //     uri 추후 수정 user/updateProc
-    @PutMapping("/auth/updateProc")
-    public ResponseDto<Integer> update(
-                        @RequestBody User user,
-                        @RequestParam(required = true) String passwordRepeat,
-                        @AuthenticationPrincipal PrincipalDetails principalDetails
-    ) {
-        User updateUser = userService.회원수정(user,passwordRepeat);
+//    @PutMapping("/auth/updateProc")
+//    public ResponseDto<Integer> update(
+//                        @RequestBody User user,
+//                        @RequestParam(required = true) String passwordRepeat,
+//                        @AuthenticationPrincipal PrincipalDetails principalDetails
+//    ) {
+//        User updateUser = userService.회원수정(user,passwordRepeat);
+//
+//        // 세션 수정
+//        Authentication authentication= authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword()));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+//    }
 
+    @PutMapping("/user/updateProc")
+    public ResponseDto<Integer> update(
+            @RequestBody User user,
+            @AuthenticationPrincipal PrincipalDetails principalDetails
+    ) {
+
+        log.info("user");
+        System.out.println(user);
+
+        if (user.getPassword() != null && !user.getPassword().equals(user.getPasswordRepeat())) {
+            throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
+//            if (!user.getPassword().equals(user.getPasswordRepeat())) {
+//                throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
+//            }
+        }
+
+        User updateUser = userService.회원수정(user);
+
+        System.out.println("여기까지 됨");
         // 세션 수정
         Authentication authentication= authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword()));
+                //new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword()));
+                new UsernamePasswordAuthenticationToken(updateUser.getUserId(), updateUser.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);

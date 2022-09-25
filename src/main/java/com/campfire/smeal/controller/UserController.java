@@ -73,8 +73,7 @@ public class UserController {
     @GetMapping("/user/update")
     public String userUpdate(
             @AuthenticationPrincipal PrincipalDetails principal) {
-//        return "updateForm";
-        return "test/userUpdate";
+        return "user/userUpdate";
     }
 
     // ajax 사용하지 않았을때

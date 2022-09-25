@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<!--xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
 
 <nav th:fragment="fragment-topbar" class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -91,28 +90,45 @@
 
         <div class="topbar-divider d-none d-sm-block"></div>
 
+
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
+            <th:block sec:authorize="isAuthenticated()">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                <img class="img-profile rounded-circle"
-                     src="/img/undraw_profile.svg">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small" sec:authentication="principal.username">Douglas McGee</span>
+<!--                <img class="img-profile rounded-circle"-->
+<!--                     src="/img/undraw_profile.svg">-->
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                  aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="/auth/login">
+                <a class="dropdown-item" href="/user/update">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    MyPage
+                </a>
+                <a class="dropdown-item" href="/user/update">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="/logout"> <!--data-toggle="modal" data-target="#logoutModal">-->
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
                 </a>
             </div>
+            </th:block>
+
+            <th:block sec:authorize="isAnonymous()">
+                <a th:href="@{/auth/login}" class="btn btn-primary btn-icon-split">
+                    <span class="text">LOGIN</span>
+                </a>
+            </th:block>
         </li>
+
+
+
+
 
     </ul>
 

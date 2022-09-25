@@ -63,27 +63,20 @@ let index = {
         alert(JSON.stringify(error));
       });
   },
+
   searchFood: function () {
-    //var searchFood = document.getElementById("foodName").value;
     let searchFood = $("#foodName").val();
-    // let data = {
-    //   rcp_parts_dtls: $("#sub-group").val(),
-    // };
-    // searchName = $("#sub-group").val();
     console.log("searchFood: " + searchFood);
 
     $.ajax({
       type: "GET",
-      //type: "POST",
-      //url: "/auth/nBlogRecipePost",
-      url: "/auth/nBlogRecipe/"+searchFood,
+      url: "/auth/nBlogRecipe/" + searchFood,
       //data: JSON.stringify(data),
-      //data: searchFood,
       //contentType: "application/text; charset=utf-8",
-      dataType: "json",
+      //dataType: "json",
     })
-      .done(function (resp) {
-        console.log(resp);
+      .done(function (fragment) {
+        $("#resultDiv").replaceWith(fragment);
       })
       .fail(function (error) {
         alert(JSON.stringify(error));

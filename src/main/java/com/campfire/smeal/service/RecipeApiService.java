@@ -126,7 +126,7 @@ public class RecipeApiService {
 
     /*
     선택한 재료에 사용되는 음식명을 식약처에서 조회하여 해당 음식명에 대한
-    네이버 blog(또는 이미지) 결과 리턴
+    네이버 blog(또는 이미지) 결과 리턴- 삭제
     */
     public List<Recipe.res> searchRecipe(Recipe.Request recipe,
                                          String how

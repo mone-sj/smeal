@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -39,33 +42,37 @@ public class RecipeApiService {
         String url = "http://openapi.foodsafetykorea.go.kr/api/" + key + "/" + serviceName +
                 "/json/" + request.getStartIdx() + "/" + request.getEndIdx() + "/RCP_PARTS_DTLS=" + request.getRcp_parts_dtls();
         Recipe.Response.Root response = restTemplate.getForObject(url, Recipe.Response.Root.class);
-
-
-        String totalCount = response.getCookrcp01().getTotal_count();
-        System.out.println("totalCount: " + totalCount);
-        url = "http://openapi.foodsafetykorea.go.kr/api/" + key + "/" + serviceName +
-                "/json/" + request.getStartIdx() + "/" + totalCount + "/RCP_PARTS_DTLS=" + request.getRcp_parts_dtls();
-
-        response = restTemplate.getForObject(url, Recipe.Response.Root.class);
+        System.out.println("totalCount: "+response.getCookrcp01().getTotal_count());
 
         // 검색 결과리스트
         List<Recipe.RespFood> foodListResp = new ArrayList<>();
-        for (int i = 0; i < response.getCookrcp01().getRow().size(); i++) {
+        if (response.getCookrcp01().getRow() == null) {
             Recipe.RespFood respFood = Recipe.RespFood.builder()
-                    .rcp_nm(response.getCookrcp01().getRow().get(i).getRcp_nm())
-                    .rcp_way2(response.getCookrcp01().getRow().get(i).getRcp_way2())
-                    .att_file_no_main(response.getCookrcp01().getRow().get(i).getAtt_file_no_main())
+                    .rcp_nm("검색결과 없음")
+                    .rcp_way2("")
+                    .att_file_no_main("")
                     .build();
             foodListResp.add(respFood);
+        } else {
+            for (int i = 0; i < response.getCookrcp01().getRow().size(); i++) {
+                Recipe.RespFood respFood = Recipe.RespFood.builder()
+                        .rcp_nm(response.getCookrcp01().getRow().get(i).getRcp_nm())
+                        .rcp_way2(response.getCookrcp01().getRow().get(i).getRcp_way2())
+                        .att_file_no_main(response.getCookrcp01().getRow().get(i).getAtt_file_no_main())
+                        .build();
+                foodListResp.add(respFood);
+            }
+            // 음식이름 오름차순 정렬
+            Collections.sort(foodListResp, Recipe.foodNameComparator);
         }
-
-        // 음식이름 오름차순 정렬
-        Collections.sort(foodListResp, Recipe.foodNameComparator);
 
 //        foodListResp.stream().forEach(respFood -> System.out.println(respFood.getRcp_nm()));
 
         // 초성에 따른 foodList 생성 함수: foodListSortMap()
-        return foodListSortMap(foodListResp);
+        LinkedHashMap<String, List<Recipe.RespFood>> result = foodListSortMap(foodListResp);
+        System.out.println(result);
+
+        return result;
 
     }
 
@@ -90,8 +97,14 @@ public class RecipeApiService {
                 if (chName >= 0xAC00) { // 한글일 경우만 시작
                     // 한글이 유니코드에 저장되는 규칙 : (초성 * 21 + 중성) * 28 + 종성 + 0xAC00 = 한글
                     int cho = (int) ((chName - 0xAC00) / 28 / 21);
-                    // 초성이 빈칸일때
-                    if (chosung.equals("")) {
+
+                    if (i == foodListResp.size() - 1) {
+                        // foodListResp 마지막 값일때, 마지막값을 newFoodList와 foodListSortMap 저장
+                        chosung = chs[cho];
+                        newFoodList.add(respFood);
+                        foodListSortMap.put(chosung, newFoodList);
+                    } else if (chosung.equals("")) {
+                        // 초성이 빈칸일때
                         newFoodList.add(respFood);
                         chosung = chs[cho];
                     } else if (!chosung.equals(chs[cho])) {
@@ -100,13 +113,8 @@ public class RecipeApiService {
                         newFoodList = new ArrayList<>();
                         newFoodList.add(respFood);
                         chosung = chs[cho];
-                    } else if (i == foodListResp.size() - 1) {
-                        // foodListResp 마지막 값일때, 마지막값을 newFoodList와 foodListSortMap 저장
-                        newFoodList.add(respFood);
-                        foodListSortMap.put(chosung, newFoodList);
                     } else {
                         // 초성이 전과 동일할때
-                        System.out.println(chosung);
                         newFoodList.add(respFood);
                     }
                 }

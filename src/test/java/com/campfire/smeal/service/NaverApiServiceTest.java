@@ -1,9 +1,10 @@
 package com.campfire.smeal.service;
 
+import com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes;
+import com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.TargetRes;
 import com.campfire.smeal.dto.api.Recipe;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.text.ParseException;
@@ -15,8 +16,8 @@ import java.util.*;
 @ExtendWith(MockitoExtension.class)
 class NaverApiServiceTest {
 
-    @InjectMocks
-    private NaverApiService naverApiService;
+//    @InjectMocks
+//    private NaverApiService naverApiService;
 
 
     @Test
@@ -180,6 +181,108 @@ class NaverApiServiceTest {
 
         System.out.println("Map 결과: ");
         System.out.println(foodListSortMap);
+
+
+    }
+
+    @Test
+    void mapTest() {
+
+        NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes
+                mRearrRes=NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes.builder()
+                .group("m")
+                .ratio("23")
+                .build();
+
+        NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes
+                gRearrRes=NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes.builder()
+                .group("g")
+                .ratio("56")
+                .build();
+
+        ArrayList<NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes> rearrResList = new ArrayList<>();
+        rearrResList.add(mRearrRes);
+        rearrResList.add(gRearrRes);
+
+        TargetRes
+                genderResult= TargetRes.builder()
+                .keyword("된장찌개")
+                .results(rearrResList)
+                .build();
+
+        NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes
+                m2RearrRes=NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes.builder()
+                .group("m")
+                .ratio("55")
+                .build();
+
+        NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes
+                g2RearrRes=NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes.builder()
+                .group("g")
+                .ratio("98")
+                .build();
+
+        ArrayList<NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes> rearrResList2 = new ArrayList<>();
+        rearrResList2.add(m2RearrRes);
+        rearrResList2.add(g2RearrRes);
+
+        TargetRes
+                genderResult2= TargetRes.builder()
+                .keyword("김치찌개")
+                .results(rearrResList2)
+                .build();
+
+        List<TargetRes> resList = new ArrayList<>();
+        resList.add(genderResult);
+        resList.add(genderResult2);
+
+        System.out.println(resList);
+
+        List<String> targetList = new ArrayList<>();
+        List<String> resultValuesList = new ArrayList<>();
+        Map<String, List<String>> valueMap = new HashMap<>();
+
+        for (TargetRes result : resList){
+            targetList.add(result.getKeyword());
+            System.out.println(result.getKeyword());
+            System.out.println("valueMap");
+            System.out.println(valueMap);
+
+            for (NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes value : result.getResults()) {
+                if (valueMap.containsKey(value.getGroup())) {
+                    System.out.println("key값 있을때");
+                    System.out.println(value.getGroup());
+                    System.out.println(value.getRatio());
+                    resultValuesList = valueMap.get(value.getGroup());
+//                    tempList = valueMap.get(value.getGroup());
+                    System.out.println("resultValuesList 가져오기");
+                    System.out.println(resultValuesList);
+                    resultValuesList.add(value.getRatio());
+                    //valueMap.remove(value.getGroup());
+                    valueMap.replace(value.getGroup(), resultValuesList);
+                    resultValuesList = new ArrayList<>();
+                    System.out.println("resultValuesList 삭제됐는지 확인: "+resultValuesList);
+                    System.out.println(resultValuesList);
+                    System.out.println(valueMap);
+                } else {
+                    System.out.println("key값 없을때");
+                    System.out.println(value.getGroup());
+                    System.out.println(value.getRatio());
+                    resultValuesList.add(value.getRatio());
+                    valueMap.put(value.getGroup(), resultValuesList);
+                    resultValuesList = new ArrayList<>();
+                    System.out.println("resultValuesList 삭제됐는지 확인: "+resultValuesList);
+                    System.out.println(resultValuesList);
+                    System.out.println(valueMap);
+                }
+            }
+
+        }
+
+        System.out.println("targetList");
+        System.out.println(targetList);
+        System.out.println("valueMap");
+        System.out.println(valueMap);
 
 
     }

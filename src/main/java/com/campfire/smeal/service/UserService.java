@@ -7,6 +7,7 @@ import com.campfire.smeal.model.RoleType;
 import com.campfire.smeal.model.User;
 import com.campfire.smeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import javax.transaction.Transactional;
 import static com.campfire.smeal.handler.exception.SmErrorCode.*;
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -33,9 +35,11 @@ public class UserService {
             user.setUserId(user.getUsername());
             user.setRole(RoleType.ROLE_USER);
             userRepository.save(user);
-        } catch (DataIntegrityViolationException ex) {
+        } /*catch (DataIntegrityViolationException ex) {
+            log.info("3");
             throw new GeneralException(DUPLICATED_USER_ID);
-        } catch (Exception e) {
+        }*/
+        catch (Exception e) {
             e.printStackTrace();
             throw new GeneralException(INVALID_REQUEST);
         }
@@ -87,4 +91,17 @@ public class UserService {
         }
         return true;
     }
+
+    @Transactional
+    public void 회원정보추가(Long id, String gender, String age, String resultTypeCode) {
+        User persistence = userRepository.findById(id).orElseThrow(() ->{
+            return new GeneralException(SmErrorCode.NO_USER);
+        });
+
+        persistence.setGender(gender);
+        persistence.setAge(age);
+        persistence.setFoodMbti(resultTypeCode);
+
+    }
+
 }

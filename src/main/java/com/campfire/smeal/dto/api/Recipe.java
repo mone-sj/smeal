@@ -33,7 +33,7 @@ public class Recipe {
 
         public Request(String rcp_parts_dtls) {
             this.startIdx = "1";
-            this.endIdx = "10";
+            this.endIdx = "100";
             this.rcp_parts_dtls = rcp_parts_dtls;
         }
     }

@@ -3,11 +3,9 @@ package com.campfire.smeal.service;
 import com.campfire.smeal.dto.api.NaverApiTrendShoppingRes;
 import com.campfire.smeal.dto.api.NaverApiTrendShoppingRes.NaverClickTrendShoppingRes.ApiTrendResDto;
 import com.campfire.smeal.dto.api.NaverApiTrendShoppingRes.NaverKeywordTrendShoppingRes.*;
+import com.campfire.smeal.dto.api.NaverApiTrendShoppingRes.NaverKeywordTrendShoppingRes.Results;
 import com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes;
-import com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.AgeRes;
-import com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.ApiKeywordTrendTargetResDto;
-import com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.GenderRes;
-import com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.KeywordTargetRearrRes;
+import com.campfire.smeal.dto.api.NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.*;
 import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.CateTrendRequest;
 import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.CategoryRequest;
 import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.KeywordTrendRequest;
@@ -32,8 +30,8 @@ import java.util.stream.Collectors;
 
 import static com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.keywordTrendRequestDefaultDto;
 
-@Service
 @Slf4j
+@Service
 public class NaverApiService {
 
     private static String clientId;
@@ -87,7 +85,8 @@ public class NaverApiService {
     }
 
     /*네이버 검색-이미지*/
-    public NaverSearchRes.img.Root searchImage(String searchWord) throws JsonProcessingException {
+    public NaverSearchRes.img.Root searchImage(String searchWord)
+            throws JsonProcessingException {
 
         String text = null;
         try {
@@ -111,7 +110,8 @@ public class NaverApiService {
     }
 
     // 네이버 쇼핑인사이트 키워드별 트렌드 조회
-    public String keywordTrendShopping(String req
+//    public String keywordTrendShopping(String req
+    public AllKeywordResponse keywordTrendShopping(String req
     ) throws ParseException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
 
@@ -162,43 +162,49 @@ public class NaverApiService {
         Double divisionBytotalRatioSum =
                 100 / result.values().stream().mapToDouble(Double::doubleValue).sum();
 
-        List<TotalClick> totalClickList = new ArrayList<>();
+        List<String> ratioList = new ArrayList<>();
         // clickTrend 계산
         for (String key : result.keySet()) {
             result.put(key, result.get(key) * divisionBytotalRatioSum);
             keywordList.add(key);
-            TotalClick totalClick =
-                    TotalClick.builder()
-                            .keyword(key)
-                            .ratio(String.format("%.2f",result.get(key)))
-                            .build();
-            totalClickList.add(totalClick);
+            ratioList.add(String.format("%.2f",result.get(key)));
         }
 
+        TotalClick totalClickValue = TotalClick.builder()
+                .keywordList(keywordList)
+                .ratioList(ratioList)
+                .build();
+        log.info("TotalClick");
+        System.out.println(totalClickValue);
+
         // 연령별, 성별 (target) 결과 list 초기화
-        List<AgeRes> ageResList = new ArrayList<>();
-        List<GenderRes> genderResList = new ArrayList<>();
+        ArrayList<TargetRes> ageResList = new ArrayList<>();
+        ArrayList<TargetRes> genderResList = new ArrayList<>();
 
         // 키워드별 연령별, 성별 결과값 받아오기
         for (String keyword : keywordList) {
             for (String urlMapKey : urlMap.keySet()) {
                 jsonObj.replace("keyword", keyword);
+
+                // 요청
                 String responseBody=post(urlMap.get(urlMapKey), requestHeaders(),
                         jsonObj.toString());
 
+                // DTO변환
                 ApiKeywordTrendTargetResDto keywordTargetTrend =
                         mapper.readValue(
                                 responseBody,
                                 ApiKeywordTrendTargetResDto.class);
 
-                ArrayList<KeywordTargetRearrRes> KeywordTargetRearrResList = new ArrayList<>();
+                ArrayList<KeywordTargetRearrRes> keywordTargetRearrResList = new ArrayList<>();
                 for (int j = 0; j < keywordTargetTrend.getResults().size(); j++) {
                     List<NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.ResultData>
                             targetResultResList = keywordTargetTrend.getResults().get(j).getData();
 
                     // group 명 찾기
                     List<String> groupList = new ArrayList<>();
-                    for (NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.ResultData resultData : targetResultResList) {
+                    for (NaverApiTrendShoppingTargetRes.KeywordTargetTrendShoppingRes.ResultData
+                            resultData : targetResultResList) {
                         groupList.add(resultData.getGroup());
                     }
                     // 중복제거
@@ -228,41 +234,82 @@ public class NaverApiService {
                                         .group(key)
                                         .ratio(String.format("%.2f",targetResultMap.get(key)))
                                         .build();
-                        KeywordTargetRearrResList.add(keywordTargetRearrRes);
+                        keywordTargetRearrResList.add(keywordTargetRearrRes);
                     }
                 }
 
                 if (urlMapKey.equals("age")) {
-                    AgeRes ageRes =
-                            AgeRes.builder()
+                    TargetRes ageRes =
+                            TargetRes.builder()
                                     .keyword(keyword)
-                                    .results(KeywordTargetRearrResList)
+                                    .results(keywordTargetRearrResList)
                                     .build();
                     ageResList.add(ageRes);
                 } else if (urlMapKey.equals("gender")) {
-                    GenderRes genderRes =
-                            GenderRes.builder()
+//                    for (int i = 0; i < keywordTargetRearrResList.size(); i++) {
+//                        if (keywordTargetRearrResList.get(i).getGroup().equals("f")) {
+//                            keywordTargetRearrResList.get(i).setGroup("여성");
+//                        }else if(keywordTargetRearrResList.get(i).getGroup().equals("m")) {
+//                            keywordTargetRearrResList.get(i).setGroup("남성");
+//                        }
+//                    }
+                    TargetRes genderRes =
+                            TargetRes.builder()
                                     .keyword(keyword)
-                                    .results(KeywordTargetRearrResList)
+                                    .results(keywordTargetRearrResList)
                                     .build();
                     genderResList.add(genderRes);
+
                 }
             }
         }
+
         AllKeywordResponse allKeywordResponse=
                 AllKeywordResponse.builder()
-                        .totalClick(totalClickList)
-                        .ages(ageResList)
-                        .genders(genderResList)
+                        .totalClick(totalClickValue)
+                        .ages(targetValuePerGroup(ageResList))
+                        .genders(targetValuePerGroup(genderResList))
                         .build();
 
         String responseJson = mapper.writeValueAsString(allKeywordResponse);
-        log.info("responseJson");
         System.out.println(responseJson);
 
-        return responseJson;
+        //return responseJson;
+        return allKeywordResponse;
     }
 
+    // group별 값으로 정렬
+    public TargetValueResponse targetValuePerGroup(ArrayList<TargetRes> results) {
+        System.out.println(results);
+        List<String> targetList = new ArrayList<>();
+        List<String> resultValuesList = new ArrayList<>();
+        Map<String, List<String>> valueMap = new HashMap<>();
+
+        for (TargetRes result : results){
+            targetList.add(result.getKeyword());
+            for (KeywordTargetRearrRes value : result.getResults()) {
+                if (valueMap.containsKey(value.getGroup())) {
+                    resultValuesList = valueMap.get(value.getGroup());
+                    resultValuesList.add(value.getRatio());
+                    valueMap.replace(value.getGroup(), resultValuesList);
+                    resultValuesList = new ArrayList<>();
+                } else {
+                    resultValuesList.add(value.getRatio());
+                    valueMap.put(value.getGroup(), resultValuesList);
+                    resultValuesList = new ArrayList<>();
+                }
+            }
+        }
+
+        TargetValueResponse targetValueResponse = TargetValueResponse.builder()
+                .keyword(targetList)
+                .results(valueMap)
+                .build();
+//        System.out.println("targetValueResponse");
+//        System.out.println(targetValueResponse);
+
+        return targetValueResponse;
+    }
 
     public String searchImageOrigin(String searchWord) {
 

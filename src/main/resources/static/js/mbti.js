@@ -14,8 +14,9 @@ let index = {
             var inputData="input[name="+qNo+"]:checked";
             result[qNo]=$(inputData).val();
         }
+        var gender = $('input[name=gender]:checked').val();
+        var age = $('input[name=age]:checked').val();
 
-        console.log(result);
 
 
         $.ajax({
@@ -32,10 +33,11 @@ let index = {
 
             console.log(resp['success'][40]);
             var result_mbti = resp['success']
+            result_mbti += "," + gender + "," + age;
             /*location.href = "/mbti/result"*/
 
             location.href = `/mbti/result/${result_mbti}`;
-        }).fail(function(error){1
+        }).fail(function(error){
             alert(JSON.stringify(error));
         });
 

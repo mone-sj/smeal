@@ -152,33 +152,6 @@
                 </div>
 
 
-                <!--  <div>-->
-                <!--    <b>user정보</b>-->
-                <!--    <div th:text="@{board.getUser()}"></div>-->
-                <!--    <div th:text="@{board.getUser().getNickname()}"></div>-->
-                <!--    <b>보드 정보</b>-->
-                <!--    <div th:value="@{board}"></div>-->
-                <!--  </div>-->
-
-
-                <!--<ul class="pagination justify-content-center">
-                  <li class="page-item" th:classappend="${1 == board.pageable.pageNumber+1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/auth/board(page=${board.pageable.pageNumber-1},searchText=${param.searchText})}">Previous</a>
-                  </li>
-                  <li class="page-item" th:classappend="${i == board.pageable.pageNumber+1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
-                    <a class="page-link" href="#" th:href="@{/auth/board(page=${i-1}, searchText=${param.searchText})}" th:text="${i}">1</a>
-                    </li>
-                  <li class="page-item">
-                    <a class="page-link" th:href="@{/auth/board(page=${board.pageable.pageNumber+1},searchText=${param.searchText})}" th:classappend="${board.totalPages == board.pageable.pageNumber+1} ? 'disabled'">Next</a>
-                  </li>
-                </ul>-->
-
-
-                <!--    <th:block th:each="page: ${#numbers.sequence(startPage, endPage)}">-->
-                <!--      <a th:if="${page!=nowPage}" th:href="@{/auth/board/list(page=${page-1})}" th:text="${page}"></a>-->
-                <!--      <strong th:if="${page==nowPage}" th:text="${page}" style="color:red"></strong>-->
-                <!--    </th:block>-->
-
 
             </div>
             <!-- /.container-fluid -->

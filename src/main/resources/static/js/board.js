@@ -17,7 +17,7 @@ let index = {
   save: function () {
     let data = {
       title: $("#title").val(),
-      content: $("#content").val(),
+      content: $("#content2").val(),
     };
 
     $.ajax({
@@ -62,7 +62,7 @@ let index = {
 
     let data = {
       title: $("#title").val(),
-      content: $("#content").val(),
+      content: $("#content2").val(),
     };
 
     let send_url = `/auth/board/update/${id}`;

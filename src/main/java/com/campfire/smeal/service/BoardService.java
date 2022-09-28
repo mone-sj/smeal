@@ -1,8 +1,6 @@
 package com.campfire.smeal.service;
 
 import com.campfire.smeal.dto.ReplySaveRequestDto;
-//import com.campfire.smeal.dto.utils.Criteria;
-//import com.campfire.smeal.dto.utils.Paging;
 import com.campfire.smeal.handler.exception.GeneralException;
 import com.campfire.smeal.model.Board;
 import com.campfire.smeal.model.Reply;
@@ -12,12 +10,11 @@ import com.campfire.smeal.repository.ReplyRepository;
 import com.campfire.smeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
 
 import static com.campfire.smeal.handler.exception.SmErrorCode.INVALID_REQUEST;
 import static com.campfire.smeal.handler.exception.SmErrorCode.NO_BOARD;
@@ -38,7 +35,7 @@ public class BoardService {
         //Page<Board> boards = boardRepository.findAll(pageable);
         Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(
                 searchText, searchText, pageable);
-
+        System.out.println(boards);
         return boards;
     }
 
@@ -123,13 +120,14 @@ public class BoardService {
         return boardRepository.count();
     }
 
-    @Transactional
-    public void myBoard(Long id) {
-        System.out.println("myBoard의 id: "+id);
-        Collection<Board> boards = boardRepository.findByUserId(id);
-        boards.forEach(board-> System.out.println(boards));
-    }
 
+    @Transactional
+    public void findAll() {
+        List<Board> boardList = boardRepository.findAll();
+        System.out.println("출력이 안되나?");
+        System.out.println(boardList);
+
+    }
 
 
 

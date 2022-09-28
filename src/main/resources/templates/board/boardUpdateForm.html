@@ -49,27 +49,32 @@
                         <div class="d-flex justify-content-end">
                             <button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
                             <button id="btn-update" class="btn btn-primary ml-1">수정 완료</button>
+
                         </div>
                     </div>
-                    <!-- /.container-fluid -->
-
                 </div>
-                <!-- End of Main Content -->
-
-                <!-- Footer -->
-                <footer th:replace="/layout/footer.html :: fragment-footer"></footer>
-                <!-- End of Footer -->
-
             </div>
-            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Page Wrapper -->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+        <!-- /.container-fluid -->
 
-        <script th:src="@{/js/board.js}"></script>
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer th:replace="/layout/footer.html :: fragment-footer"></footer>
+    <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<script th:src="@{/js/board.js}"></script>
+
 
 </body>
 </html>

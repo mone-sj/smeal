@@ -30,7 +30,7 @@ public class Board {
 
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)//, optional = false)
     @JoinColumn(name="userId")
     private User user;
 

@@ -86,30 +86,4 @@ public class MbtiController {
         return "mbti/mbtiResult";
     }
 
-    // 원본
-//    @GetMapping("/mbti/result/{request}")
-//    public String mbtiResult(RedirectAttributes redirectAttributes,
-//                             @PathVariable String request,
-//                             @AuthenticationPrincipal PrincipalDetails principalDetails){
-//        System.out.println("===============여기 왔음==============");
-//        System.out.println(request);
-//        String[] resultArray = request.split(",");
-//        ArrayList<MbtiResponseDto> mbtiResponseDtos = new ArrayList<MbtiResponseDto>();
-//
-//        String resultTypeCode = resultArray[resultArray.length-1];
-//        for (int i=1; i<resultArray.length; i++) {
-//            String qNo = "Q"+i;
-//
-//            mbtiResponseDtos.add(new MbtiResponseDto(qNo, resultArray[i-1], resultTypeCode));
-//        }
-//
-//        mbtiService.surveyResultSave(mbtiResponseDtos);
-//        redirectAttributes.addAttribute("type", resultTypeCode);
-//
-//
-//        return "redirect:/mbti/result";
-//    }
-
-
-
 }

@@ -35,37 +35,11 @@ public class UserService {
             user.setUserId(user.getUsername());
             user.setRole(RoleType.ROLE_USER);
             userRepository.save(user);
-        } /*catch (DataIntegrityViolationException ex) {
-            log.info("3");
-            throw new GeneralException(DUPLICATED_USER_ID);
-        }*/
-        catch (Exception e) {
+        }   catch (Exception e) {
             e.printStackTrace();
             throw new GeneralException(INVALID_REQUEST);
         }
     }
-
-//    @Transactional
-//    public User 회원수정(User user, String passwordRepeat) {
-//        if (!user.getPassword().equals(passwordRepeat)) {
-//            throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
-//        }
-//
-//        User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
-//            //User persistence = userRepository.findByUserId(user.getUserId()).orElseThrow(() -> {
-//            return new GeneralException(SmErrorCode.NO_USER);
-//        });
-//
-//        String rawPassword = user.getPassword();
-//        String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
-//        persistence.setPassword(encPassword);
-//        persistence.setAge(user.getAge());
-//        persistence.setGender(user.getGender());
-//        persistence.setEmail(user.getEmail());
-//        persistence.setNickname(user.getNickname());
-//
-//        return persistence;
-//    }
 
     @Transactional
     public User 회원수정(User user) {
@@ -85,11 +59,6 @@ public class UserService {
         persistence.setEmail(user.getEmail());
         persistence.setNickname(user.getNickname());
 
-//        if (persistence.getProvider() == null) {
-//            String rawPassword = user.getPassword();
-//            String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
-//            persistence.setPassword(encPassword);
-//        }
         return persistence;
     }
 

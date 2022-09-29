@@ -37,6 +37,7 @@ public class StartupApplicationListener {
                 .password("1234")
                 .nickname("test2")
                 .email("test2")
+                .foodMbti("D")
                 .build();
 
         User user2=User.builder()

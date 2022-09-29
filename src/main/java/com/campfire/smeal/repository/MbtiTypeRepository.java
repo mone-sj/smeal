@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface MbtiTypeRepository extends JpaRepository<MbtiType, Integer> {
 
     Optional<MbtiType> findByTypeCode(String typeCode);
+
+
 }

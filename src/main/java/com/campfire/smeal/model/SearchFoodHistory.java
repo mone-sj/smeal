@@ -20,7 +20,7 @@ public class SearchFoodHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String searchFoodName;
 
@@ -30,7 +30,7 @@ public class SearchFoodHistory {
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"user"})
     @JoinColumns({
-            @JoinColumn(name = "userNickname", referencedColumnName = "nickname"),
+            @JoinColumn(name = "userid", referencedColumnName = "id"),
             @JoinColumn(name = "userFoodMbti", referencedColumnName = "foodMbti")
     })
     private User user;

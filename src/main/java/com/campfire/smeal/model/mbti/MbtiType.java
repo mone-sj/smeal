@@ -30,5 +30,4 @@ public class MbtiType {
     private String description;
 
     private String recommendFood;
-    private String recommendIngredient;
 }

@@ -44,19 +44,21 @@
                     </div>
                     <!--내용-->
                     <div class="mt-3 text-center col-8 mr-auto ml-auto">
-                        <p>hihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihi
-                            hihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihi</p>
                         <p th:utext="${mbti.description}"></p>
                     </div>
                     <!--레시피 추천-->
                     <div class="mt-3 text-center col-6 mr-auto ml-auto">
                         <div class="h4 text-center text-primary font-weight-bold mt-3">Recommended Food</div>
-                        <p>hihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihi
-                            hihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihi</p>
+                        <br>
+                        <br>
                         <th:block th:each="num:${#numbers.sequence(0,#lists.size(recommendRecipe)-1)}">
-                         <p th:text="${recommendRecipe.get(num)}"></p>
+                            <a th:href="@{/auth/recipeSearchFood/{request}(request=${recommendRecipe.get(num)})}" th:text="${recommendRecipe.get(num)}" style="color:black;"></a><span>  </span>
                         </th:block>
                     </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
 
                 </div>
             </div>

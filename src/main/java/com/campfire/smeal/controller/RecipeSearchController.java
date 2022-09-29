@@ -1,5 +1,6 @@
 package com.campfire.smeal.controller;
 
+import com.campfire.smeal.config.auth.PrincipalDetails;
 import com.campfire.smeal.dto.ResponseDto;
 import com.campfire.smeal.dto.api.NaverSearchRes;
 import com.campfire.smeal.dto.api.Recipe;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -63,20 +65,20 @@ public class RecipeSearchController {
     @GetMapping("/auth/nBlogRecipe/{searchFood}")
     public String nBlogRecipe(
             @PathVariable String searchFood,
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
             Model model
     ) throws JsonProcessingException {
         System.out.println("요청값 foodName:"+searchFood);
-        NaverSearchRes.Root searchBlogResult =
-                naverApiService.searchBlog(searchFood);
-        System.out.println("searchBlogResult.getItems()");
-        System.out.println(searchBlogResult.getItems());
-        System.out.println("searchBlogResult.getDisplay(): " + searchBlogResult.getDisplay());
-        System.out.println("searchBlogResult.getTotal(): " + searchBlogResult.getTotal());
-
-
+        recipeSearchService.foodNameSave(searchFood, principalDetails);
         model.addAttribute("resultList",
-                searchBlogResult);
+                naverApiService.searchBlog(searchFood));
         return "recipe/searchFood :: #resultDiv";
+    }
+
+    @GetMapping("/auth/count")
+    public @ResponseBody String rankCount() {
+        recipeSearchService.rankSave();
+        return "완료";
     }
 
 }

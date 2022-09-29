@@ -46,12 +46,16 @@
                     <div class="mt-3 text-center col-8 mr-auto ml-auto">
                         <p>hihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihi
                             hihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihi</p>
+                        <p th:utext="${mbti.description}"></p>
                     </div>
                     <!--레시피 추천-->
                     <div class="mt-3 text-center col-6 mr-auto ml-auto">
                         <div class="h4 text-center text-primary font-weight-bold mt-3">Recommended Food</div>
                         <p>hihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihi
                             hihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihi</p>
+                        <th:block th:each="num:${#numbers.sequence(0,#lists.size(recommendRecipe)-1)}">
+                         <p th:text="${recommendRecipe.get(num)}"></p>
+                        </th:block>
                     </div>
 
                 </div>
@@ -66,6 +70,8 @@
     <!-- End of Footer -->
 
 
+</div>
+    <!-- End of Content Wrapper -->
 </div>
 <!-- End of Page Wrapper -->
 

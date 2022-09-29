@@ -39,7 +39,6 @@ class NaverApiServiceTest {
 
         System.out.println(format.format(cal.getTime()));
 
-
     }
 
     @Test

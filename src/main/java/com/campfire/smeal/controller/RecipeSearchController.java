@@ -75,6 +75,20 @@ public class RecipeSearchController {
         return "recipe/searchFood :: #resultDiv";
     }
 
+    // 식품 Mbti 추천 레시피 클릭 이동
+    @GetMapping("/auth/recipeSearchFood/{request}")
+    public String searchRecommendFood(
+            @PathVariable String request,
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            Model model
+    )throws JsonProcessingException {
+        System.out.println("요청값 foodName:"+request);
+        recipeSearchService.foodNameSave(request, principalDetails);
+        model.addAttribute("resultList",
+                naverApiService.searchBlog(request));
+        return "recipe/searchFood";
+    }
+
     @GetMapping("/auth/count")
     public @ResponseBody String rankCount() {
         recipeSearchService.rankSave();

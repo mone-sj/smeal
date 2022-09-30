@@ -84,12 +84,7 @@ public class MbtiController {
         System.out.println(type);
         MbtiType mbtiContent = mbtiService.findMbtiType(type);
 
-        System.out.println(mbtiContent.getRecommendFood());
-
         List<String> recomFoodList = Arrays.asList(mbtiContent.getRecommendFood().split(", "));
-        for (int i = 0; i < recomFoodList.size(); i++) {
-            System.out.println(recomFoodList.get(i));
-        }
 
         model.addAttribute("mbti", mbtiContent);
         model.addAttribute("recommendRecipe", recomFoodList);

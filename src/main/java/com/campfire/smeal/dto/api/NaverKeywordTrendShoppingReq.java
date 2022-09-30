@@ -33,6 +33,7 @@ public class NaverKeywordTrendShoppingReq {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
+    @ToString
     public static class KeywordTrendRequest {
         private String startDate;
         private String endDate;
@@ -101,10 +102,10 @@ public class NaverKeywordTrendShoppingReq {
     }
 
     // params를 리스트로 받을때,
-    public static KeywordTrendRequest keywordTrendRequestDefaultDto(
+    public static KeywordTrendRequest keywordTrendRequestDefaultDbDto(
             List<String> params
     ){
-        ObjectMapper mapper = new ObjectMapper();
+//        ObjectMapper mapper = new ObjectMapper();
 
         List<Keyword> keywordList = new ArrayList<>();
         for (int i = 0; i < params.size(); i++) {

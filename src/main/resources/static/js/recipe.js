@@ -71,9 +71,6 @@ let index = {
     $.ajax({
       type: "GET",
       url: "/auth/nBlogRecipe/" + searchFood,
-      //data: JSON.stringify(data),
-      //contentType: "application/text; charset=utf-8",
-      //dataType: "json",
     })
       .done(function (fragment) {
         $("#resultDiv").replaceWith(fragment);
@@ -85,9 +82,3 @@ let index = {
 };
 
 index.init();
-
-//function mainGroupSelect(e) {
-//  console.log("바뀜");
-//  let mainGroupId=e.value;
-//  console.log("e.value: "+mainGroupId);
-//}

@@ -29,9 +29,11 @@ public class SearchFoodRank {
     // total count, mbtiType count
     private String type;
     private String count;
-    private int rank;
+    private int rank_;
 
     @CreationTimestamp
     private Timestamp createDate;
+
+    private String countPeriod;
 
 }

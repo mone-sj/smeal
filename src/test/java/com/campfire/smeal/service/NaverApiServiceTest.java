@@ -63,6 +63,46 @@ class NaverApiServiceTest {
     }
 
     @Test
+    void aWeekAgoDateTest() {
+        HashMap<String, String> period = new HashMap<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        Calendar cal = Calendar.getInstance();
+        // 오늘날짜
+        System.out.println("오늘날짜: " + formatter.format(cal.getTime()));
+
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        System.out.println("오늘날짜 기준 지난 주의 일요일: " + formatter.format(cal.getTime()));
+        String endDate = formatter.format(cal.getTime());
+
+        cal.add(Calendar.DATE, -7);
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        System.out.println("오늘날짜 기준 지난 주의 월요일: " + formatter.format(cal.getTime()));
+        String startDate = formatter.format(cal.getTime());
+
+        System.out.printf("시작날짜: %s, 끝날짜: %s", startDate, endDate);
+    }
+
+    @Test
+    void stringTest() {
+        List<String> value = null;
+        value.add("김치찌개");
+        value.add("된장찌개");
+        value.add("꿀");
+        String request = "{\"keyword\":[{\"param\":";
+        for (int i = 0; i < value.size(); i++) {
+
+            if (value.get(i) == null) {
+                request += "";
+            } else {
+                request += "\""+value.get(i)+"\"}";
+            }
+        }
+
+
+    }
+
+    @Test
     void stringAddTest() throws ParseException {
         String value1 = "12.45";
         String value2 = "33.12";

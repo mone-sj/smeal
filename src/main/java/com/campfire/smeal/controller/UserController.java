@@ -1,6 +1,7 @@
 package com.campfire.smeal.controller;
 
 import com.campfire.smeal.config.auth.PrincipalDetails;
+import com.campfire.smeal.repository.SearchFoodRankRepository;
 import com.campfire.smeal.service.BoardService;
 import com.campfire.smeal.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,18 @@ public class UserController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final BoardService boardService;
+    private final SearchFoodRankRepository searchFoodRankRepository;
 
     // 대시보드 페이지
     @GetMapping("/dashboard")
-    public String dashboard() {
-//        return "dashboard";
-        return "test/dashboard";
+    public String dashboard(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                            Model model
+    ) {
+        model.addAttribute("foodRankAllList",
+                searchFoodRankRepository.typeAll());
+        model.addAttribute("foodRankTypeList",
+                searchFoodRankRepository.typeRank(principalDetails.getUser().getFoodMbti()));
+        return "dashboard";
     }
 
     //로그인페이지

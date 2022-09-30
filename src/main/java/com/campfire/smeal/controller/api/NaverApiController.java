@@ -1,10 +1,13 @@
 package com.campfire.smeal.controller.api;
 
 import com.campfire.smeal.dto.ResponseDto;
-import com.campfire.smeal.dto.api.*;
 import com.campfire.smeal.dto.api.NaverApiTrendShoppingRes.NaverKeywordTrendShoppingRes.AllKeywordResponse;
 import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.CateTrendRequest;
+import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq;
+import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.KeywordTrendRequest;
+import com.campfire.smeal.dto.api.NaverSearchRes;
 import com.campfire.smeal.dto.api.NaverSearchRes.Item;
+import com.campfire.smeal.dto.api.Recipe;
 import com.campfire.smeal.model.search.SubGroupInfo;
 import com.campfire.smeal.service.NaverApiService;
 import com.campfire.smeal.service.RecipeApiService;
@@ -38,23 +41,23 @@ public class NaverApiController {
     public ResponseDto<AllKeywordResponse> naverShoppingKeywordTrend(
             @RequestBody String request
     ) throws ParseException, JsonProcessingException {
-
-//        String result = naverApiService.keywordTrendShopping(request);
+        System.out.println(request);
         AllKeywordResponse result= naverApiService.keywordTrendShopping(request);
-
         return new ResponseDto<AllKeywordResponse>(HttpStatus.OK.value(),result);
     }
 
-    // 네이버 키워드별 트렌드 조회-DB에서 조회하여 트렌드 출력
+    // 네이버 키워드별 트렌드 조회 - DB에서 조회하여 트렌드 출력
     @PostMapping("/auth/nShoppingKeywordTrendStatistics")
-    public String naverShoppingKeywordTrend()
+    public ResponseDto<AllKeywordResponse> naverShoppingKeywordTrend()
             throws ParseException, JsonProcessingException {
 
-        // DB에서 검색많이한 음식 조회해서 키워드 트렌드 조회하기
-        // DB 조회 코드 삽입
-        List<String> paramList = new ArrayList<>();
-        //String result = naverApiService.keywordTrendShopping(paramList);
-        return null;
+        // DB에서 검색 많이 한 음식 조회해서 키워드 트렌드 조회하기
+        KeywordTrendRequest request = recipeSearchService.searchFoodAllRankTop3();
+
+        System.out.println(request);
+        AllKeywordResponse result= naverApiService.keywordTrendDbSelect(request);
+
+        return new ResponseDto<AllKeywordResponse>(HttpStatus.OK.value(),result);
     }
 
     // 재료 검색을 위한 소분류(SubGroupList) 리스트 조회 (완)

@@ -1,14 +1,12 @@
 package com.campfire.smeal.repository;
 
-import com.campfire.smeal.dto.FoodRankAllResponseInterface;
-import com.campfire.smeal.dto.FoodRankResponseInterface;
+import com.campfire.smeal.dto.searchFood.FoodRankAllResponseInterface;
+import com.campfire.smeal.dto.searchFood.FoodRankResponseInterface;
 import com.campfire.smeal.model.SearchFoodHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface SearchFoodHistRepository extends JpaRepository<SearchFoodHistory, Long> {
 

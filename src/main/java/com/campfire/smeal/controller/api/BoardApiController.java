@@ -54,7 +54,7 @@ public class BoardApiController {
     public ResponseDto<Integer> replyUpdate(
             @PathVariable int replyId,
             @RequestBody ReplySaveRequestDto replySaveRequestDto
-            ) {
+    ) {
         boardService.댓글수정(replyId,replySaveRequestDto);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }

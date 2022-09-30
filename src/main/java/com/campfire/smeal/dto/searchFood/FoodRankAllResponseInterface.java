@@ -1,4 +1,4 @@
-package com.campfire.smeal.dto;
+package com.campfire.smeal.dto.searchFood;
 
 public interface FoodRankAllResponseInterface {
 

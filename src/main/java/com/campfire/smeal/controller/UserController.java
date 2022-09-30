@@ -1,6 +1,7 @@
 package com.campfire.smeal.controller;
 
 import com.campfire.smeal.config.auth.PrincipalDetails;
+import com.campfire.smeal.repository.MbtiTypeRepository;
 import com.campfire.smeal.repository.SearchFoodRankRepository;
 import com.campfire.smeal.service.BoardService;
 import com.campfire.smeal.service.UserService;
@@ -22,6 +23,7 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final BoardService boardService;
     private final SearchFoodRankRepository searchFoodRankRepository;
+    private final MbtiTypeRepository mbtiTypeRepository;
 
     // 대시보드 페이지
     @GetMapping("/dashboard")
@@ -32,6 +34,8 @@ public class UserController {
                 searchFoodRankRepository.typeAll());
         model.addAttribute("foodRankTypeList",
                 searchFoodRankRepository.typeRank(principalDetails.getUser().getFoodMbti()));
+
+        model.addAttribute("mbtiName", mbtiTypeRepository.selectMbtiName(principalDetails.getUser().getFoodMbti()));
         return "dashboard";
     }
 

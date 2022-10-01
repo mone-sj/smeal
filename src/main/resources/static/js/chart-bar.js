@@ -15,9 +15,6 @@ function initFunction() {
   $.ajax({
     type: "POST",
     url: "/auth/nShoppingKeywordTrendStatistics",
-    // url: "/auth/nShoppingKeywordTrend",
-    // data: JSON.stringify(data),
-    // contentType: "application/json; charset=utf-8",
     dataType: "json",
   })
     .done(function (resp) {

@@ -10,15 +10,6 @@
 <!--</sec:authorize>-->
 
 <body id="page-top">
-    <b>Authenticated DTO: </b>
-    <div sec:authentication="principal"></div>
-    <b>Authenticated username: </b>
-    <div sec:authentication="principal.username"></div>
-    <b>Authenticated princial</b>
-    <div sec:authentication="principal.user"></div>
-    <b>id</b>
-    <div sec:authentication="principal.user.id"></div>
-
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -41,44 +32,31 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-<!--                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i-->
-<!--                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
-                        <div sec:authorize="isAuthenticated()">
-                            <a href="/user/update">회원정보 수정</a>
-                            <form name="userDelete" th:action="@{/auth/delete/{id}(id=${#authentication.principal.user.id})}" method="post" enctype="application/json">
-                                <input type="hidden" name="_method" value="delete"/>
-<!--                                <a href="#" class="btn btn-primary btn-user btn-block" onclick="javascript:document.userDelete.submit();">-->
-<!--                                    탈퇴-->
-<!--                                </a>-->
-                                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="javascript:document.userDelete.submit();">
-                                    탈퇴
-                                </a>
-                            </form>
-                           <!-- <a href="/logout" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">로그아웃</a>-->
-                            <a href="/logout" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                로그아웃</a>
-                        </div>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-start align-items-center">
+                        <h2 class="m-0 font-weight-bold text-primary text-center">Dashboard</h2>
+                    </div>
                     </div>
 
-
-
+                    <div class="card shadow mb-4 mt-1">
                     <!-- Content Row -->
-                    <div class="row">
+                    <div class="row mb-4">
 
                         <!-- Earnings (Monthly) Card Example -->
                         <!-- 음식 검색 랭크 리스트 -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-5 col-md-5 mb-4 ml-auto">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">최근 검색 최다 음식 랭크
+                                        <div class="col-xl-12 col-md-12 mr-2">
+                                            <div class="text-lg font-weight-bold text-info text-uppercase mb-1">최근 검색 최다 음식 랭크
                                             </div>
+                                            <h6 class="col justify-content-end">
+                                                <small th:text="|기간: ${foodRankAllList.get(0).countPeriod}|"></small>
+                                            </h6>
                                             <div class="row no-gutters align-items-center">
 <!--                                                여기에 리스트 뿌려주기-->
-                                                <div class="col-auto">
+                                                <div class="col-xl-12 col-md-12">
 <!--                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"-->
 <!--                                                        th:text="${foodRankAllList.get(0).searchKeyword}"></div>-->
                                                   <table class="table table-hover"><!-- h5 mb-0 mr-3 text-gray-300">-->
@@ -98,38 +76,29 @@
                                                       </tbody>
                                                   </table>
                                                 </div>
-<!--                                                <div class="col">-->
-<!--                                                    <div class="progress progress-sm mr-2">-->
-<!--                                                        <div class="progress-bar bg-info" role="progressbar"-->
-<!--                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"-->
-<!--                                                            aria-valuemax="100"></div>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
                                             </div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
                                     </div>
-                                  <h6 class="col justify-content-end">
-                                    <small th:text="|기간: ${foodRankAllList.get(0).countPeriod}|"></small>
-                                  </h6>
+
                                 </div>
                             </div>
                         </div>
 
                         <!-- 타입별 음식 검색 랭크 리스트 -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-5 col-md-5 mb-4 mr-auto">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1"
-                                                 th:text="|${#authentication.principal.user.foodMbti} 타입의 최근 검색 최다 음식 랭크|">최근 최다 검색 음식
+                                        <div class="col-xl-12 col-md-12 mr-2">
+
+                                            <div class="text-lg font-weight-bold text-info text-uppercase mb-1"
+                                                 th:text="|${mbtiName} 타입의 최근 검색 최다 음식 랭크|">최근 최다 검색 음식
                                             </div>
+                                            <h6 class="col justify-content-end">
+                                                <small th:text="|기간: ${foodRankTypeList.get(0).countPeriod}|"></small>
+                                            </h6>
                                             <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-<!--                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>-->
+                                                <div class="col-xl-12 col-md-12">
                                                     <table class="table table-hover col-auto">
                                                         <thead>
                                                         <tr>
@@ -146,25 +115,12 @@
                                                         </tr>
                                                         </tbody>
                                                     </table>
-<!--                                                  <div class="col justify-content-end" th:text="|기간: ${foodRankTypeList.get(0).countPeriod}|"></div>-->
                                                 </div>
-<!--                                                <div class="col">-->
-<!--                                                    <div class="progress progress-sm mr-2">-->
-<!--                                                        <div class="progress-bar bg-info" role="progressbar"-->
-<!--                                                             style="width: 50%" aria-valuenow="50" aria-valuemin="0"-->
-<!--                                                             aria-valuemax="100"></div>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
 
                                             </div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
                                     </div>
-                                  <h6 class="col justify-content-end">
-                                    <small th:text="|기간: ${foodRankTypeList.get(0).countPeriod}|"></small>
-                                  </h6>
+
                                 </div>
                             </div>
                         </div>
@@ -175,12 +131,12 @@
                     <div class="row">
 
                         <!-- Area Chart -->
-                      <div class="col-xl-8 col-lg-7">
+                        <div class="col-xl-10 col-lg-10 mr-auto ml-auto">
                         <div class="card shadow mb-4">
                           <!-- Card Header - Dropdown -->
                           <div
                               class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">검색 추이</h6>
+                            <h6 class="text-lg font-weight-bold text-info text-uppercase mb-1">검색 추이</h6>
                           </div>
                           <!-- Card Body -->
                           <div class="card-body">
@@ -191,14 +147,13 @@
                           </div>
                         </div>
                       </div>
-
-                        <div class="col-xl-8 col-lg-7">
+                        <div class="col-xl-10 col-lg-10 mr-auto ml-auto">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 
-                                    <h6 class="m-0 font-weight-bold text-primary">성별 검색 추이</h6>
+                                    <h6 class="text-lg font-weight-bold text-info text-uppercase mb-1">성별 검색 추이</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -208,13 +163,12 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-xl-8 col-lg-7">
+                        <div class="col-xl-10 col-lg-10 mr-auto ml-auto">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">연령별 검색 추이</h6>
+                                    <h6 class="text-lg font-weight-bold text-info text-uppercase mb-1">연령별 검색 추이</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -224,12 +178,15 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
+
+
 
             <!-- Footer -->
             <footer th:replace="/layout/footer.html :: fragment-footer"></footer>
@@ -246,24 +203,7 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <!--<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>-->
+
     </div>
 
 

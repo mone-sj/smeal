@@ -123,54 +123,54 @@ function initFunction() {
       let age10 = {
         label: "10대",
         data: ageData10,
-        backgroundColor: "#4e73df",
+        backgroundColor: "#E63D17",
         hoverBackgroundColor: "#2e59d9",
-        borderColor: "#4e73df",
+        borderColor: "#E63D17",
         borderWidth: 1,
       };
 
       let age20 = {
         label: "20대",
         data: ageData20,
-        backgroundColor: "#4e73df",
+        backgroundColor: "#18C5F5",
         hoverBackgroundColor: "#2e59d9",
-        borderColor: "#4e73df",
+        borderColor: "#18C5F5",
         borderWidth: 1,
       };
 
       let age30 = {
         label: "30대",
         data: ageData30,
-        backgroundColor: "#4e73df",
+        backgroundColor: "#0D8DFC",
         hoverBackgroundColor: "#2e59d9",
-        borderColor: "#4e73df",
+        borderColor: "#0D8DFC",
         borderWidth: 1,
       };
 
       let age40 = {
         label: "40대",
         data: ageData40,
-        backgroundColor: "#4e73df",
+        backgroundColor: "#95E617",
         hoverBackgroundColor: "#2e59d9",
-        borderColor: "#4e73df",
+        borderColor: "#95E617",
         borderWidth: 1,
       };
 
       let age50 = {
         label: "50대",
         data: ageData50,
-        backgroundColor: "#4e73df",
+        backgroundColor: "#E67400",
         hoverBackgroundColor: "#2e59d9",
-        borderColor: "#4e73df",
+        borderColor: "#E67400",
         borderWidth: 1,
       };
 
       let age60 = {
         label: "60대",
         data: ageData60,
-        backgroundColor: "#4e73df",
+        backgroundColor: "#D4E628",
         hoverBackgroundColor: "#2e59d9",
-        borderColor: "#4e73df",
+        borderColor: "#D4E628",
         borderWidth: 1,
       };
 
@@ -197,7 +197,7 @@ function initFunction() {
           scales: {
             xAxes: [
               {
-                stacked: true,
+                stacked: false,
                 time: {
                   unit: "month",
                 },
@@ -212,7 +212,7 @@ function initFunction() {
             ],
             yAxes: [
               {
-                stacked: true,
+                stacked: false,
                 ticks: {
                   min: 0,
                   max: 100,
@@ -230,7 +230,7 @@ function initFunction() {
             ],
           },
           legend: {
-            display: false,
+            display: true,
           },
           tooltips: {
             titleMarginBottom: 10,
@@ -269,9 +269,9 @@ function initFunction() {
       let female = {
         label: "여성",
         data: gendersKeyf,
-        backgroundColor: "#4e73df",
-        hoverBackgroundColor: "#2e59d9",
-        borderColor: "#4e73df",
+        backgroundColor: "#F03F28",
+        hoverBackgroundColor: "#F0503F",
+        borderColor: "#F03F28",
         borderWidth: 1,
       };
 
@@ -289,7 +289,7 @@ function initFunction() {
         datasets: [male, female],
       };
 
-      // 연령별 그래프
+      // 성별 그래프
       var ctx = document.getElementById("gendersChart");
       var gendersBarChart = new Chart(ctx, {
         type: "bar",
@@ -307,7 +307,7 @@ function initFunction() {
           scales: {
             xAxes: [
               {
-                stacked: true,
+                stacked: false,
                 time: {
                   unit: "month",
                 },
@@ -322,7 +322,7 @@ function initFunction() {
             ],
             yAxes: [
               {
-                stacked: true,
+                stacked: false,
                 ticks: {
                   min: 0,
                   max: 100,
@@ -340,7 +340,7 @@ function initFunction() {
             ],
           },
           legend: {
-            display: false,
+            display: true,
           },
           tooltips: {
             titleMarginBottom: 10,

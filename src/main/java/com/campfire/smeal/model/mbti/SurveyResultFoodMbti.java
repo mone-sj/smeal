@@ -28,6 +28,7 @@ public class SurveyResultFoodMbti {
 
     private String age;
     private String gender;
+    private String memberStatus;
 
 
 }

@@ -32,10 +32,10 @@ public class AdminApiController {
 
     // admin으로 등급업 (혹은 MANAGER)
     @GetMapping("/admin/levelUp/{id}")
-    public ResponseDto<Integer> levelUpMem(@PathVariable int id,
-                                           @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public ResponseDto<Integer> levelUpMem(@PathVariable int id){
         User levelUpUser=adminService.memLevelUp(Long.valueOf(id));
-        principalDetails.setUser(levelUpUser);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
+
+
 }

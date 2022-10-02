@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
                 .antMatchers("/","/auth/**", "/js/**","/css/**","/img/**", "/testJs/**"
                         ,"/vendor/**","/scss/**", "/favicon.ico", "/dashboard", "/mbti/**")
                 .permitAll()

@@ -1,9 +1,7 @@
 package com.campfire.smeal.controller;
 
-import com.campfire.smeal.model.Board;
 import com.campfire.smeal.model.User;
 import com.campfire.smeal.service.AdminService;
-import com.campfire.smeal.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -13,7 +11,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
@@ -21,7 +18,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-public class adminController {
+public class AdminController {
 
     private final AdminService adminService;
 

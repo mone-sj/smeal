@@ -2,6 +2,7 @@ package com.campfire.smeal.config;
 
 import com.campfire.smeal.config.oauth.PrincipalOauth2UserService;
 import com.campfire.smeal.handler.CustomAuthFailureHandler;
+import com.campfire.smeal.handler.CustomLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,7 @@ public class SecurityConfig {
 
     private final PrincipalOauth2UserService principalOauth2UserService;
     private final AuthenticationFailureHandler customFailureHandler;
+    private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -45,22 +47,24 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
-                .antMatchers("/","/auth/**", "/js/**","/css/**","/img/**", "/testJs/**"
-                        ,"/vendor/**","/scss/**", "/favicon.ico", "/dashboard", "/mbti/**")
+                .antMatchers("/", "/auth/**", "/js/**", "/css/**", "/img/**", "/testJs/**"
+                        , "/vendor/**", "/scss/**", "/favicon.ico", "/dashboard", "/mbti/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
-                    .formLogin().loginPage("/auth/login")
-                    .loginProcessingUrl("/auth/loginProc")
-                    .defaultSuccessUrl("/dashboard")
-                    .failureUrl("/auth/login")
+                .formLogin().loginPage("/auth/login")
+                .loginProcessingUrl("/auth/loginProc")
+                //.successHandler(customLoginSuccessHandler)
+                .successForwardUrl("/auth/forwardLogin")
+                //.defaultSuccessUrl("/dashboard")
+                .failureUrl("/auth/login")
                 .and()
-                    .oauth2Login()
-                    .loginPage("/auth/login")
-                    .defaultSuccessUrl("/dashboard")
-                    .failureHandler(customFailureHandler)
-                    .userInfoEndpoint()
-                    .userService(principalOauth2UserService)
+                .oauth2Login()
+                .loginPage("/auth/login")
+                .defaultSuccessUrl("/dashboard")
+                .failureHandler(customFailureHandler)
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService)
 
         ;
 

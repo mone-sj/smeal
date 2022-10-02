@@ -39,6 +39,20 @@ public class UserController {
         return "dashboard";
     }
 
+    @GetMapping("/auth/forwardLogin")
+    public String successForwardLogin(@AuthenticationPrincipal
+                                      PrincipalDetails principalDetails) {
+        System.out.println("role: " + principalDetails.getUser().getRole());
+        if (principalDetails.getUser().getRole().equals("ROLE_USER")) {
+            return "dashboard";
+        } else if (principalDetails.getUser().getRole().equals("ROLE_ADMIN")) {
+            return "admin/statistics";
+        } else {
+            return "/";
+        }
+
+    }
+
     //로그인페이지
     @GetMapping("/auth/login")
     public String loginForm(

@@ -326,4 +326,15 @@ class NaverApiServiceTest {
 
     }
 
+    @Test
+    void division() {
+        int a = 1;
+        int b = 3;
+
+        Double c = a / Double.valueOf(b);
+
+        System.out.println(c);
+        System.out.println(Math.round(c*100)/100.0);
+    }
+
 }

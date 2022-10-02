@@ -18,9 +18,6 @@ public class MbtiType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @Enumerated(EnumType.STRING)
-//    private MbtiTypeArr TypeName;
-
     private String typeCode;
     private String typeName;
     private String pictureUrl;

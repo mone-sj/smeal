@@ -172,3 +172,7 @@ values
 ("1","2022-09-19 ~ 2022-09-25","3","된장찌개","All","2022-09-30"),
 ("1","2022-09-19 ~ 2022-09-25","4","삼겹살","All","2022-09-30")
 ;
+
+insert into memnonmemratiohist(members, nonMembers, total, createDate)
+values
+("1", "2", "3", now());

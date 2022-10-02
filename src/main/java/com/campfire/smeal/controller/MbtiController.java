@@ -39,6 +39,45 @@ public class MbtiController {
         return "mbti/mbtiSurvey";
     }
 
+    // 원본
+//    @GetMapping("/mbti/result/{request}")
+//    public String mbtiResult(RedirectAttributes redirectAttributes,
+//                             Model model,
+//                             @PathVariable String request,
+//                             @AuthenticationPrincipal PrincipalDetails principalDetails){
+//
+//        System.out.println(request);
+//        String[] resultArray = request.split(",");
+//        ArrayList<MbtiResponseDto> mbtiResponseDtos = new ArrayList<MbtiResponseDto>();
+//
+//        String age = resultArray[resultArray.length - 1];
+//        String gender = resultArray[resultArray.length - 2];
+//        String resultTypeCode = resultArray[resultArray.length-3];
+//
+//        System.out.println("principalDetails");
+//        System.out.println(principalDetails);
+//
+//        if (principalDetails != null) {
+//            Long id = principalDetails.getUser().getId();
+//            userService.회원정보추가(id, gender, age, resultTypeCode);
+//        } else {
+//            NonMemberInfoDto nonMember = new NonMemberInfoDto(age, gender, resultTypeCode);
+//            log.info("nonMember");
+//            System.out.println(nonMember);
+//            redirectAttributes.addFlashAttribute("nonMember", nonMember);
+//        }
+//
+//        for (int i = 1; i < resultArray.length-2; i++) {
+//            String qNo = "Q" + i;
+//            mbtiResponseDtos.add(new MbtiResponseDto(qNo, resultArray[i - 1], resultTypeCode));
+//        }
+//
+//        mbtiService.surveyResultSave(mbtiResponseDtos);
+//        redirectAttributes.addAttribute("type", resultTypeCode);
+//
+//        return "redirect:/mbti/result";
+//    }
+
     @GetMapping("/mbti/result/{request}")
     public String mbtiResult(RedirectAttributes redirectAttributes,
                              Model model,
@@ -55,20 +94,22 @@ public class MbtiController {
 
         System.out.println("principalDetails");
         System.out.println(principalDetails);
-
+        String memberStatus = null; // 회원이면 Y, 비회원이면 N
         if (principalDetails != null) {
             Long id = principalDetails.getUser().getId();
             userService.회원정보추가(id, gender, age, resultTypeCode);
+            memberStatus = "Y";
         } else {
             NonMemberInfoDto nonMember = new NonMemberInfoDto(age, gender, resultTypeCode);
             log.info("nonMember");
             System.out.println(nonMember);
             redirectAttributes.addFlashAttribute("nonMember", nonMember);
+            memberStatus = "N";
         }
 
         for (int i = 1; i < resultArray.length-2; i++) {
             String qNo = "Q" + i;
-            mbtiResponseDtos.add(new MbtiResponseDto(qNo, resultArray[i - 1], resultTypeCode));
+            mbtiResponseDtos.add(new MbtiResponseDto(qNo, resultArray[i - 1], resultTypeCode, age, gender, memberStatus));
         }
 
         mbtiService.surveyResultSave(mbtiResponseDtos);

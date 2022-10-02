@@ -24,7 +24,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         // Authentication 객체를 이용해서 사용자가 가진 모든 권한을 체크
         log.warn("Login Success");
         List<String> roleNames = new ArrayList<>();
-        System.out.println(authentication.getAuthorities());
         authentication.getAuthorities().forEach(authority->{
             roleNames.add(authority.getAuthority());
         });
@@ -37,6 +36,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
             response.sendRedirect("/dashboard");
             return;
         }
-        response.sendRedirect("/");
+        //response.sendRedirect("/");
     }
 }

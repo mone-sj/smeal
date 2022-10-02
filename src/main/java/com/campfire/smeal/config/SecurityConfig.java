@@ -32,7 +32,6 @@ public class SecurityConfig {
 
     private final PrincipalOauth2UserService principalOauth2UserService;
     private final AuthenticationFailureHandler customFailureHandler;
-    private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -54,14 +53,13 @@ public class SecurityConfig {
                 .and()
                 .formLogin().loginPage("/auth/login")
                 .loginProcessingUrl("/auth/loginProc")
-                //.successHandler(customLoginSuccessHandler)
                 .successForwardUrl("/auth/forwardLogin")
                 //.defaultSuccessUrl("/dashboard")
                 .failureUrl("/auth/login")
                 .and()
                 .oauth2Login()
                 .loginPage("/auth/login")
-                .defaultSuccessUrl("/dashboard")
+                //.defaultSuccessUrl("/dashboard")
                 .failureHandler(customFailureHandler)
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService)

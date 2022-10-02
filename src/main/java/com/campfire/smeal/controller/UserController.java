@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
@@ -39,16 +40,19 @@ public class UserController {
         return "dashboard";
     }
 
-    @GetMapping("/auth/forwardLogin")
+    @PostMapping("/auth/forwardLogin")
     public String successForwardLogin(@AuthenticationPrincipal
                                       PrincipalDetails principalDetails) {
+        System.out.println("hi");
         System.out.println("role: " + principalDetails.getUser().getRole());
         if (principalDetails.getUser().getRole().equals("ROLE_USER")) {
+            System.out.println("hi2");
             return "dashboard";
         } else if (principalDetails.getUser().getRole().equals("ROLE_ADMIN")) {
             return "admin/statistics";
         } else {
-            return "/";
+            System.out.println("hi3");
+            return "redirect:/";
         }
 
     }

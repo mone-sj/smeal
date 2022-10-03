@@ -36,8 +36,6 @@ public class RecipeSearchController {
     @PostMapping("/auth/foodRecipeList")
     public String foodRecipeList(Model model,
                                  @RequestBody(required = false) Recipe.Request request){
-        System.out.println("request");
-        System.out.println(request);
         Recipe.Request req =
                 new Recipe.Request(request.getRcp_parts_dtls());
 
@@ -74,13 +72,14 @@ public class RecipeSearchController {
             @AuthenticationPrincipal PrincipalDetails principalDetails,
             Model model
     )throws JsonProcessingException {
-        System.out.println("요청값 foodName:"+request);
+
         recipeSearchService.foodNameSave(request, principalDetails);
         model.addAttribute("resultList",
                 naverApiService.searchBlog(request));
         return "recipe/searchFood";
     }
 
+    // 추후 삭제 예정
     @GetMapping("/auth/count")
     public @ResponseBody String rankCount() {
         recipeSearchService.rankSave();

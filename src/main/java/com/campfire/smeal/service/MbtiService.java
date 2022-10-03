@@ -1,10 +1,6 @@
 package com.campfire.smeal.service;
 
 import com.campfire.smeal.dto.mbti.MbtiResponseDto;
-import com.campfire.smeal.dto.memberStatusDto;
-import com.campfire.smeal.handler.exception.GeneralException;
-import com.campfire.smeal.handler.exception.SmErrorCode;
-import com.campfire.smeal.model.User;
 import com.campfire.smeal.model.mbti.MbtiType;
 import com.campfire.smeal.model.mbti.SurveyFoodMbti;
 import com.campfire.smeal.repository.MbtiTypeRepository;
@@ -32,7 +28,6 @@ public class MbtiService {
 
     @Transactional
     public void surveyResultSave(ArrayList<MbtiResponseDto> mbtiResponseDtos){
-        System.out.println(mbtiResponseDtos);
         for (int i = 0; i < mbtiResponseDtos.size(); i++) {
             surveyResultRepository.mSave(mbtiResponseDtos.get(i).getQNo(),
                     mbtiResponseDtos.get(i).getResult(),
@@ -40,7 +35,7 @@ public class MbtiService {
                     mbtiResponseDtos.get(i).getAge(),
                     mbtiResponseDtos.get(i).getGender(),
                     mbtiResponseDtos.get(i).getMemberStatus()
-                    );
+            );
         }
 
     }

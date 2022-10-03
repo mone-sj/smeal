@@ -46,14 +46,17 @@ public class AdminService {
     public User memLevelUp(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new GeneralException(SmErrorCode.NO_USER));
+        System.out.println(user.getId());
+        System.out.println(user);
         if (user != null) {
+            System.out.println("null아님");
             user.setRole(RoleType.ROLE_ADMIN);
             //user.setRole(RoleType.ROLE_MANAGER);
         }
         return user;
     }
 
-    // 매일 오전 1시에 실행
+    // 회원/비회원 비율 계산 - 매일 오전 1시에 실행
     @Scheduled(cron = "0 0 1 * * *")
     @Transactional
     public void memRatioSave() {
@@ -76,14 +79,10 @@ public class AdminService {
     @Transactional
     public Map<String, Double> memRatio() {
         Map<String, Double> ratioMap = new HashMap<>();
-        memNonmemRatioHist ratio = memNonmemRatioHistRepository.memStatusRatio();
 
+        memNonmemRatioHist ratio = memNonmemRatioHistRepository.memStatusRatio();
         Double memRatio = Math.round(ratio.getMembers() / Double.valueOf(ratio.getTotal()) * 100) / 100.0;
         Double nonMemRatio = Math.round(ratio.getNonMembers() / Double.valueOf(ratio.getTotal()) * 100) / 100.0;
-
-        System.out.println("memRatio : " + memRatio);
-        System.out.println("nonMemRatio : " + nonMemRatio);
-
 
         ratioMap.put("memRatio", memRatio);
         ratioMap.put("nonMemRatio", nonMemRatio);

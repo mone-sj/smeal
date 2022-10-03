@@ -3,8 +3,6 @@ package com.campfire.smeal.controller.api;
 import com.campfire.smeal.dto.ResponseDto;
 import com.campfire.smeal.dto.api.NaverApiTrendShoppingRes.NaverKeywordTrendShoppingRes.AllKeywordResponse;
 import com.campfire.smeal.dto.api.NaverCateTrendShoppingReq.CateTrendRequest;
-import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq;
-import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.KeywordTrendRequest;
 import com.campfire.smeal.dto.api.NaverSearchRes;
 import com.campfire.smeal.dto.api.NaverSearchRes.Item;
 import com.campfire.smeal.dto.api.Recipe;
@@ -36,15 +34,6 @@ public class NaverApiController {
     private final RecipeApiService recipeApiService;
     private final RecipeSearchService recipeSearchService;
 
-    // 네이버 키워드별 트렌드 조회 - 추후 DB 조회 기능 추가하면 삭제 예정
-    @PostMapping("/auth/nShoppingKeywordTrend")
-    public ResponseDto<AllKeywordResponse> naverShoppingKeywordTrend(
-            @RequestBody String request
-    ) throws ParseException, JsonProcessingException {
-        System.out.println(request);
-        AllKeywordResponse result= naverApiService.keywordTrendShopping(request);
-        return new ResponseDto<AllKeywordResponse>(HttpStatus.OK.value(),result);
-    }
 
     // 네이버 키워드별 트렌드 조회 - DB에서 조회하여 트렌드 출력
     @PostMapping("/auth/nShoppingKeywordTrendStatistics")
@@ -52,15 +41,14 @@ public class NaverApiController {
             throws ParseException, JsonProcessingException {
 
         // DB에서 검색 많이 한 음식 조회해서 키워드 트렌드 조회하기
-        KeywordTrendRequest request = recipeSearchService.searchFoodAllRankTop3();
-
-        System.out.println(request);
-        AllKeywordResponse result= naverApiService.keywordTrendDbSelect(request);
+        AllKeywordResponse result= naverApiService.keywordTrendDbSelect(
+                recipeSearchService.searchFoodAllRankTop3()
+        );
 
         return new ResponseDto<AllKeywordResponse>(HttpStatus.OK.value(),result);
     }
 
-    // 재료 검색을 위한 소분류(SubGroupList) 리스트 조회 (완)
+    // 재료 검색을 위한 소분류(SubGroupList) 리스트 조회
     @GetMapping("/auth/mainGroup/{groupId}")
     public ResponseDto<List<SubGroupInfo>> subGroupList(
             @PathVariable String groupId) {
@@ -69,20 +57,6 @@ public class NaverApiController {
         return new ResponseDto<List<SubGroupInfo>>
                 (HttpStatus.OK.value(), result);
     }
-
-    /*음식명을 네이버 블로그 검색 하여 결과 리턴 ->
-    RestController가 아닌 controller로 modelAttribute로 보내야할 듯*/
-//    @GetMapping("/auth/nBlogRecipe/{searchFood}")
-//    public ResponseDto<ArrayList<Item>> nBlogRecipe(
-//            @PathVariable String searchFood
-//    ) throws JsonProcessingException {
-//        System.out.println("요청값 foodName:"+searchFood);
-//        NaverSearchRes.Root searchBlogResult =
-//                naverApiService.searchBlog(searchFood);
-//
-//        return new ResponseDto<ArrayList<Item>>(
-//                HttpStatus.OK.value(), searchBlogResult.getItems());
-//    }
 
     @PostMapping("/auth/nBlogRecipePost")
     public ResponseDto<ArrayList<Item>> nBlogRecipePost(
@@ -113,6 +87,30 @@ public class NaverApiController {
     /*
                                     아래는 사용하지 않음
     */
+
+    // 네이버 키워드별 트렌드 조회 - 추후 DB 조회 기능 추가하면 삭제 예정
+//    @PostMapping("/auth/nShoppingKeywordTrend")
+//    public ResponseDto<AllKeywordResponse> naverShoppingKeywordTrend(
+//            @RequestBody String request
+//    ) throws ParseException, JsonProcessingException {
+//        System.out.println(request);
+//        AllKeywordResponse result= naverApiService.keywordTrendShopping(request);
+//        return new ResponseDto<AllKeywordResponse>(HttpStatus.OK.value(),result);
+//    }
+
+    /*음식명을 네이버 블로그 검색 하여 결과 리턴 ->
+    RestController가 아닌 controller로 modelAttribute로 보내야할 듯*/
+//    @GetMapping("/auth/nBlogRecipe/{searchFood}")
+//    public ResponseDto<ArrayList<Item>> nBlogRecipe(
+//            @PathVariable String searchFood
+//    ) throws JsonProcessingException {
+//        System.out.println("요청값 foodName:"+searchFood);
+//        NaverSearchRes.Root searchBlogResult =
+//                naverApiService.searchBlog(searchFood);
+//
+//        return new ResponseDto<ArrayList<Item>>(
+//                HttpStatus.OK.value(), searchBlogResult.getItems());
+//    }
 
     // 네이버 분야별 트렌드 조회
     @PostMapping("/auth/nShoppingCateTrend")

@@ -28,13 +28,12 @@ public class AdminController {
                          @PageableDefault(size = 20, sort="id", direction = Sort.Direction.ASC)
                          Pageable pageable) {
         Page<User> userPageable = adminService.userList(pageable);
-        System.out.println(userPageable);
-        System.out.println(userPageable.getContent());
         model.addAttribute("memberList", userPageable);
 
         int nowPage = userPageable.getPageable().getPageNumber() + 1;
         int startPage = Math.max(1, userPageable.getPageable().getPageNumber() - 4);
-        int endPage = Math.min(userPageable.getTotalPages(), userPageable.getPageable().getPageNumber() + 4);
+        int endPage = Math.min(userPageable.getTotalPages(),
+                userPageable.getPageable().getPageNumber() + 4);
 
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
@@ -46,15 +45,9 @@ public class AdminController {
     // MBTI 질문지 관리 페이지-> 리스트만 조회하기, 버튼만 만들기(삭제,수정...)
     @GetMapping("/admin/mbtiQuestion")
     public String mbtiQuestion(Model model) {
-        model.addAttribute("questionList",adminService.surveyFindAll());
+        model.addAttribute("questionList",
+                adminService.surveyFindAll());
         return "admin/mbtiQuestion";
-    }
-
-    // 통계 save - 추후 삭제 예정 (cron으로 자동 설정함)
-    @GetMapping("/auth/ratioSave")
-    public @ResponseBody String ratioSave() {
-        adminService.memRatioSave();
-        return "완료";
     }
 
     // 통계 페이지 -> model 만들기(entity,table), mbti 통계관련 entity(table)만들기
@@ -67,28 +60,12 @@ public class AdminController {
     }
 
 
-    // 게시판 관리 페이지-> 삭제,수정,답글달기.. => board 화면과 동일하게 사용해도 되지 않을까..
-//    @GetMapping("/auth/board")
-//    public String boardManage(Model model,
-//                              @PageableDefault(size = 10,
-//                                      sort = "id",
-//                                      direction = Sort.Direction.DESC)
-//                              Pageable pageable,
-//                              @RequestParam(required = false, defaultValue = "") String searchText
-//    ) {
-//        Page<Board> board = boardService.글목록(pageable, searchText);
-//
-//        int nowPage = board.getPageable().getPageNumber() + 1;
-//        int startPage = Math.max(1, board.getPageable().getPageNumber() - 4);
-//        int endPage = Math.min(board.getTotalPages(), board.getPageable().getPageNumber() + 4);
-//
-//        model.addAttribute("nowPage", nowPage);
-//        model.addAttribute("startPage", startPage);
-//        model.addAttribute("endPage", endPage);
-//        model.addAttribute("board", board);
-//
-//        return "";
-//    }
+    // 통계 save - 추후 삭제 예정 (cron으로 자동 설정함)
+    @GetMapping("/auth/ratioSave")
+    public @ResponseBody String ratioSave() {
+        adminService.memRatioSave();
+        return "완료";
+    }
 
 
 }

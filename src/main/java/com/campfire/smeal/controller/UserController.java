@@ -1,12 +1,10 @@
 package com.campfire.smeal.controller;
 
 import com.campfire.smeal.config.auth.PrincipalDetails;
-import com.campfire.smeal.repository.MbtiTypeRepository;
-import com.campfire.smeal.repository.SearchFoodRankRepository;
-import com.campfire.smeal.service.BoardService;
 import com.campfire.smeal.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -22,9 +20,6 @@ public class UserController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
-    private final BoardService boardService;
-    private final SearchFoodRankRepository searchFoodRankRepository;
-    private final MbtiTypeRepository mbtiTypeRepository;
 
     // 대시보드 페이지
     @GetMapping("/dashboard")
@@ -32,11 +27,14 @@ public class UserController {
                             Model model
     ) {
         model.addAttribute("foodRankAllList",
-                searchFoodRankRepository.typeAll());
-        model.addAttribute("foodRankTypeList",
-                searchFoodRankRepository.typeRank(principalDetails.getUser().getFoodMbti()));
+                userService.typeAll());
 
-        model.addAttribute("mbtiName", mbtiTypeRepository.selectMbtiName(principalDetails.getUser().getFoodMbti()));
+        model.addAttribute("foodRankTypeList",
+                userService.typeList(principalDetails.getUser().getFoodMbti()));
+
+        model.addAttribute("mbtiName",
+                userService.mbtiName(principalDetails.getUser().getFoodMbti()));
+
         return "dashboard";
     }
 

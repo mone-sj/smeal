@@ -8,18 +8,12 @@ $(document).ready(function () {
 });
 
 function initFunction() {
-  let data = {
-    keyword: [{ param: "김치찌개" }, { param: "된장찌개" }],
-  };
-
   $.ajax({
     type: "POST",
     url: "/auth/nShoppingKeywordTrendStatistics",
     dataType: "json",
   })
     .done(function (resp) {
-      console.log("totalClickResult");
-      console.log(resp.data.totalClick);
       let totalClickKeywordList = resp.data.totalClick["keywordList"];
       let totalClickKeywordResultList = resp.data.totalClick["ratioList"];
 
@@ -102,16 +96,8 @@ function initFunction() {
       });
 
       //연령별 추이 시작
-      console.log("agesResult");
-      console.log(resp.data.ages);
-
       let agesKeywordList = resp.data.ages["keyword"];
       let agesKeywordResultList = resp.data.ages["results"];
-
-      console.log("agesKeywordList");
-      console.log(agesKeywordList);
-      console.log("agesKeywordResultList");
-      console.log(agesKeywordResultList);
 
       for (agesKey in agesKeywordResultList) {
         window["ageData" + agesKey] = agesKeywordResultList[agesKey];
@@ -247,16 +233,8 @@ function initFunction() {
       // 연령별 추이 - 끝
 
       // 성별 추이 그래프
-      console.log("gendersResult");
-      console.log(resp.data.genders);
-
       let gendersKeywordList = resp.data.genders["keyword"];
       let gendersKeywordResultList = resp.data.genders["results"];
-
-      console.log("gendersKeywordList");
-      console.log(gendersKeywordList);
-      console.log("gendersKeywordResultList");
-      console.log(gendersKeywordResultList);
 
       for (gendersKey in gendersKeywordResultList) {
         window["gendersKey" + gendersKey] =

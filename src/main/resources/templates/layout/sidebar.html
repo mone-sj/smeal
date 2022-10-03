@@ -13,7 +13,7 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-    <th:block sec:authorize="hasRole('ROLE_USER')">
+    <th:block sec:authorize="hasRole('ROLE_USER') or isAnonymous()">
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
             <a class="nav-link" href="/dashboard">

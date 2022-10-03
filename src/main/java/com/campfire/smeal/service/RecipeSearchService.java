@@ -1,7 +1,6 @@
 package com.campfire.smeal.service;
 
 import com.campfire.smeal.config.auth.PrincipalDetails;
-import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq;
 import com.campfire.smeal.dto.api.NaverKeywordTrendShoppingReq.KeywordTrendRequest;
 import com.campfire.smeal.dto.searchFood.FoodRankAllResponseInterface;
 import com.campfire.smeal.dto.searchFood.FoodRankResponseInterface;
@@ -15,7 +14,6 @@ import com.campfire.smeal.repository.SearchFoodHistRepository;
 import com.campfire.smeal.repository.SearchFoodRankRepository;
 import com.campfire.smeal.repository.SubGroupRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -44,10 +42,7 @@ public class RecipeSearchService {
 
     @Transactional
     public List<SubGroupInfo> subGroupInfoList(int groupId){
-        List<SubGroupInfo> subGroupInfoList = subGroupRepository.findSubGroup(groupId);
-        System.out.println("subGroupInfoList");
-        System.out.println(subGroupInfoList);
-        return subGroupInfoList;
+        return subGroupRepository.findSubGroup(groupId);
     }
 
     @Transactional
@@ -65,8 +60,8 @@ public class RecipeSearchService {
         searchFoodHistRepository.save(searchFood);
     }
 
-    // 월요일마다 실행
-    @Scheduled(cron="* * * * * 1")
+    // 매주 월요일 0시에 실행
+    @Scheduled(cron="0 0 0 * * 1")
     @Transactional
     public void rankSave() {
 
@@ -131,19 +126,17 @@ public class RecipeSearchService {
         HashMap<String, String> period = new HashMap<>();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
+        // 오늘 날짜
         Calendar cal = Calendar.getInstance();
-        System.out.println("오늘날짜: " + formatter.format(cal.getTime()));
 
         // 지난 주 일요일:
         cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        String endDate = formatter.format(cal.getTime());
-        period.put("endDate", endDate);
+        period.put("endDate", formatter.format(cal.getTime()));
 
         // 지난 주 월요일:
         cal.add(Calendar.DATE, -7);
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        String startDate = formatter.format(cal.getTime());
-        period.put("startDate", startDate);
+        period.put("startDate", formatter.format(cal.getTime()));
 
         return period;
     }
@@ -164,33 +157,6 @@ public class RecipeSearchService {
             }
         }
         return keywordTrendRequestDefaultDbDto(top3FoodList);
-    }
-
-
-    // searchFoodRank 에서 최근 일주일 최다 검색어 list 가져오기(전체) - 삭제해도 될듯
-    @Transactional
-    public void searchFoodRankList() {
-        System.out.println("전체 최다 검색어");
-        List<FoodRankTypeDto> foodRankAllDtos = searchFoodRankRepository.typeAll();
-        for (int i = 0; i < foodRankAllDtos.size(); i++) {
-            System.out.println(foodRankAllDtos.get(i).getSearchKeyword());
-            System.out.println(foodRankAllDtos.get(i).getCount());
-            System.out.println(foodRankAllDtos.get(i).getRank_());
-            System.out.println(foodRankAllDtos.get(i).getCountPeriod());
-        }
-    }
-
-    // searchFoodRank 에서 최근 일주일 최다 검색어 list 가져오기(전체) - 삭제해도 될듯
-    @Transactional
-    public void searchFoodTypeRankList(String type) {
-        System.out.println("타입별 최다 검색어- type: " + type);
-        List<FoodRankTypeDto> foodRankTypeDtos = searchFoodRankRepository.typeRank(type);
-        for (int i = 0; i < foodRankTypeDtos.size(); i++) {
-            System.out.println(foodRankTypeDtos.get(i).getSearchKeyword());
-            System.out.println(foodRankTypeDtos.get(i).getCount());
-            System.out.println(foodRankTypeDtos.get(i).getRank_());
-            System.out.println(foodRankTypeDtos.get(i).getCountPeriod());
-        }
     }
 
 

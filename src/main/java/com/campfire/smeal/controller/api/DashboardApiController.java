@@ -15,16 +15,16 @@ public class DashboardApiController {
     private final RecipeSearchService recipeSearchService;
 
     // 삭제해도 될듯..
-    @GetMapping("/auth/typeAllRank")
-    public @ResponseBody ResponseDto<Integer> mbtiTypeAllRankList() {
-        recipeSearchService.searchFoodRankList();
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
-    }
-
-    // 삭제해도 될듯..
-    @GetMapping("/auth/typeRank")
-    public @ResponseBody ResponseDto<Integer> mbtiTypeRankList() {
-        recipeSearchService.searchFoodTypeRankList("D");
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
-    }
+//    @GetMapping("/auth/typeAllRank")
+//    public @ResponseBody ResponseDto<Integer> mbtiTypeAllRankList() {
+//        recipeSearchService.searchFoodRankList();
+//        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+//    }
+//
+//    // 삭제해도 될듯..
+//    @GetMapping("/auth/typeRank")
+//    public @ResponseBody ResponseDto<Integer> mbtiTypeRankList() {
+//        recipeSearchService.searchFoodTypeRankList("D");
+//        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+//    }
 }

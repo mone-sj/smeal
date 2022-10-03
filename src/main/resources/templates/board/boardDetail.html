@@ -32,7 +32,7 @@
                             <th:block sec:authorize="isAuthenticated()">
                                 <th:block
                                         th:if="${board.user.id} == ${#authentication.principal.user.id} or ${#authentication.principal.user.role.equals('ROLE_ADMIN')}">
-                                    <a th:href="@{/auth/board/updateForm/{id}(id=${board.id})}" class="btn btn-warning">수정</a>
+                                    <a th:href="@{/board/updateForm/{id}(id=${board.id})}" class="btn btn-warning">수정</a>
                                     <button id="btn-delete" class="btn btn-danger">삭제</button>
                                 </th:block>
                             </th:block>
@@ -85,7 +85,7 @@
                                         </div>
                                         <th:block sec:authorize="isAuthenticated()">
                                             <th:block
-                                                    th:if="${board.user.id} == ${#authentication.principal.user.id} or ${#authentication.principal.user.role.equals('ROLE_ADMIN')}">
+                                                    th:if="${reply.user.id} == ${#authentication.principal.user.id} or ${#authentication.principal.user.role.equals('ROLE_ADMIN')}">
                                                 <button th:onclick="|javascript:index.replyDelete(${board.id}, ${reply.id})|"
                                                         class="badge">
                                                     삭제
@@ -110,7 +110,7 @@
             <!-- End of Footer -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Content -->
 
 
         <a class="scroll-to-top rounded" href="#page-top">
@@ -119,6 +119,9 @@
 
         <script th:src="@{/js/board.js}"></script>
 
-
+    </div>
+  <!-- End of Content Wrapper -->
+</div>
+<!-- End of Wrapper -->
 </body>
 </html>

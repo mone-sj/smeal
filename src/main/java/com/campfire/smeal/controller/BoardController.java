@@ -1,6 +1,5 @@
 package com.campfire.smeal.controller;
 
-//import com.campfire.smeal.dto.utils.Paging;
 import com.campfire.smeal.model.Board;
 import com.campfire.smeal.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +9,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Controller
@@ -45,7 +44,7 @@ public class BoardController {
 
     @GetMapping("/auth/board/{boardId}")
     public String boardDetail(@PathVariable int boardId,
-                                            Model model) {
+                              Model model) {
 
         Board post = boardService.상세보기(boardId);
         model.addAttribute("board",
@@ -55,16 +54,16 @@ public class BoardController {
 
     /*게시판 작성 양식페이지로 이동
     매핑 주소 바꾸기. 회원만 작성가능.*/
-    @GetMapping("/auth/board/create")
+    @GetMapping("/board/create")
     public String boardCreate() {
         return "board/boardSaveForm";
     }
 
     /* 게시판 수정 페이지 이동
      매핑주소 바꾸기. 관리자 및 글쓴이만 수정 가능*/
-    @GetMapping("/auth/board/updateForm/{id}")
+    @GetMapping("/board/updateForm/{id}")
     public String boardUpdate(@PathVariable int id,
-                                            Model model
+                              Model model
     ) {
         model.addAttribute("board",
                 boardService.상세보기(id));

@@ -75,6 +75,7 @@ public class UserService {
 
     @Transactional
     public void 회원삭제(Long id) {
+        System.out.println("회원삭제: " + id);
         userRepository.deleteById(id);
     }
 

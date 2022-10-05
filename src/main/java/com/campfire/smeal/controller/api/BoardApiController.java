@@ -16,7 +16,6 @@ public class BoardApiController {
 
     private final BoardService boardService;
 
-    // 회원만 글작성하기, 매핑 주소 수정하기
     @PostMapping("/board/save")
     public ResponseDto<Integer> save(@RequestBody Board board,
                                      @AuthenticationPrincipal
@@ -26,7 +25,6 @@ public class BoardApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
-    // 글 수정하기, 매핑주소 수정
     @PutMapping("/board/update/{id}")
     public ResponseDto<Integer> update(@PathVariable Long id,
                                        @RequestBody Board board) {

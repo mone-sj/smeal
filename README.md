@@ -63,7 +63,8 @@
 ## 결과
 ### 1. 메인
 ![main](https://user-images.githubusercontent.com/104689908/194231569-91374d34-8121-4a89-9c10-86812a93b3ef.png)
-
+### 2. 대시보드
+![dashboard](https://user-images.githubusercontent.com/104689908/194231882-7c258b2c-ba9e-4f63-a6f3-4a7edd1b9eea.png)
 -----------------
 ### application.yml
     debug: true

@@ -1,5 +1,5 @@
 # 든든한 한끼
-### 프로젝트 계획 이휴
+### 프로젝트 계획 이유
 > 집에 남아 있는 음식 재료로 만들 수 있는 음식이나 먹고 싶은 음식의 레시피를 검색할 수 있는 페이지를 제공하고자 한다.  
 > 또한, 음식은 개인 취향에 따라 선호도가 다르므로 이용자의 특성을 분류하여 그에 따른 추천음식을 제공한다.
 ------------------------
@@ -21,9 +21,11 @@
 - 재료명으로 검색
     - 네이버 카테고리를 통해 JSON형태로 api통해 식약처과 통신
     - 결과 사진, 음식명, 조리방법이 나오며 100개 리스트 출력
+    - [식약처 API](http://www.foodsafetykorea.go.kr/api/openApiInfo.do?menu_grp=MENU_GRP31&menu_no=661&show_cnt=10&start_idx=1&svc_no=COOKRCP01)
 - 음식명으로 검색
     - JSON형태로 네이버 블로그 api통해 통신
     - 작성자, url, 제목, 작성일이 100개 리스트 출력
+    - [네이버 블로그 API](https://developers.naver.com/docs/serviceapi/search/blog/blog.md#%EA%B0%9C%EC%9A%94)
 
 ### 4. 게시판
 - 게시글 리스트 보기

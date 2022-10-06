@@ -85,7 +85,6 @@ let index = {
   },
 
   replySave: function () {
-    console.debug("reply.socket", socket);
     let data = {
       userId: $("#userId").val(),
       boardId: $("#boardId").val(),
@@ -103,14 +102,6 @@ let index = {
       .done(function (resp) {
         alert("댓글작성이 완료되었습니다.");
         location.href = `/auth/board/${data.boardId}`;
-
-        if (readWriter != writer) {
-          if (socket) {
-            let socketMsg = "reply," + writer + "," + readWriter + "," + bno;
-            console.log(socketMsg);
-            socket.send(socketMsg);
-          }
-        }
       })
       .fail(function (error) {
         alert(JSON.stringify(error));

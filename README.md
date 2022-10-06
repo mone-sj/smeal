@@ -61,105 +61,104 @@
 -----------------
 ### application.yml
 '''
-debug: true
+    debug: true
 
-server:
-  port: 8080
-  servlet:
-    context-path: /
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
+    server:
+      port: 8080
+      servlet:
+        context-path: /
+        encoding:
+          charset: UTF-8
+          enabled: true
+          force: true
 
-spring:
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
+    spring:
+      mvc:
+        hiddenmethod:
+          filter:
+            enabled: true
 
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/meal?serverTimezone=Asia/Seoul
-    username: DB명
-    password: DB비번
+      datasource:
+        driver-class-name: org.mariadb.jdbc.Driver
+        url: jdbc:mariadb://localhost:3306/meal?serverTimezone=Asia/Seoul
+        username: DB명
+        password: DB비번
 
-  sql:
-    init:
-      mode: always
-      data-locations:
-        - classpath:db/data.sql
+      sql:
+        init:
+          mode: always
+          data-locations:
+            - classpath:db/data.sql
 
-  jpa:
-    open-in-view: true
-    hibernate:
-      ddl-auto: create  # create update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      use-new-id-generator-mappings: false
-    show-sql: true
-    defer-datasource-initialization: true
-    properties:
-      hibernate.format_sql: true
+      jpa:
+        open-in-view: true
+        hibernate:
+          ddl-auto: create  # create update
+          naming:
+            physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+          use-new-id-generator-mappings: false
+        show-sql: true
+        defer-datasource-initialization: true
+        properties:
+          hibernate.format_sql: true
 
-  jackson:
-    serialization:
-      fail-on-empty-beans: false
+      jackson:
+        serialization:
+          fail-on-empty-beans: false
 
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            clientId: 구글 Client ID
-            clientSecret: 구글 Client PW
-            scope:
-              - email
-              - profile
+      security:
+        oauth2:
+          client:
+            registration:
+              google:
+                clientId: 구글 Client ID
+                clientSecret: 구글 Client PW
+                scope:
+                  - email
+                  - profile
 
-          naver:
-            clientId: 네이버 Client ID
-            clientSecret: 네이버 Client PW
-            scope:
-              - name
-              - email
-              - gender
-              - age
-            clientName: Naver
-            authorizationGrantType: authorization_code
-            redirectUri: http://localhost:8080/login/oauth2/code/naver
+              naver:
+                clientId: 네이버 Client ID
+                clientSecret: 네이버 Client PW
+                scope:
+                  - name
+                  - email
+                  - gender
+                  - age
+                clientName: Naver
+                authorizationGrantType: authorization_code
+                redirectUri: http://localhost:8080/login/oauth2/code/naver
 
-          kakao:
-            clientId: 카카오 Client ID
-            scope:
-              - profile_nickname
-              - account_email
-              - gender
-              - age_range
-            clientName: Kakao
-            authorizationGrantType: authorization_code
-            clientAuthenticationMethod: POST
-            redirectUri: http://localhost:8080/login/oauth2/code/kakao
+              kakao:
+                clientId: 카카오 Client ID
+                scope:
+                  - profile_nickname
+                  - account_email
+                  - gender
+                  - age_range
+                clientName: Kakao
+                authorizationGrantType: authorization_code
+                clientAuthenticationMethod: POST
+                redirectUri: http://localhost:8080/login/oauth2/code/kakao
 
-        provider:
-          naver:
-            authorizationUri: https://nid.naver.com/oauth2.0/authorize
-            tokenUri: https://nid.naver.com/oauth2.0/token
-            userInfoUri: https://openapi.naver.com/v1/nid/me
-            userNameAttribute: response
-          kakao:
-            authorizationUri: https://kauth.kakao.com/oauth/authorize
-            tokenUri: https://kauth.kakao.com/oauth/token
-            userInfoUri: https://kapi.kakao.com/v2/user/me
-            userNameAttribute: id
+            provider:
+              naver:
+                authorizationUri: https://nid.naver.com/oauth2.0/authorize
+                tokenUri: https://nid.naver.com/oauth2.0/token
+                userInfoUri: https://openapi.naver.com/v1/nid/me
+                userNameAttribute: response
+              kakao:
+                authorizationUri: https://kauth.kakao.com/oauth/authorize
+                tokenUri: https://kauth.kakao.com/oauth/token
+                userInfoUri: https://kapi.kakao.com/v2/user/me
+                userNameAttribute: id
 
-myinfo:
-  naverApi:
-    naverClientId: 네이버 Client ID
-    naverClientSecret: 네이버 Client PW
+    myinfo:
+      naverApi:
+        naverClientId: 네이버 Client ID
+        naverClientSecret: 네이버 Client PW
 
-  recipeApiService:
-    key: 식약처 key
-    serviceName: 식약처 PW
-
+      recipeApiService:
+        key: 식약처 key
+        serviceName: 식약처 PW
 '''

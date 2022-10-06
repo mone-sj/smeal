@@ -100,17 +100,22 @@
                                                 </tr>
                                                 </thead>
 
-                                                <tbody th:each="num:${#numbers.sequence(0,#lists.size(memberList.getContent)-1)}">
-                                                <tr>
-                                                    <td class="sorting_1" id="memId" th:text="${memberList.getContent.get(num).id}">번호</td>
+                                                <tbody>
+                                                <tr th:each="num:${#numbers.sequence(0,#lists.size(memberList.getContent)-1)}">
+                                                    <td class="sorting_1" id="memId" name="memId" th:text="${memberList.getContent.get(num).id}">번호</td>
                                                     <td th:text="${memberList.getContent.get(num).username}">ID</td>
                                                     <td th:text="${memberList.getContent.get(num).role}">등급</td>
                                                     <td th:text="${memberList.getContent.get(num).provider}">가입경로</td>
                                                     <td th:text="${memberList.getContent.get(num).createDate}">가입일</td>
-                                                    <td><button class="btn btn-primary" id="btn-memDelete" name="btn-memDelete">
+                                                    <td><button type="button" class="btn btn-primary" th:disabled="${memberList.getContent.get(num).username.equals('admin')}"
+                                                                th:onclick="deleteMem([[${memberList.getContent.get(num).id}]])">
                                                         회원삭제</button></td>
-                                                    <td><button type="button" class="btn btn-primary" id="btn-levelUp" name="btn-levelUp">
-                                                        전환</button></td>
+<!--                                                    <td><button type="button" id="btn-levelUp" name="btn-levelUp" th:text="전환">-->
+                                                               <!--th:value="${memberList.getContent.get(num).id}"-->
+                                                    <td><button type="button" class="btn btn-primary" th:disabled="${memberList.getContent.get(num).username.equals('admin')}"
+                                                                th:onclick="levelUpEvent([[${memberList.getContent.get(num).id}]])">
+                                                        전환
+                                                    </button></td>
                                                 </tr>
                                                 </tbody>
                                             </table>

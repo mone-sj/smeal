@@ -88,20 +88,4 @@ public class BoardService {
         replyRepository.deleteById(replyId);
     }
 
-
-    // 아래는 삭제해도 되나본데?
-//    @Transactional
-//    public Long TotalCount() {
-//        return boardRepository.count();
-//    }
-//
-//
-//    @Transactional
-//    public void findAll() {
-//        List<Board> boardList = boardRepository.findAll();
-//        System.out.println("출력이 안되나?");
-//        System.out.println(boardList);
-//    }
-
-
 }

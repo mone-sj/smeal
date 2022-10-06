@@ -26,13 +26,15 @@ public class AdminApiController {
     // 회원 삭제
     @DeleteMapping("/admin/deleteMem/{id}")
     public ResponseDto<Integer> deleteMem(@PathVariable int id) {
+        System.out.println("회원삭제");
         userService.회원삭제(Long.valueOf(id));
+        System.out.println("삭제완료?");
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
     // admin으로 등급업 (혹은 MANAGER)
     @GetMapping("/admin/levelUp/{id}")
-    public ResponseDto<Integer> levelUpMem(@PathVariable int id){
+    public ResponseDto<Integer> levelUpMem(@PathVariable String id){
         User levelUpUser=adminService.memLevelUp(Long.valueOf(id));
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }

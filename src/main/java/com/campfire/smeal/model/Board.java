@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
@@ -31,7 +33,8 @@ public class Board {
     private String content;
 
     @ManyToOne(fetch = FetchType.EAGER)//, optional = false)
-    @JoinColumn(name="userId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "userId")
     private User user;
 
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

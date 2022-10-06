@@ -83,6 +83,9 @@
 ![음식명검색](https://user-images.githubusercontent.com/104689908/194232255-0b5eeb85-4c6e-4de2-9795-c18bbfcdb71d.PNG)
 - 재료명으로 검색
 ![재료명으로검색](https://user-images.githubusercontent.com/104689908/194232329-cc97ef9c-951d-445c-a7ca-4619d1178018.PNG)
+### 5. 관리자
+- 통계
+![admin통계](https://user-images.githubusercontent.com/104689908/194236105-fb5063d9-3ef5-4433-b13a-60d5bfc4a610.PNG)
 -----------------
 ## 참고
 ### application.yml

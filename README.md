@@ -65,7 +65,18 @@
 ![main](https://user-images.githubusercontent.com/104689908/194231569-91374d34-8121-4a89-9c10-86812a93b3ef.png)
 ### 2. 대시보드
 ![dashboard](https://user-images.githubusercontent.com/104689908/194231882-7c258b2c-ba9e-4f63-a6f3-4a7edd1b9eea.png)
+### 3. 식품 MBtI
+#### - 설문지
+![식품MBTI_Survey](https://user-images.githubusercontent.com/104689908/194232099-4533065a-2b98-4724-b413-1b687e604070.PNG)
+#### - 결과
+![식품MBTI_Result](https://user-images.githubusercontent.com/104689908/194232186-5af8d565-f1bc-4b0f-91de-2b1ff9e338be.PNG)
+### 4. 레시피 검색
+#### - 음식명으로 검색
+![음식명검색](https://user-images.githubusercontent.com/104689908/194232255-0b5eeb85-4c6e-4de2-9795-c18bbfcdb71d.PNG)
+#### - 재료명으로 검색
+![재료명으로검색](https://user-images.githubusercontent.com/104689908/194232329-cc97ef9c-951d-445c-a7ca-4619d1178018.PNG)
 -----------------
+## 참고
 ### application.yml
     debug: true
 

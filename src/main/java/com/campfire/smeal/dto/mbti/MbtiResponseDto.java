@@ -11,4 +11,8 @@ public class MbtiResponseDto {
     private String qNo;
     private String result;
     private String resultTypeCode;
+
+    private String age;
+    private String gender;
+    private String memberStatus;
 }

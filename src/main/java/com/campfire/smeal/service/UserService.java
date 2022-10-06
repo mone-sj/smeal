@@ -1,17 +1,20 @@
 package com.campfire.smeal.service;
 
 import com.campfire.smeal.config.BCryptEnc;
+import com.campfire.smeal.dto.searchFood.FoodRankTypeDto;
 import com.campfire.smeal.handler.exception.GeneralException;
 import com.campfire.smeal.handler.exception.SmErrorCode;
 import com.campfire.smeal.model.RoleType;
 import com.campfire.smeal.model.User;
+import com.campfire.smeal.repository.MbtiTypeRepository;
+import com.campfire.smeal.repository.SearchFoodRankRepository;
 import com.campfire.smeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 import static com.campfire.smeal.handler.exception.SmErrorCode.*;
 
@@ -22,6 +25,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final BCryptEnc bCryptEnc;
+    private final SearchFoodRankRepository searchFoodRankRepository;
+    private final MbtiTypeRepository mbtiTypeRepository;
 
     @Transactional
     public void 회원가입(User user, String passwordRepeat) {
@@ -35,30 +40,18 @@ public class UserService {
             user.setUserId(user.getUsername());
             user.setRole(RoleType.ROLE_USER);
             userRepository.save(user);
-        } /*catch (DataIntegrityViolationException ex) {
-            log.info("3");
-            throw new GeneralException(DUPLICATED_USER_ID);
-        }*/
-        catch (Exception e) {
+        }   catch (Exception e) {
             e.printStackTrace();
             throw new GeneralException(INVALID_REQUEST);
         }
     }
 
     @Transactional
-    public User 회원수정(User user, String passwordRepeat) {
-        if (!user.getPassword().equals(passwordRepeat)) {
-            throw new GeneralException(SmErrorCode.INCONSISTENCY_PASSWORD);
-        }
-
+    public User 회원수정(User user) {
         User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
             //User persistence = userRepository.findByUserId(user.getUserId()).orElseThrow(() -> {
             return new GeneralException(SmErrorCode.NO_USER);
         });
-
-        String rawPassword = user.getPassword();
-        String encPassword = bCryptEnc.encodePWD().encode(rawPassword);
-        persistence.setPassword(encPassword);
         persistence.setAge(user.getAge());
         persistence.setGender(user.getGender());
         persistence.setEmail(user.getEmail());
@@ -82,6 +75,7 @@ public class UserService {
 
     @Transactional
     public void 회원삭제(Long id) {
+        System.out.println("회원삭제: " + id);
         userRepository.deleteById(id);
     }
 
@@ -93,7 +87,7 @@ public class UserService {
     }
 
     @Transactional
-    public void 회원정보추가(Long id, String gender, String age, String resultTypeCode) {
+    public User 회원정보추가(Long id, String gender, String age, String resultTypeCode) {
         User persistence = userRepository.findById(id).orElseThrow(() ->{
             return new GeneralException(SmErrorCode.NO_USER);
         });
@@ -101,7 +95,22 @@ public class UserService {
         persistence.setGender(gender);
         persistence.setAge(age);
         persistence.setFoodMbti(resultTypeCode);
+        return persistence;
+    }
 
+    @Transactional
+    public List<FoodRankTypeDto> typeAll() {
+        return searchFoodRankRepository.typeAll();
+    }
+
+    @Transactional
+    public List<FoodRankTypeDto> typeList(String type) {
+        return searchFoodRankRepository.typeRank(type);
+    }
+
+    @Transactional
+    public String mbtiName(String type) {
+        return mbtiTypeRepository.selectMbtiName(type);
     }
 
 }

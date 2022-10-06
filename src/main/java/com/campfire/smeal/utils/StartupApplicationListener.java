@@ -4,6 +4,7 @@ import com.campfire.smeal.model.Board;
 import com.campfire.smeal.model.RoleType;
 import com.campfire.smeal.model.User;
 import com.campfire.smeal.service.BoardService;
+import com.campfire.smeal.service.RecipeSearchService;
 import com.campfire.smeal.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,8 @@ public class StartupApplicationListener {
 
     private final BoardService boardService;
 
+    private final RecipeSearchService recipeSearchService;
+
     @PostConstruct
     public void init() {
         User admin=User.builder()
@@ -37,6 +40,7 @@ public class StartupApplicationListener {
                 .password("1234")
                 .nickname("test2")
                 .email("test2")
+                .foodMbti("D")
                 .build();
 
         User user2=User.builder()
@@ -63,9 +67,6 @@ public class StartupApplicationListener {
 
         boardService.글쓰기(board, user1);
         boardService.글쓰기(board1, user2);
-
-
-
     }
 
 }

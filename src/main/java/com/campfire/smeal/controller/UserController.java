@@ -1,24 +1,16 @@
 package com.campfire.smeal.controller;
 
 import com.campfire.smeal.config.auth.PrincipalDetails;
-import com.campfire.smeal.dto.mbti.NonMemberInfoDto;
-import com.campfire.smeal.handler.exception.GeneralException;
-import com.campfire.smeal.handler.exception.SmErrorCode;
-import com.campfire.smeal.model.User;
 import com.campfire.smeal.service.UserService;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
@@ -31,9 +23,36 @@ public class UserController {
 
     // 대시보드 페이지
     @GetMapping("/dashboard")
-    public String dashboard() {
-//        return "dashboard";
-        return "test/dashboard";
+    public String dashboard(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                            Model model
+    ) {
+        model.addAttribute("foodRankAllList",
+                userService.typeAll());
+
+        model.addAttribute("foodRankTypeList",
+                userService.typeList(principalDetails.getUser().getFoodMbti()));
+
+        model.addAttribute("mbtiName",
+                userService.mbtiName(principalDetails.getUser().getFoodMbti()));
+
+        return "dashboard";
+    }
+
+    @PostMapping("/auth/forwardLogin")
+    public String successForwardLogin(@AuthenticationPrincipal
+                                      PrincipalDetails principalDetails) {
+        System.out.println("hi");
+        System.out.println("role: " + principalDetails.getUser().getRole());
+        if (principalDetails.getUser().getRole().equals("ROLE_USER")) {
+            System.out.println("hi2");
+            return "dashboard";
+        } else if (principalDetails.getUser().getRole().equals("ROLE_ADMIN")) {
+            return "admin/statistics";
+        } else {
+            System.out.println("hi3");
+            return "redirect:/";
+        }
+
     }
 
     //로그인페이지
@@ -52,93 +71,11 @@ public class UserController {
         return "user/register";
     }
 
-    // mbti검사 후 회원가입 시 - 삭제예정
-//    @PostMapping("/auth/joinMem")
-//    public String joinNonMember(
-//            @RequestParam(required = false) String age,
-//            @RequestParam(required = false) String gender,
-//            @RequestParam(required = false) String mbtiType,
-//            Model model
-//    ) {
-//        NonMemberInfoDto nonMemberInfoDto = new NonMemberInfoDto(age, gender, mbtiType);
-//        System.out.println("nonMemberInfoDto");
-//        System.out.println(nonMemberInfoDto);
-//        model.addAttribute("nonMemberInfo", nonMemberInfoDto);
-//        return "user/register";
-//    }
-
-
-
     // 회원 수정 페이지
     @GetMapping("/user/update")
     public String userUpdate(
             @AuthenticationPrincipal PrincipalDetails principal) {
-//        return "updateForm";
-        return "test/userUpdate";
+        return "user/userUpdate";
     }
-
-    // ajax 사용하지 않았을때
-    @PostMapping("/auth/joinProc")
-    public String userSave(
-            @RequestParam(required = true) @NonNull String username,
-            @RequestParam(required = true) @NonNull String password,
-            @RequestParam(required = true) @NonNull String passwordRepeat,
-            @RequestParam(required = true) @NonNull String email,
-            @RequestParam(required = true) @NonNull String nickname,
-            @RequestParam(required = false) String age,
-            @RequestParam(required = false) String gender,
-            @RequestParam(required = false) String mbtiType
-    ){
-        System.out.println("age: " + age);
-        System.out.println("gender: " + gender);
-        System.out.println("mbtiType: " + mbtiType);
-
-        User user=User.builder()
-                .username(username)
-                .password(password)
-                .email(email)
-                .nickname(nickname)
-                .age(age)
-                .gender(gender)
-                .foodMbti(mbtiType)
-                .build();
-        userService.회원가입(user, passwordRepeat);
-        log.info("회원가입완료");
-        return "redirect:/";
-    }
-
-    //////////////////////// 테스트용_기능완성및매핑이 완료되면 삭제
-//
-//    // 회원수정 테스트
-//    @PutMapping("/auth/updateProc")
-//    public String update(
-//            @RequestParam(required = true) Long id,
-//            @RequestParam(required = true) String username,
-//            @RequestParam(required = true) String password,
-//            @RequestParam(required = false) String email,
-//            @RequestParam(required = false) String nickname,
-//            @RequestParam(required = true) String passwordRepeat,
-//            @AuthenticationPrincipal PrincipalDetails principalDetails
-//    ) {
-//
-//        User userDto=User.builder()
-//                .id(id)
-//                .username(username)
-//                .password(password)
-//                .email(email)
-//                .nickname(nickname)
-//                .build();
-//        User updateUser = userService.회원수정(userDto, passwordRepeat);
-//
-//        // 세션 수정
-//        Authentication authentication= authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
-//        SecurityContextHolder.getContext()
-//                .setAuthentication(authentication);
-//        return "redirect:/dashboard";
-//    }
-
-
-
 
 }

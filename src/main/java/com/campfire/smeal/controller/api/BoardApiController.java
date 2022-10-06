@@ -16,8 +16,7 @@ public class BoardApiController {
 
     private final BoardService boardService;
 
-    // 회원만 글작성하기, 매핑 주소 수정하기
-    @PostMapping("/auth/board/save")
+    @PostMapping("/board/save")
     public ResponseDto<Integer> save(@RequestBody Board board,
                                      @AuthenticationPrincipal
                                      PrincipalDetails principal
@@ -26,15 +25,14 @@ public class BoardApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
-    // 글 수정하기, 매핑주소 수정
-    @PutMapping("/auth/board/update/{id}")
+    @PutMapping("/board/update/{id}")
     public ResponseDto<Integer> update(@PathVariable Long id,
                                        @RequestBody Board board) {
         boardService.글수정하기(id, board);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
-    @DeleteMapping("/auth/board/delete/{id}")
+    @DeleteMapping("/board/delete/{id}")
     public ResponseDto<Integer> deleteBoard(
             @PathVariable Long id
     ) {
@@ -43,23 +41,23 @@ public class BoardApiController {
     }
 
 
-    @PostMapping("/auth/board/{boardId}/reply")
+    @PostMapping("/board/{boardId}/reply")
     public ResponseDto<Integer> replySave(
             @RequestBody ReplySaveRequestDto replySaveRequestDto) {
         boardService.댓글쓰기(replySaveRequestDto);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
-    @PutMapping("/auth/board/{boardId}/reply/{replyId}")
+    @PutMapping("/board/{boardId}/reply/{replyId}")
     public ResponseDto<Integer> replyUpdate(
             @PathVariable int replyId,
             @RequestBody ReplySaveRequestDto replySaveRequestDto
-            ) {
+    ) {
         boardService.댓글수정(replyId,replySaveRequestDto);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
-    @DeleteMapping("/auth/board/{boardId}/reply/{replyId}")
+    @DeleteMapping("/board/{boardId}/reply/{replyId}")
     public ResponseDto<Integer> replyDelete(@PathVariable int replyId) {
         boardService.댓글삭제(replyId);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);

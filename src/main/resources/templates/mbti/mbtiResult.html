@@ -33,61 +33,47 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
-
-                <h2>MBTI 결과</h2>
-
-                    <b>mbti 전체 내용</b>
-                    <div th:text="${mbti}"></div>
-                    <b>mbti code:</b>
-                    <div th:text="${mbti.typeCode}"></div>
-                    <b>mbti typeName: </b>
-                    <div th:text="${mbti.typeName}"></div>
-                    <b>mbti image: </b>
-                    <img th:src="@{/img/mbtiTypeImg/{id}.png(id=${mbti.id})}" width="400" height="400"/>
-
-                    <br/><br/><br/><br/>
-                    <b>비회원 정보: </b>
-                    <div th:text="${nonMember}"></div>
-
-<!--                    <form action="/auth/joinMem" method="post" enctype="application/json">-->
-<!--                        <input type="hidden" id="age" name="age" th:value="${nonMember.age}">-->
-<!--                        <input type="hidden" id="gender" name="gender" th:value="${nonMember.gender}">-->
-<!--                        <input type="hidden" id="mbtiType" name="mbtiType" th:value="${nonMember.mbtiType}">-->
-<!--                        <button class="btn btn-primary btn-icon-split" id="btn-view">-->
-<!--                            <span class="icon text-white-50">-->
-<!--                                <i class="fas fa-arrow-right"></i>-->
-<!--                            </span>-->
-<!--                            <span class="text">자세히 보기</span>-->
-<!--                        </button>-->
-<!--                    </form>-->
-
-
-
-<!--                    <a href="#" class="btn btn-primary btn-icon-split">-->
-<!--                        <span class="icon text-white-50">-->
-<!--                            <i class="fas fa-arrow-right"></i>-->
-<!--                        </span>-->
-<!--                        <span class="text">자세히 보기</span>-->
-<!--                    </a>-->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h2 class="m-0 font-weight-bold text-primary text-center">식품 MBTI 결과</h2>
+                    </div>
+                    <div class="h3 text-center text-primary font-weight-bold mt-3" th:text="${mbti.typeName}"></div>
+                    <!--이미지-->
+                    <div class="d-flex justify-content-center mt-3">
+                        <img th:src="@{/img/mbtiTypeImg/{id}.png(id=${mbti.id})}" width="400"/>
+                    </div>
+                    <!--내용-->
+                    <div class="mt-3 text-center col-8 mr-auto ml-auto">
+                        <p th:utext="${mbti.description}"></p>
+                    </div>
+                    <!--레시피 추천-->
+                    <div class="mt-3 text-center col-6 mr-auto ml-auto">
+                        <div class="h4 text-center text-primary font-weight-bold mt-3">Recommended Food</div>
+                        <br>
+                        <br>
+                        <th:block th:each="num:${#numbers.sequence(0,#lists.size(recommendRecipe)-1)}">
+                            <a th:href="@{/auth/recipeSearchFood/{request}(request=${recommendRecipe.get(num)})}" th:text="${recommendRecipe.get(num)}" style="color:black;"></a><span>  </span>
+                        </th:block>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
 
                 </div>
-                <!-- /.container-fluid -->
-
-
             </div>
             <!-- /.container-fluid -->
 
-        </div>
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer th:replace="/layout/footer.html :: fragment-footer"></footer>
-        <!-- End of Footer -->
-
     </div>
-    <!-- End of Content Wrapper -->
+    <!-- End of Main Content -->
 
+    <!-- Footer -->
+    <footer th:replace="/layout/footer.html :: fragment-footer"></footer>
+    <!-- End of Footer -->
+
+
+</div>
+    <!-- End of Content Wrapper -->
 </div>
 <!-- End of Page Wrapper -->
 

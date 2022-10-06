@@ -1,10 +1,14 @@
 package com.campfire.smeal.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Builder
 @Data
@@ -50,5 +54,13 @@ public class User {
 
     @CreationTimestamp
     private Timestamp createDate;
+
+    public String getCreateDate() {
+        SimpleDateFormat dateFormat =
+                new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String createDateFormat = dateFormat.format(createDate);
+
+        return createDateFormat;
+    }
 
 }

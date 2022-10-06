@@ -25,23 +25,4 @@ public class SurveyFoodMbti {
     @Column(columnDefinition = "TEXT")
     private String question;
 
-
-
-
-
-    // enum 타입으로 작성시
-//    @Enumerated(EnumType.STRING)
-//    private FoodMbtiCate FoodMbtiName;
-
-    //private String FoodMbtiName;
-
-    // MBTI category 설명
-//    @Column(columnDefinition = "TEXT")
-//    private String description;
-//
-//    @Column(length = 1000)
-//    private String recommendFood;
-//
-//    @Column(length = 1000)
-//    private String recommendIngredient;
 }

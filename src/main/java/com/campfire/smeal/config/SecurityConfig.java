@@ -1,9 +1,8 @@
 package com.campfire.smeal.config;
 
 import com.campfire.smeal.config.oauth.PrincipalOauth2UserService;
-import com.campfire.smeal.handler.CustomAuthFailureHandler;
+import com.campfire.smeal.handler.CustomLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,11 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 @RequiredArgsConstructor
@@ -31,6 +27,7 @@ public class SecurityConfig {
 
     private final PrincipalOauth2UserService principalOauth2UserService;
     private final AuthenticationFailureHandler customFailureHandler;
+    private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -44,23 +41,27 @@ public class SecurityConfig {
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/","/auth/**", "/js/**","/css/**","/img/**", "/testJs/**"
-                        ,"/vendor/**","/scss/**", "/favicon.ico", "/dashboard", "/mbti/**")
+                .antMatchers("/dashboard").access("hasRole('ROLE_USER')")
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+                .antMatchers("/", "/auth/**", "/js/**", "/css/**", "/img/**", "/testJs/**"
+                        , "/vendor/**", "/scss/**", "/favicon.ico", "/mbti/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
-                    .formLogin().loginPage("/auth/login")
-                    .loginProcessingUrl("/auth/loginProc")
-                    .defaultSuccessUrl("/dashboard")
-                    .failureUrl("/auth/login")
+                .formLogin().loginPage("/auth/login")
+                .loginProcessingUrl("/auth/loginProc")
+                .successHandler(customLoginSuccessHandler)
+                //.successForwardUrl("/auth/forwardLogin")
+                //.defaultSuccessUrl("/dashboard")
+                .failureUrl("/auth/login")
                 .and()
-                    .oauth2Login()
-                    .loginPage("/auth/login")
-                    .defaultSuccessUrl("/dashboard")
-                    .failureHandler(customFailureHandler)
-                    .userInfoEndpoint()
-                    .userService(principalOauth2UserService)
+                .oauth2Login()
+                .loginPage("/auth/login")
+                .successHandler(customLoginSuccessHandler)
+                //.defaultSuccessUrl("/dashboard")
+                .failureHandler(customFailureHandler)
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService)
 
         ;
 
@@ -81,6 +82,7 @@ public class SecurityConfig {
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("GET");
         configuration.addAllowedMethod("POST");
+        configuration.addAllowedMethod("DELETE");
         // you can configure many allowed CORS headers
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

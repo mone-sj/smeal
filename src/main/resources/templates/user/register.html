@@ -72,16 +72,14 @@
                                           id="passwordRepeat" placeholder="Repeat Password">
                                   </div>
                               </div>
-                              <th:block th:if="${nonMemberInfo!=null}">
-                                <input type="hidden" id="age" name="age" th:value="${nonMemberInfo.age}">
-                                <input type="hidden" id="gender" name="gender" th:value="${nonMemberInfo.gender}">
-                                <input type="hidden" id="mbtiType" name="mbtiType" th:value="${nonMemberInfo.mbtiType}">
-                              </th:block>
+<!--                              <th:block th:if="${nonMemberInfo!=null}">-->
+<!--                                <input type="hidden" id="age" name="age" th:value="${nonMemberInfo.age}">-->
+<!--                                <input type="hidden" id="gender" name="gender" th:value="${nonMemberInfo.gender}">-->
+<!--                                <input type="hidden" id="mbtiType" name="mbtiType" th:value="${nonMemberInfo.mbtiType}">-->
+<!--                              </th:block>-->
 
-<!--                                <a href="login.html" class="btn btn-primary btn-user btn-block">-->
-<!--                                    Register Account-->
-<!--                                </a>-->
-                                <a href="#" class="btn btn-primary btn-user btn-block" onclick="javascript:document.userInfo.submit();">
+<!--                                <a href="#" class="btn btn-primary btn-user btn-block" onclick="javascript:document.userInfo.submit();">-->
+                                <a href="#" class="btn btn-primary btn-user btn-block" id="btn-regist" name="btn-regist">
                                   Register Account
                                 </a>
                                 <hr>
@@ -116,6 +114,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
+    <script src="/js/user.js"></script>
 
 </body>
 

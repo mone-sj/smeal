@@ -27,50 +27,43 @@
 
           <!-- Begin Page Content -->
           <div class="container-fluid">
-            <!-- Page Heading -->
-<!--            <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>-->
-            <h3>음식명으로 검색</h3>
 
-            <form
-                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-              <div class="input-group">
-                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                       aria-label="Search" aria-describedby="basic-addon2" id="foodName" name="foodName">
-<!--                <div class="input-group-append">-->
-<!--                  <button class="btn btn-primary" type="button">-->
-<!--                    <i class="fas fa-search fa-sm"></i>-->
-<!--                  </button>-->
-<!--                </div>-->
+            <!-- Page Heading -->
+            <div class="card shadow mb-4">
+              <div class="card-header py-3 d-flex justify-content-start align-items-center">
+                <h2 class="m-0 font-weight-bold text-primary text-center">음식명으로 검색</h2>
+                <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="width:300px;height:40px; font-size:20px">
+                  <div class="input-group ml-auto">
+                    <input type="text" class="form-control bg-light small" placeholder="Search for..."
+                           aria-label="Search" aria-describedby="basic-addon2" id="foodName" name="foodName">
+                  </div>
+                </form>
+                <div>
+                  <button class="btn btn-primary ml-2 mr-auto" type="submit" id="btn-searchFood">
+                    <i class="fas fa-search fa-sm"></i>
+                  </button>
+                </div>
               </div>
-            </form>
-<!--            <div class="input-group-append">-->
-              <button class="btn btn-primary" type="submit" id="btn-searchFood">
-                <i class="fas fa-search fa-sm"></i>
-              </button>
-<!--            </div>-->
-<!--            <button class="btn btn-primary btn-user btn-block" id="btn-search">검색</button>-->
+            </div>
+
           </div>
           <!-- /.container-fluid -->
 
           <!--search result-->
-<!--            <div class="card shadow mb-4 ml-2 mt-3" id="resultDiv">-->
-<!--              <th:block th:if="${searchList}!=null">-->
-<!--                <h1 class="h3 mb-4 text-gray-800 ml-2 mt-3">검색결과</h1>-->
-<!--              <th:block th:each="result:${searchList}">-->
-<!--                <p th:if="${result.value.get(0).rcp_nm}=='검색결과 없음'">검색 결과가 없습니다.</p>-->
-<!--                <th:block th:unless="${result.value.get(0).rcp_nm}=='검색결과 없음'">-->
-<!--                <div class="card-header py-3">-->
-<!--                  <h6 class="m-0 font-weight-bold text-primary" th:text="${result.key}">ㄱ</h6>-->
-<!--                </div>-->
-<!--                <div class="card-body" th:each="num:${#numbers.sequence(0,#lists.size(result.value)-1)}">-->
-<!--                  <a href="#" class="" th:text="${result.value.get(num).rcp_nm}"></a>-->
-<!--                  <p th:text="${result.value.get(num).rcp_way2}"></p>-->
-<!--                  <img th:src="${result.value.get(num).att_file_no_main}" width="200" height="200"/>-->
-<!--                </div>-->
-<!--                </th:block>-->
-<!--                </th:block>-->
-<!--              </th:block>-->
-<!--            </div>-->
+            <div class="card shadow mb-4 ml-2 mt-3" id="resultDiv">
+              <th:block th:if="${resultList}!=null">
+                <h1 class="h3 mb-2 text-gray-800 ml-2 mt-3 font-weight-bold text-center">검색결과</h1>
+                <th:block th:each="result:${resultList}">
+                  <div class="card border-light mb-3 mt-3 ml-auto mr-auto" style="max-width: 78rem;" th:each="num:${#numbers.sequence(0,#lists.size(result.getItems)-1)}">
+                    <div class="card-header h4 font-weight-bold"><a th:href="${result.getItems.get(num).link}" class="" th:utext="${result.getItems.get(num).title}" target="_blank"></a></div>
+                    <div class="card-body text-dark">
+                      <p th:utext="${result.getItems.get(num).description}"></p>
+                    </div>
+                    <div class="card-footer bg-transparent text-right"> <a th:href="${result.getItems.get(num).bloggerlink}" class="" th:text="${result.getItems.get(num).bloggername}" target="_blank"></a> <br/> 작성일 : <small th:text="${result.getItems.get(num).postdate}"></small></div>
+                  </div>
+                </th:block>
+              </th:block>
+            </div>
           <!--End of search result-->
 
 

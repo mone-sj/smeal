@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -20,7 +22,7 @@ public class SearchFoodHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String searchFoodName;
 
@@ -28,9 +30,10 @@ public class SearchFoodHistory {
     private Timestamp searchDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({"user"})
     @JoinColumns({
-            @JoinColumn(name = "userNickname", referencedColumnName = "nickname"),
+            @JoinColumn(name = "userid", referencedColumnName = "id"),
             @JoinColumn(name = "userFoodMbti", referencedColumnName = "foodMbti")
     })
     private User user;

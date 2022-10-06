@@ -33,6 +33,10 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	// jsonParse
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	//implementation 'org.springframework:spring-websocket:5.3.18'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket:2.7.4'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+
 
 }
 

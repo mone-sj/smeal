@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
@@ -20,12 +22,18 @@ public class SearchFoodRank {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String searchKeyword;
 
     // total count, mbtiType count
     private String type;
     private String count;
+    private int rank_;
+
+    @CreationTimestamp
+    private Timestamp createDate;
+
+    private String countPeriod;
 
 }

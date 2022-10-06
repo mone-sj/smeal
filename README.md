@@ -37,7 +37,7 @@
     1. 최다 검색 음식명 리스트(일주일(지난 주) 기준) - 전체
     2. 최다 검색 음식명 리스트(일주일(지난 주) 기준)  - MBTI 기준(사용자 MBTI에 따라 출력)
 - 네이버 API를 통한 검색어 트렌드 - 검색어 3개 차이 비교
-    - [네이버 쇼핑인사이트 키워드별 트렌드 조회]((https://developers.naver.com/docs/serviceapi/datalab/shopping/shopping.md#%EC%87%BC%ED%95%91%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8-%ED%82%A4%EC%9B%8C%EB%93%9C%EB%B3%84-%ED%8A%B8%EB%A0%8C%EB%93%9C-%EC%A1%B0%ED%9A%8C)
+    - [네이버 쇼핑인사이트 키워드별 트렌드 조회](https://developers.naver.com/docs/serviceapi/datalab/shopping/shopping.md#%EC%87%BC%ED%95%91%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8-%ED%82%A4%EC%9B%8C%EB%93%9C%EB%B3%84-%ED%8A%B8%EB%A0%8C%EB%93%9C-%EC%A1%B0%ED%9A%8C)
     1. 상위 3위 검색어의 최근 3개월의 통합 검색어 클릭 추이 그래프
     2. 상위 3위 검색어의 최근 3개월의 통합 성별 그래프
     3. 상위 3위 검색어의 최근 3개월의 통합 연령별 그래프
@@ -55,9 +55,9 @@
 
 ### 8. 로그인 및 회원가입
 - 로그인
-    - 카카오 Oauth
-    - 구글 Oauth
-    - 네이버 Oauth
+    - 카카오 Oauth2 [API](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api)
+    - 구글 Oauth2 [API](https://developers.google.com/identity/protocols/oauth2/web-server)
+    - 네이버 Oauth2 [API](https://developers.naver.com/docs/login/devguide/devguide.md#%EB%84%A4%EC%9D%B4%EB%B2%84%20%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B0%9C%EB%B0%9C%EA%B0%80%EC%9D%B4%EB%93%9C)
     - 일반 auth
 - 회원가입
 -----------------

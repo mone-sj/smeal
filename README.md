@@ -11,7 +11,7 @@
 ### 2. 식품 MBTI
 - 설문지
     - 성별, 연령, 40문제를 작성하여 모델에 전달
-    - [랜덤포레스트 모델 선택](https://github.com/mongsik2/FoodMbti)
+    - 모델은 랜덤포레스트 모델 선택 [식품 MBTI 모델 참고](https://github.com/mongsik2/FoodMbti)
     - 도커안에 있는 플라스크 서버를 통해 통신
 - 결과
     - 식품 MBTI 유형, 내용 출력
@@ -37,7 +37,7 @@
     1. 최다 검색 음식명 리스트(일주일(지난 주) 기준) - 전체
     2. 최다 검색 음식명 리스트(일주일(지난 주) 기준)  - MBTI 기준(사용자 MBTI에 따라 출력)
 - 네이버 API를 통한 검색어 트렌드 - 검색어 3개 차이 비교
-    - [네이버 쇼핑인사이트 키워드별 트렌드 조회](https://developers.naver.com/docs/serviceapi/datalab/shopping/shopping.md#%EC%87%BC%ED%95%91%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8-%ED%82%A4%EC%9B%8C%EB%93%9C%EB%B3%84-%ED%8A%B8%EB%A0%8C%EB%93%9C-%EC%A1%B0%ED%9A%8C)
+    - [네이버 쇼핑인사이트 키워드별 트렌드 조회 API](https://developers.naver.com/docs/serviceapi/datalab/shopping/shopping.md#%EC%87%BC%ED%95%91%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8-%ED%82%A4%EC%9B%8C%EB%93%9C%EB%B3%84-%ED%8A%B8%EB%A0%8C%EB%93%9C-%EC%A1%B0%ED%9A%8C)
     1. 상위 3위 검색어의 최근 3개월의 통합 검색어 클릭 추이 그래프
     2. 상위 3위 검색어의 최근 3개월의 통합 성별 그래프
     3. 상위 3위 검색어의 최근 3개월의 통합 연령별 그래프

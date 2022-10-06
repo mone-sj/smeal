@@ -5,7 +5,7 @@
 ------------------------
 ### 사용
 - JAVA 11
-- Spring 2.7.2
+- Spring Boot 2.7.2
 - MariaDB
 - Bootstrap5
 - Chart.js

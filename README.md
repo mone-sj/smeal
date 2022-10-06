@@ -60,7 +60,6 @@
 
 -----------------
 ### application.yml
-'''
     debug: true
 
     server:
@@ -161,4 +160,3 @@
       recipeApiService:
         key: 식약처 key
         serviceName: 식약처 PW
-'''

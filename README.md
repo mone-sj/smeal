@@ -59,6 +59,10 @@
     - 네이버 Oauth
     - 일반 auth
 - 회원가입
+-----------------
+## 결과
+### 1. 메인
+![main](https://user-images.githubusercontent.com/104689908/194231569-91374d34-8121-4a89-9c10-86812a93b3ef.png)
 
 -----------------
 ### application.yml
